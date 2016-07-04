@@ -11,8 +11,8 @@ describe('Base64', function () {
         arrayBufferView[i] = array[i];
       }
 
-      var result = bazinga64.fromByteArray(arrayBufferView);
-      expect(result).toBe('AQIDBAUGBwg=');
+      var encoded = bazinga64.fromByteArray(arrayBufferView);
+      expect(encoded).toBe('AQIDBAUGBwg=');
     });
 
   });
