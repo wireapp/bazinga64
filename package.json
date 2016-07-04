@@ -5,7 +5,7 @@
   },
   "description": "",
   "devDependencies": {
-    "base64-js": "^1.1.2",
+    "base64-js": "github:bennyn/base64-js#patch-1",
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
     "gulp-typescript": "^2.13.6",
