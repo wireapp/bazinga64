@@ -2,6 +2,8 @@ var browserify = require('gulp-browserify');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var merge = require('merge2');
+var pkg = require('./package.json');
+var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var Server = require('karma').Server;
 var ts = require('gulp-typescript');
@@ -19,17 +21,15 @@ gulp.task('build', function () {
 });
 
 gulp.task('dist', ['build'], function () {
-  return gulp.src('dist/browser.js')
+  return gulp.src('dist/namespace.js')
     .pipe(browserify())
+    .pipe(rename(pkg.name + '.js'))
     .pipe(gulp.dest('dist/browser'));
 });
 
 gulp.task('test', function (done) {
   gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
-
-  new Server({
-    configFile: __dirname + '/karma.conf.js'
-  }, done).start();
+  new Server({configFile: __dirname + '/karma.conf.js'}, done).start();
 });
 
 gulp.task('default', function (callback) {
