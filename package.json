@@ -1,13 +1,14 @@
 {
-  "author": "",
+  "author": "Wire",
   "bugs": {
     "url": "https://github.com/wireapp/bazinga64/issues"
   },
-  "description": "",
+  "description": "Base64 encoding and decoding with ASCII string representation.",
   "devDependencies": {
     "base64-js": "github:bennyn/base64-js#patch-1",
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
+    "gulp-rename": "^1.2.2",
     "gulp-tslint": "^5.0.0",
     "gulp-typescript": "^2.13.6",
     "gulp-util": "^3.0.7",
@@ -21,6 +22,19 @@
     "tslint": "^3.13.0"
   },
   "homepage": "https://github.com/wireapp/bazinga64#readme",
+  "keywords": [
+    "array",
+    "ascii",
+    "base64",
+    "browsers",
+    "buffer",
+    "decode",
+    "decoding",
+    "encode",
+    "encoding",
+    "nodejs",
+    "string"
+  ],
   "license": "GPL-3.0",
   "main": "dist/node/bazinga64.js",
   "name": "bazinga64",
