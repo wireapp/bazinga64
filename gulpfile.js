@@ -2,6 +2,7 @@ var browserify = require('gulp-browserify');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var merge = require('merge2');
+var runSequence = require('run-sequence');
 var Server = require('karma').Server;
 var ts = require('gulp-typescript');
 
@@ -24,9 +25,13 @@ gulp.task('dist', ['build'], function () {
 });
 
 gulp.task('test', function (done) {
-  gutil.log('Starting server', '...');
+  gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
 
   new Server({
     configFile: __dirname + '/karma.conf.js'
   }, done).start();
+});
+
+gulp.task('default', function (callback) {
+  runSequence('dist', 'test', callback);
 });
