@@ -18,7 +18,7 @@ module.exports = function (config) {
     exclude: [],
     files: [
       'dist/browser/**/*.js',
-      'test/js/**/*Spec.js'
+      'test/**/*Spec.js'
     ],
     frameworks: ['jasmine'],
     logLevel: config.LOG_INFO,
