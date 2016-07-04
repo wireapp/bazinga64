@@ -1,0 +1,12 @@
+/bower_components
+/coverage/
+/nbproject
+/node_modules
+/npm-debug.log
+/public/lib
+/typings
+
+# IntelliJ
+# http://devnet.jetbrains.com/docs/DOC-1186
+/.idea/**/*.xml
+!/.idea/codeStyleSettings.xml

@@ -1,0 +1,32 @@
+{
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/wireapp/bazinga64/issues"
+  },
+  "description": "",
+  "devDependencies": {
+    "base64-js": "^1.1.2",
+    "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-typescript": "^2.13.6",
+    "gulp-util": "^3.0.7",
+    "jasmine-core": "^2.4.1",
+    "karma": "^1.1.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-coverage": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "merge2": "^1.0.2"
+  },
+  "homepage": "https://github.com/wireapp/bazinga64#readme",
+  "license": "GPL-3.0",
+  "main": "dist/node/bazinga64.js",
+  "name": "bazinga64",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wireapp/bazinga64.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
