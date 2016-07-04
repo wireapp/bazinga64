@@ -1,5 +1,6 @@
 var browserify = require('gulp-browserify');
 var gulp = require('gulp');
+var gulpTypings = require('gulp-typings');
 var gutil = require('gulp-util');
 var merge = require('merge2');
 var pkg = require('./package.json');
@@ -33,11 +34,16 @@ gulp.task('default', function (callback) {
   runSequence('dist', 'test', callback);
 });
 
-gulp.task('dist', ['build'], function () {
+gulp.task('dist', ['install', 'build'], function () {
   return gulp.src('dist/namespace.js')
     .pipe(browserify())
     .pipe(rename(pkg.name + '.js'))
     .pipe(gulp.dest('dist/browser'));
+});
+
+gulp.task('install', function () {
+  return gulp.src('typings.json')
+    .pipe(gulpTypings());
 });
 
 gulp.task('test', ['check'], function (done) {
