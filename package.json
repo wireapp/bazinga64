@@ -8,6 +8,7 @@
     "base64-js": "github:bennyn/base64-js#patch-1",
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
+    "gulp-tslint": "^5.0.0",
     "gulp-typescript": "^2.13.6",
     "gulp-util": "^3.0.7",
     "jasmine-core": "^2.4.1",
@@ -16,7 +17,8 @@
     "karma-coverage": "^1.0.0",
     "karma-jasmine": "^1.0.2",
     "merge2": "^1.0.2",
-    "run-sequence": "^1.2.2"
+    "run-sequence": "^1.2.2",
+    "tslint": "^3.13.0"
   },
   "homepage": "https://github.com/wireapp/bazinga64#readme",
   "license": "GPL-3.0",

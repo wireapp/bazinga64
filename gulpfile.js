@@ -7,6 +7,7 @@ var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var Server = require('karma').Server;
 var ts = require('gulp-typescript');
+var tslint = require('gulp-tslint');
 
 var tsProject = ts.createProject('tsconfig.json');
 
@@ -20,6 +21,18 @@ gulp.task('build', function () {
   ]);
 });
 
+gulp.task('check', function () {
+  return gulp.src('src/*.ts')
+    .pipe(tslint({
+      formatter: 'verbose'
+    }))
+    .pipe(tslint.report());
+});
+
+gulp.task('default', function (callback) {
+  runSequence('dist', 'test', callback);
+});
+
 gulp.task('dist', ['build'], function () {
   return gulp.src('dist/namespace.js')
     .pipe(browserify())
@@ -27,11 +40,7 @@ gulp.task('dist', ['build'], function () {
     .pipe(gulp.dest('dist/browser'));
 });
 
-gulp.task('test', function (done) {
+gulp.task('test', ['check'], function (done) {
   gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
   new Server({configFile: __dirname + '/karma.conf.js'}, done).start();
-});
-
-gulp.task('default', function (callback) {
-  runSequence('dist', 'test', callback);
 });

@@ -18,7 +18,7 @@
 /// <reference path="../typings/index.d.ts" />
 import * as base64 from "base64-js";
 
-module bazinga64 {
+namespace bazinga64 {
   /**
    * Base64-encodes an array buffer view.
    *
