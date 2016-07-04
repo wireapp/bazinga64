@@ -34,7 +34,7 @@ gulp.task('default', function (callback) {
   runSequence('dist', 'test', callback);
 });
 
-gulp.task('dist', ['install', 'build'], function () {
+gulp.task('dist', ['pre_dist'], function () {
   return gulp.src('dist/namespace.js')
     .pipe(browserify())
     .pipe(rename(pkg.name + '.js'))
@@ -44,6 +44,10 @@ gulp.task('dist', ['install', 'build'], function () {
 gulp.task('install', function () {
   return gulp.src('typings.json')
     .pipe(gulpTypings());
+});
+
+gulp.task('pre_dist', function (callback) {
+  runSequence('install', 'build', callback);
 });
 
 gulp.task('test', ['check'], function (done) {
