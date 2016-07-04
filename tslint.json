@@ -1,0 +1,8 @@
+{
+  "extends": "tslint:latest",
+  "rules": {
+    "comment-format": false,
+    "no-namespace": false,
+    "no-reference": false
+  }
+}
