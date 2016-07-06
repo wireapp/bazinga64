@@ -6,10 +6,14 @@
   "homepage": "https://github.com/wireapp/bazinga64",
   "ignore": [
     "**/.*",
-    "node_modules",
+    "*.js",
+    "*.json",
+    "*.sh",
     "bower_components",
-    "test",
-    "tests"
+    "dist",
+    "node_modules",
+    "src",
+    "test"
   ],
   "keywords": [
     "array",
