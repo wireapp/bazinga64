@@ -12,14 +12,14 @@ For licensing information, see the attached LICENSE file and the list of third-p
 
 ## Instructions
 
-### Install dependencies
+### Run project
 
 ```bash
 npm install
 gulp default
 ```
 
-### Use library
+### Use project
 
 **Node.js or CommonJS**
 

@@ -7,6 +7,9 @@
         <option name="HTML_SPACE_INSIDE_EMPTY_TAG" value="true" />
         <option name="HTML_DO_NOT_INDENT_CHILDREN_OF" value="" />
         <option name="FORMATTER_TAGS_ENABLED" value="true" />
+		<JSCodeStyleSettings>
+          <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
+        </JSCodeStyleSettings>
         <TypeScriptCodeStyleSettings>
           <option name="SPACE_AFTER_TYPE_COLON" value="true" />
         </TypeScriptCodeStyleSettings>
