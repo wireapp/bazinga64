@@ -21,6 +21,18 @@ gulp default
 
 ### Use project
 
+**Browser**
+
+```html
+<script src="bazinga64.js"></script>
+```
+
+```javascript
+var encoded = 'AQIDBAUGBwg=';
+var decoded = bazinga64.toByteArray(encoded);
+// decoded: Uint8Array {'0': 1, '1': 2, '2': 3, '3': 4, '4': 5, '5': 6, '6': 7, '7': 8}
+```
+
 **Node.js or CommonJS**
 
 ```javascript

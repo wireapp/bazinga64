@@ -3,7 +3,7 @@
   "bugs": {
     "url": "https://github.com/wireapp/bazinga64/issues"
   },
-  "description": "Base64 encoding and decoding with ASCII string representation.",
+  "description": "Base64 encoding and decoding with ASCII string representation",
   "devDependencies": {
     "base64-js": "github:bennyn/base64-js#patch-1",
     "gulp": "^3.9.1",

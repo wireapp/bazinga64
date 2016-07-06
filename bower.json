@@ -1,0 +1,34 @@
+{
+  "authors": [
+    "Wire"
+  ],
+  "description": "Base64 encoding and decoding with ASCII string representation",
+  "homepage": "https://github.com/wireapp/bazinga64",
+  "ignore": [
+    "**/.*",
+    "**/*.*",
+    "bower_components",
+    "dist",
+    "!dist/browser/**/*.*",
+    "dist/node",
+    "node_modules",
+    "src",
+    "test"
+  ],
+  "keywords": [
+    "array",
+    "ascii",
+    "base64",
+    "browsers",
+    "buffer",
+    "decode",
+    "decoding",
+    "encode",
+    "encoding",
+    "nodejs",
+    "string"
+  ],
+  "license": "GPL-3.0",
+  "main": "dist/browser/bazinga64.js",
+  "name": "bazinga64"
+}
