@@ -27,4 +27,5 @@ gulp default
 var bazinga64 = require('bazinga64');
 var encoded = 'AQIDBAUGBwg=';
 var decoded = bazinga64.toByteArray(encoded);
+// decoded: Uint8Array {'0': 1, '1': 2, '2': 3, '3': 4, '4': 5, '5': 6, '6': 7, '7': 8}
 ```
