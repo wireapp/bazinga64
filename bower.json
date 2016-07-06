@@ -10,6 +10,7 @@
     "bower_components",
     "dist",
     "!dist/browser/**/*.*",
+    "dist/node",
     "node_modules",
     "src",
     "test"
