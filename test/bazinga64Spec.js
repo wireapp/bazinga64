@@ -1,4 +1,4 @@
-describe('Base64', function () {
+describe('Base64', function() {
 
   function buildArrayBuffer() {
     var array = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -12,9 +12,9 @@ describe('Base64', function () {
     return arrayBufferView;
   }
 
-  describe('Encoding', function () {
+  describe('Encoding', function() {
 
-    it('can encode a byte array', function () {
+    it('can encode a byte array', function() {
       var arrayBufferView = buildArrayBuffer();
       var encoded = bazinga64.fromByteArray(arrayBufferView);
       expect(encoded).toBe('AQIDBAUGBwg=');
@@ -22,9 +22,9 @@ describe('Base64', function () {
 
   });
 
-  describe('Decoding', function () {
+  describe('Decoding', function() {
 
-    it('can decode into a byte array', function () {
+    it('can decode into a byte array', function() {
       var encoded = 'AQIDBAUGBwg=';
       var decoded = bazinga64.toByteArray(encoded);
       var arrayBufferView = buildArrayBuffer();
