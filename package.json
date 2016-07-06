@@ -43,9 +43,5 @@
     "type": "git",
     "url": "git+https://github.com/wireapp/bazinga64.git"
   },
-  "scripts": {
-    "postinstall": "gulp dist",
-    "test": "gulp test"
-  },
   "version": "1.0.0"
 }

@@ -18,7 +18,7 @@ var paths = {
   src_ts: 'src/*.ts'
 };
 
-gulp.task('build', function() {
+gulp.task('build_ts', function() {
   var tsResult = gulp.src(paths.src_ts)
     .pipe(ts(tsProject));
 
@@ -28,7 +28,15 @@ gulp.task('build', function() {
   ]);
 });
 
-gulp.task('check', function() {
+gulp.task('build', function(done) {
+  runSequence('build_ts', done);
+});
+
+gulp.task('check', function(done) {
+  runSequence('lint_ts', done);
+});
+
+gulp.task('lint_ts', function() {
   return gulp.src(paths.src_ts)
     .pipe(tslint({
       formatter: 'verbose'
@@ -36,30 +44,15 @@ gulp.task('check', function() {
     .pipe(tslint.report());
 });
 
-gulp.task('default', function(callback) {
-  runSequence('dist', 'test', callback);
+gulp.task('default', function(done) {
+  runSequence('install', 'dist', 'dev', done);
 });
 
-gulp.task('dev', function() {
-  gulp.watch(paths.src_ts).on('change', function(file) {
-    var pathObject = path.parse(file.path);
-    var specificationPath = 'test/' + pathObject.name + 'Spec.js';
-
-    gutil.log('Changed file', '\'' +  gutil.colors.yellow(pathObject.base) + '\'...');
-    gutil.log('Testing specification', '\'' + gutil.colors.yellow(specificationPath) + '\'...');
-
-    new Server({
-      configFile: __dirname + '/karma.conf.js',
-      files: [
-        'dist/browser/**/*.js',
-        specificationPath
-      ],
-      singleRun: true
-    }).start();
-  });
+gulp.task('dev', ['test_forever'], function() {
+  gulp.watch(paths.src_ts, ['dist']);
 });
 
-gulp.task('dist', ['pre_dist'], function() {
+gulp.task('dist', ['build'], function() {
   return gulp.src('dist/namespace.js')
     .pipe(browserify())
     .pipe(rename(pkg.name + '.js'))
@@ -71,13 +64,19 @@ gulp.task('install', function() {
     .pipe(gulpTypings());
 });
 
-gulp.task('pre_dist', function(callback) {
-  runSequence('install', 'build', callback);
-});
-
 gulp.task('test', ['check'], function(done) {
   gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
+  
   new Server({
     configFile: __dirname + '/karma.conf.js'
   }, done).start();
+});
+
+gulp.task('test_forever', function() {
+  gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    autoWatch: true,
+    singleRun: false
+  }).start();
 });
