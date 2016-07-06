@@ -6,11 +6,10 @@
   "homepage": "https://github.com/wireapp/bazinga64",
   "ignore": [
     "**/.*",
-    "*.js",
-    "*.json",
-    "*.sh",
+    "**/*.*",
     "bower_components",
     "dist",
+    "!dist/browser/**/*.*",
     "node_modules",
     "src",
     "test"
