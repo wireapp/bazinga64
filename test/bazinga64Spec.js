@@ -154,6 +154,20 @@ describe('Base64', function() {
         expect(encoded.asString).toBe(helloBase64);
       });
 
+      it('encodes texts', function() {
+        var text = 'Man is distinguished, not only by his reason, but by this singular passion from other animals, which is a lust of the mind, that by a perseverance of delight in the continued and indefatigable generation of knowledge, exceeds the short vehemence of any carnal pleasure.';
+        var expected = 'TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlzIHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2YgdGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGludWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRoZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=';
+        var actual = bazinga64.Encoder.toBase64(text).asString;
+        expect(actual).toBe(expected)
+      });
+
+      it('encodes texts with umlauts', function() {
+        var text = 'Polyfon zwitschernd aßen Mäxchens Vögel Rüben, Joghurt und Quark';
+        var expected = 'UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMgVsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms=';
+        var actual = bazinga64.Encoder.toBase64(text).asString;
+        expect(actual).toBe(expected);
+      });
+
     });
 
   });
