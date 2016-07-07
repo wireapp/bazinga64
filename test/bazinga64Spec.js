@@ -1,5 +1,9 @@
 describe('Base64', function() {
 
+  var helloString = 'Hello';
+  var helloArray = [72, 101, 108, 108, 111];
+  var helloBase64 = 'SGVsbG8=';
+
   describe('Converter', function() {
 
     describe('arrayBufferViewToString', function() {
@@ -29,9 +33,8 @@ describe('Base64', function() {
     describe('numberArrayToArrayBufferView', function() {
 
       it('converts an array of numbers into an array buffer view', function() {
-        var array = [72, 101, 108, 108, 111];
-        var arrayBufferView = bazinga64.Converter.numberArrayToArrayBufferView(array);
-        expect(arrayBufferView).toEqual(new Uint8Array(array));
+        var arrayBufferView = bazinga64.Converter.numberArrayToArrayBufferView(helloArray);
+        expect(arrayBufferView).toEqual(new Uint8Array(helloArray));
       });
 
     });
@@ -65,7 +68,7 @@ describe('Base64', function() {
       });
 
       it('does not convert array buffer views', function() {
-        var data = new Uint8Array([72, 101, 108, 108, 111]);
+        var data = new Uint8Array(helloArray);
         var view = bazinga64.Converter.toArrayBufferView(data);
         expect(view.constructor.name).toBe('Uint8Array');
         expect(view).toBe(data);
@@ -76,17 +79,16 @@ describe('Base64', function() {
     describe('toString', function() {
 
       it('converts array buffer views into strings', function() {
-        var data = new Uint8Array([72, 101, 108, 108, 111]);
+        var data = new Uint8Array(helloArray);
         var text = bazinga64.Converter.toString(data);
         expect(text.constructor.name).toBe('String');
-        expect(text).toBe('Hello');
+        expect(text).toBe(helloString);
       });
 
       it('does not convert strings', function() {
-        var data = 'Hello';
-        var text = bazinga64.Converter.toString(data);
+        var text = bazinga64.Converter.toString(helloString);
         expect(text.constructor.name).toBe('String');
-        expect(text).toBe('Hello');
+        expect(text).toBe(helloString);
       });
 
     });
@@ -100,15 +102,12 @@ describe('Base64', function() {
       });
 
       it('converts between a string and an array buffer view', function() {
-        var hello = 'Hello';
-        var asciiHello = [72, 101, 108, 108, 111];
-
-        var encoded = bazinga64.Converter.unicodeStringToArrayBufferView(hello);
+        var encoded = bazinga64.Converter.unicodeStringToArrayBufferView(helloString);
         var decoded = bazinga64.Converter.arrayBufferViewToUnicodeString(encoded);
 
         expect(encoded.constructor.name).toBe('Uint8Array');
-        expect(encoded).toEqual(new Uint8Array(asciiHello));
-        expect(decoded).toBe(hello);
+        expect(encoded).toEqual(new Uint8Array(helloArray));
+        expect(decoded).toBe(helloString);
       });
 
     });
@@ -120,16 +119,17 @@ describe('Base64', function() {
     describe('fromBase64', function() {
 
       it('decodes into a byte array', function() {
-        var encoded = 'SGVsbG8=';
-        var decoded = bazinga64.Decoder.fromBase64(encoded);
-        var arrayBufferView = new Uint8Array([72, 101, 108, 108, 111]);
+        var decoded = bazinga64.Decoder.fromBase64(helloBase64);
+        var arrayBufferView = new Uint8Array(helloArray);
+        expect(decoded.constructor.name).toBe('DecodedData');
         expect(decoded.asBytes).toEqual(arrayBufferView);
-        expect(decoded.asString).toBe('Hello');
+        expect(decoded.asString).toBe(helloString);
       });
 
       it('decodes into a string', function() {
         var encoded = 'SGVsbG8sIHdvcmxk';
         var decoded = bazinga64.Decoder.fromBase64(encoded);
+        expect(decoded.constructor.name).toBe('DecodedData');
         expect(decoded.asString).toBe('Hello, world');
       });
 
@@ -139,20 +139,18 @@ describe('Base64', function() {
 
   describe('Encoder', function() {
 
-    var helloString = 'Hello';
-    var helloArray = [72, 101, 108, 108, 111];
-    var helloBase64 = 'SGVsbG8=';
-
     describe('toBase64', function() {
 
       it('encodes from a byte array', function() {
         var arrayBufferView = new Uint8Array(helloArray);
         var encoded = bazinga64.Encoder.toBase64(arrayBufferView);
+        expect(encoded.constructor.name).toBe('EncodedData');
         expect(encoded.asString).toBe(helloBase64);
       });
 
       it('encodes from a string', function() {
         var encoded = bazinga64.Encoder.toBase64(helloString);
+        expect(encoded.constructor.name).toBe('EncodedData');
         expect(encoded.asString).toBe(helloBase64);
       });
 
