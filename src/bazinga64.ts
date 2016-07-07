@@ -19,8 +19,17 @@
 //</editor-fold>
 /// <reference path="../typings/index.d.ts" />
 import * as base64 from "base64-js";
+import DecodedData from "./DecodedData";
 
 namespace bazinga64 {
+  /**
+   * @see https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
+   * @returns {any}
+   */
+  function byteArrayToString(byteArray) {
+    return String.fromCharCode.apply(null, new Uint16Array(byteArray));
+  }
+
   /**
    * Base64-encodes an array buffer view.
    *
@@ -38,7 +47,10 @@ namespace bazinga64 {
    * @returns {Uint8Array}
    */
   export function toByteArray(encoded: string) {
-    return base64.toByteArray(encoded);
+    var decodedByteArray: Uint8Array = base64.toByteArray(encoded);
+    var decodedString: string = byteArrayToString(decodedByteArray);
+    var decodedData = new DecodedData(decodedString, decodedByteArray);
+    return decodedData.decodedByteArray;
   }
 }
 
