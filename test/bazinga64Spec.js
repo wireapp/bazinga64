@@ -1,7 +1,6 @@
 describe('Base64', function() {
 
-  function buildArrayBuffer() {
-    var array = [1, 2, 3, 4, 5, 6, 7, 8];
+  function buildArrayBuffer(array) {
     var arrayBuffer = new ArrayBuffer(array.length);
     var arrayBufferView = new Uint8Array(arrayBuffer);
 
@@ -14,8 +13,8 @@ describe('Base64', function() {
 
   describe('Encoding', function() {
 
-    it('can encode a byte array', function() {
-      var arrayBufferView = buildArrayBuffer();
+    it('encodes from a byte array', function() {
+      var arrayBufferView = buildArrayBuffer([1, 2, 3, 4, 5, 6, 7, 8]);
       var encoded = bazinga64.fromByteArray(arrayBufferView);
       expect(encoded).toBe('AQIDBAUGBwg=');
     });
@@ -24,11 +23,18 @@ describe('Base64', function() {
 
   describe('Decoding', function() {
 
-    it('can decode into a byte array', function() {
+    it('decodes into a byte array', function() {
       var encoded = 'AQIDBAUGBwg=';
       var decoded = bazinga64.toByteArray(encoded);
-      var arrayBufferView = buildArrayBuffer();
+      var arrayBufferView = buildArrayBuffer([1, 2, 3, 4, 5, 6, 7, 8]);
       expect(decoded).toEqual(arrayBufferView);
+    });
+
+    it('decodes into a string', function() {
+      var encoded = 'SGVsbG8sIHdvcmxk';
+      var decoded = bazinga64.toByteArray(encoded);
+      var decodedString = String.fromCharCode.apply(null, new Uint16Array(decoded));
+      expect(decodedString).toEqual('Hello, world');
     });
 
   });
