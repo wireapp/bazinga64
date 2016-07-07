@@ -43,23 +43,15 @@ describe('Base64', function() {
   });
 
   describe('Encoding', function() {
-
-    beforeAll(function() {
-      spyOn(bazinga64.Converter, 'unicodeStringToArrayBufferView').and.callThrough();
-    });
-
     it('encodes from a byte array', function() {
       var arrayBufferView = new Uint8Array([72, 101, 108, 108, 111]);
       var encoded = bazinga64.Encoder.toBase64(arrayBufferView);
-      expect(bazinga64.Converter.unicodeStringToArrayBufferView.calls.count()).toBe(1);
       expect(encoded.asString).toBe('SGVsbG8=');
     });
 
-    // TODO
-    xit('encodes from a string', function() {
+    it('encodes from a string', function() {
       var string = 'Hello';
       var encoded = bazinga64.Encoder.toBase64(string);
-      expect(bazinga64.Converter.unicodeStringToArrayBufferView.calls.count()).toBe(2);
       expect(encoded.asString).toBe('SGVsbG8=');
     });
 

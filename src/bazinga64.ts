@@ -36,7 +36,7 @@ namespace bazinga64 {
     }
 
     public static toArrayBufferView(data: any): Uint8Array {
-      if (data.constructor.name === "string") {
+      if (data.constructor.name === "String") {
         return this.unicodeStringToArrayBufferView(data);
       } else {
         return data;
