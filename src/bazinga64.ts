@@ -24,25 +24,6 @@ import * as base64 from "base64-js";
 
 namespace bazinga64 {
   export class Converter {
-    public static numberArrayToArrayBufferView(array: number[]): Uint8Array {
-      let arrayBuffer = new ArrayBuffer(array.length);
-      let arrayBufferView = new Uint8Array(arrayBuffer);
-
-      for (let i = 0; i < arrayBufferView.length; i++) {
-        arrayBufferView[i] = array[i];
-      }
-
-      return arrayBufferView;
-    }
-
-    public static toArrayBufferView(data: any): Uint8Array {
-      if (data.constructor.name === "String") {
-        return this.unicodeStringToArrayBufferView(data);
-      } else {
-        return data;
-      }
-    }
-
     public static unicodeStringToArrayBufferView(data: string): Uint8Array {
       let escapedString = encodeURIComponent(data);
 
@@ -58,6 +39,10 @@ namespace bazinga64 {
       });
 
       return arrayBufferView;
+    }
+
+    public static arrayBufferViewToString(arrayBufferView: Uint16Array): string {
+      return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
     }
 
     public static arrayBufferViewToUnicodeString(arrayBufferView: Uint8Array): string {
@@ -78,8 +63,15 @@ namespace bazinga64 {
       return decodeURIComponent(escapedString);
     }
 
-    public static arrayBufferViewToString(arrayBufferView: Uint16Array): string {
-      return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
+    public static numberArrayToArrayBufferView(array: number[]): Uint8Array {
+      let arrayBuffer = new ArrayBuffer(array.length);
+      let arrayBufferView = new Uint8Array(arrayBuffer);
+
+      for (let i = 0; i < arrayBufferView.length; i++) {
+        arrayBufferView[i] = array[i];
+      }
+
+      return arrayBufferView;
     }
 
     public static stringToArrayBufferView(data: string): Uint16Array {
@@ -91,6 +83,22 @@ namespace bazinga64 {
       }
 
       return arrayBufferView;
+    }
+
+    public static toArrayBufferView(data: any): Uint8Array {
+      if (data.constructor.name === "String") {
+        return this.unicodeStringToArrayBufferView(data);
+      } else {
+        return data;
+      }
+    }
+
+    public static toString(data: any): string {
+      if (data.constructor.name === "String") {
+        return data;
+      } else {
+        return this.arrayBufferViewToUnicodeString(data);
+      }
     }
   }
 
