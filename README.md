@@ -31,7 +31,7 @@ bower install bazinga64
 <script src="bazinga64.js"></script>
 ```
 
-**Node*
+**Node**
 
 ```bash
 npm install bazinga64
