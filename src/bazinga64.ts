@@ -18,8 +18,8 @@
  */
 //</editor-fold>
 /// <reference path="../typings/index.d.ts" />
-import * as base64 from "base64-js";
 import DecodedData from "./DecodedData";
+import * as base64 from "base64-js";
 
 namespace bazinga64 {
   /**
@@ -47,9 +47,9 @@ namespace bazinga64 {
    * @returns {Uint8Array}
    */
   export function toByteArray(encoded: string) {
-    var decodedByteArray: Uint8Array = base64.toByteArray(encoded);
-    var decodedString: string = byteArrayToString(decodedByteArray);
-    var decodedData = new DecodedData(decodedString, decodedByteArray);
+    let decodedByteArray: Uint8Array = base64.toByteArray(encoded);
+    let decodedString: string = byteArrayToString(decodedByteArray);
+    let decodedData = new DecodedData(decodedString, decodedByteArray);
     return decodedData.decodedByteArray;
   }
 }
