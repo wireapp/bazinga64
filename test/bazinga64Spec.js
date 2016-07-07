@@ -1,22 +1,66 @@
 describe('Base64', function() {
 
-  function buildArrayBuffer(array) {
-    var arrayBuffer = new ArrayBuffer(array.length);
-    var arrayBufferView = new Uint8Array(arrayBuffer);
+  describe('Converter', function() {
+    describe('numberArrayToArrayBufferView', function() {
+      it('converts an array of numbers into an Array Buffer View', function() {
+        var array = [72, 101, 108, 108, 111];
+        var arrayBufferView = bazinga64.Converter.numberArrayToArrayBufferView(array);
+        expect(arrayBufferView).toEqual(new Uint8Array(array));
+      });
+    });
 
-    for (var i = 0; i < arrayBufferView.length; i++) {
-      arrayBufferView[i] = array[i];
-    }
+    describe('Unicode', function() {
+      it('handles UTF-8 conversions', function() {
+        var cyrillicCapitalLetterDje = '\u0402';
+        var encoded = bazinga64.Converter.unicodeStringToArrayBufferView(cyrillicCapitalLetterDje);
+        var decoded = bazinga64.Converter.arrayBufferViewToUnicodeString(encoded);
+        expect(encoded.length).toBe(2);
+        expect(decoded).toBe(cyrillicCapitalLetterDje);
+      });
 
-    return arrayBufferView;
-  }
+      it('handles UTF-16 conversions', function() {
+        var cyrillicCapitalLetterDje = '\u0402';
+        var encoded = bazinga64.Converter.stringToArrayBufferView(cyrillicCapitalLetterDje);
+        var decoded = bazinga64.Converter.arrayBufferViewToString(encoded);
+        expect(encoded.length).toBe(1);
+        expect(decoded).toBe(cyrillicCapitalLetterDje);
+      });
+    });
+
+    describe('String <> Array Buffer View', function() {
+      it('converts between a String and an Array Buffer View', function() {
+        var hello = 'Hello';
+        var asciiHello = [72, 101, 108, 108, 111];
+
+        var encoded = bazinga64.Converter.unicodeStringToArrayBufferView(hello);
+        var decoded = bazinga64.Converter.arrayBufferViewToUnicodeString(encoded);
+
+        expect(encoded.constructor.name).toBe('Uint8Array');
+        expect(encoded).toEqual(new Uint8Array(asciiHello));
+        expect(decoded).toBe(hello);
+      });
+    });
+  });
 
   describe('Encoding', function() {
 
+    beforeAll(function() {
+      spyOn(bazinga64.Converter, 'unicodeStringToArrayBufferView').and.callThrough();
+    });
+
     it('encodes from a byte array', function() {
-      var arrayBufferView = buildArrayBuffer([1, 2, 3, 4, 5, 6, 7, 8]);
-      var encoded = bazinga64.fromByteArray(arrayBufferView);
-      expect(encoded).toBe('AQIDBAUGBwg=');
+      var arrayBufferView = new Uint8Array([72, 101, 108, 108, 111]);
+      var encoded = bazinga64.Encoder.toBase64(arrayBufferView);
+      expect(bazinga64.Converter.unicodeStringToArrayBufferView.calls.count()).toBe(1);
+      expect(encoded.asString).toBe('SGVsbG8=');
+    });
+
+    // TODO
+    xit('encodes from a string', function() {
+      var string = 'Hello';
+      var encoded = bazinga64.Encoder.toBase64(string);
+      expect(bazinga64.Converter.unicodeStringToArrayBufferView.calls.count()).toBe(2);
+      expect(encoded.asString).toBe('SGVsbG8=');
     });
 
   });
@@ -24,17 +68,16 @@ describe('Base64', function() {
   describe('Decoding', function() {
 
     it('decodes into a byte array', function() {
-      var encoded = 'AQIDBAUGBwg=';
-      var decoded = bazinga64.toByteArray(encoded);
-      var arrayBufferView = buildArrayBuffer([1, 2, 3, 4, 5, 6, 7, 8]);
-      expect(decoded).toEqual(arrayBufferView);
+      var encoded = 'SGVsbG8=';
+      var decoded = bazinga64.Decoder.fromBase64(encoded);
+      var arrayBufferView = new Uint8Array([72, 101, 108, 108, 111]);
+      expect(decoded.asBytes).toEqual(arrayBufferView);
     });
 
     it('decodes into a string', function() {
       var encoded = 'SGVsbG8sIHdvcmxk';
-      var decoded = bazinga64.toByteArray(encoded);
-      var decodedString = String.fromCharCode.apply(null, new Uint16Array(decoded));
-      expect(decodedString).toEqual('Hello, world');
+      var decoded = bazinga64.Decoder.fromBase64(encoded);
+      expect(decoded.asString).toBe('Hello, world');
     });
 
   });

@@ -18,7 +18,7 @@ var paths = {
   src_ts: 'src/*.ts'
 };
 
-gulp.task('build_ts', function() {
+gulp.task('build_ts', ['lint_ts'], function() {
   var tsResult = gulp.src(paths.src_ts)
     .pipe(ts(tsProject));
 
@@ -66,7 +66,7 @@ gulp.task('install', function() {
 
 gulp.task('test', ['check'], function(done) {
   gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
-  
+
   new Server({
     configFile: __dirname + '/karma.conf.js'
   }, done).start();
