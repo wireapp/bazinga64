@@ -50,8 +50,7 @@ var bazinga64 = require('bazinga64');
 ```javascript
 var data = 'Hello';
 var encoded = bazinga64.Encoder.toBase64(data);
-var base64 = encoded.asString;
-console.log(base64); // SGVsbG8=
+var base64 = encoded.asString; // SGVsbG8=
 ```
 
 ## API
