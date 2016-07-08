@@ -280,6 +280,59 @@ describe('Base64', function() {
 
     });
 
+    describe('Custom Test Values', function() {
+
+      it('empty string', function() {
+        var text = '';
+        var expected = '';
+        var actual = bazinga64.Encoder.toBase64(text).asString;
+        expect(actual).toBe(expected);
+      });
+
+      it('f', function() {
+        var text = 'f';
+        var expected = 'Zg==';
+        var actual = bazinga64.Encoder.toBase64(text).asString;
+        expect(actual).toBe(expected);
+      });
+
+      it('fo', function() {
+        var text = 'fo';
+        var expected = 'Zm8=';
+        var actual = bazinga64.Encoder.toBase64(text).asString;
+        expect(actual).toBe(expected);
+      });
+
+      it('foo', function() {
+        var text = 'foo';
+        var expected = 'Zm9v';
+        var actual = bazinga64.Encoder.toBase64(text).asString;
+        expect(actual).toBe(expected);
+      });
+
+      it('foob', function() {
+        var text = 'foob';
+        var expected = 'Zm9vYg==';
+        var actual = bazinga64.Encoder.toBase64(text).asString;
+        expect(actual).toBe(expected);
+      });
+
+      it('fooba', function() {
+        var text = 'fooba';
+        var expected = 'Zm9vYmE=';
+        var actual = bazinga64.Encoder.toBase64(text).asString;
+        expect(actual).toBe(expected);
+      });
+
+      it('foobar', function() {
+        var text = 'foobar';
+        var expected = 'Zm9vYmFy';
+        var actual = bazinga64.Encoder.toBase64(text).asString;
+        expect(actual).toBe(expected);
+      });
+
+    });
+
   });
 
 });
