@@ -87,6 +87,13 @@ describe('Base64', function() {
 
     describe('toArrayBufferView', function() {
 
+      it('handles arrays', function() {
+        var data = new Uint8Array(helloDecodedArray);
+        var view = bazinga64.Converter.toArrayBufferView(helloDecodedArray);
+        expect(view.constructor.name).toBe('Uint8Array');
+        expect(view).toEqual(data);
+      });
+
       it('handles array buffer views', function() {
         var data = new Uint8Array(helloDecodedArray);
         var view = bazinga64.Converter.toArrayBufferView(data);
@@ -98,6 +105,18 @@ describe('Base64', function() {
         var data = 'Thomas M\u00FCller';
         var view = bazinga64.Converter.toArrayBufferView(data);
         expect(view.constructor.name).toBe('Uint8Array');
+      });
+
+      it('does not handle numbers', function() {
+        expect(function() {
+          bazinga64.Converter.toArrayBufferView(numberDecoded);
+        }).toThrowError("Please provide a 'String', 'Uint8Array' or 'Array'.");
+      });
+
+      it('throws an error on unexpected inputs', function() {
+        expect(function() {
+          bazinga64.Converter.toArrayBufferView(new Error());
+        }).toThrowError("Please provide a 'String', 'Uint8Array' or 'Array'.");
       });
 
     });
@@ -131,9 +150,8 @@ describe('Base64', function() {
       });
 
       it('throws an error on unexpected inputs', function() {
-        var data = new Error();
         expect(function() {
-          bazinga64.Converter.toString(data);
+          bazinga64.Converter.toString(new Error());
         }).toThrowError("Please provide a 'String', 'Uint8Array' or 'Array'.");
       });
 
