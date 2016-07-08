@@ -1,6 +1,6 @@
 /**
  * bazinga64 - Base64 encoding and decoding with ASCII string representation
- * @version v1.0.0
+ * @version v2.0.0
  * @link https://github.com/wireapp/bazinga64#readme
  * @license GPL-3.0
  */
