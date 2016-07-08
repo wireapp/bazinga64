@@ -2,6 +2,7 @@ var browserify = require('gulp-browserify');
 var gulp = require('gulp');
 var gulpTypings = require('gulp-typings');
 var gutil = require('gulp-util');
+var header = require('gulp-header');
 var merge = require('merge2');
 var path = require('path');
 var pkg = require('./package.json');
@@ -11,7 +12,15 @@ var Server = require('karma').Server;
 var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 
+var banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */',
+  ''].join('\n');
 var tsProject = ts.createProject('tsconfig.json');
+
 
 var paths = {
   src: 'src',
@@ -56,6 +65,7 @@ gulp.task('dist', ['build'], function() {
   return gulp.src('dist/namespace.js')
     .pipe(browserify())
     .pipe(rename(pkg.name + '.js'))
+    .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest('dist/browser'));
 });
 
