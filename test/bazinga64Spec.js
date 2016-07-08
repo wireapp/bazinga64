@@ -280,57 +280,71 @@ describe('Base64', function() {
 
     });
 
-    describe('Custom Test Values', function() {
+  });
 
-      it('empty string', function() {
-        var text = '';
-        var expected = '';
-        var actual = bazinga64.Encoder.toBase64(text).asString;
-        expect(actual).toBe(expected);
-      });
+  describe('Test Vectors from RFC 4648', function() {
 
-      it('f', function() {
-        var text = 'f';
-        var expected = 'Zg==';
-        var actual = bazinga64.Encoder.toBase64(text).asString;
-        expect(actual).toBe(expected);
-      });
+    it('empty string', function() {
+      var text = '';
+      var expected = '';
+      var encoded = bazinga64.Encoder.toBase64(text).asString;
+      var decoded = bazinga64.Decoder.fromBase64(encoded).asString;
+      expect(encoded).toBe(expected);
+      expect(decoded).toBe(text);
+    });
 
-      it('fo', function() {
-        var text = 'fo';
-        var expected = 'Zm8=';
-        var actual = bazinga64.Encoder.toBase64(text).asString;
-        expect(actual).toBe(expected);
-      });
+    it('f', function() {
+      var text = 'f';
+      var expected = 'Zg==';
+      var encoded = bazinga64.Encoder.toBase64(text).asString;
+      var decoded = bazinga64.Decoder.fromBase64(encoded).asString;
+      expect(encoded).toBe(expected);
+      expect(decoded).toBe(text);
+    });
 
-      it('foo', function() {
-        var text = 'foo';
-        var expected = 'Zm9v';
-        var actual = bazinga64.Encoder.toBase64(text).asString;
-        expect(actual).toBe(expected);
-      });
+    it('fo', function() {
+      var text = 'fo';
+      var expected = 'Zm8=';
+      var encoded = bazinga64.Encoder.toBase64(text).asString;
+      var decoded = bazinga64.Decoder.fromBase64(encoded).asString;
+      expect(encoded).toBe(expected);
+      expect(decoded).toBe(text);
+    });
 
-      it('foob', function() {
-        var text = 'foob';
-        var expected = 'Zm9vYg==';
-        var actual = bazinga64.Encoder.toBase64(text).asString;
-        expect(actual).toBe(expected);
-      });
+    it('foo', function() {
+      var text = 'foo';
+      var expected = 'Zm9v';
+      var encoded = bazinga64.Encoder.toBase64(text).asString;
+      var decoded = bazinga64.Decoder.fromBase64(encoded).asString;
+      expect(encoded).toBe(expected);
+      expect(decoded).toBe(text);
+    });
 
-      it('fooba', function() {
-        var text = 'fooba';
-        var expected = 'Zm9vYmE=';
-        var actual = bazinga64.Encoder.toBase64(text).asString;
-        expect(actual).toBe(expected);
-      });
+    it('foob', function() {
+      var text = 'foob';
+      var expected = 'Zm9vYg==';
+      var encoded = bazinga64.Encoder.toBase64(text).asString;
+      var decoded = bazinga64.Decoder.fromBase64(encoded).asString;
+      expect(encoded).toBe(expected);
+      expect(decoded).toBe(text);
+    });
 
-      it('foobar', function() {
-        var text = 'foobar';
-        var expected = 'Zm9vYmFy';
-        var actual = bazinga64.Encoder.toBase64(text).asString;
-        expect(actual).toBe(expected);
-      });
+    it('fooba', function() {
+      var text = 'fooba';
+      var expected = 'Zm9vYmE=';
+      var encoded = bazinga64.Encoder.toBase64(text).asString;
+      var decoded = bazinga64.Decoder.fromBase64(encoded).asString;
+      expect(encoded).toBe(expected);
+      expect(decoded).toBe(text);
+    });
 
+    it('foobar', function() {
+      var text = 'foobar';
+      var expected = 'Zm9vYmFy';
+      var encoded = bazinga64.Encoder.toBase64(text).asString;
+      var decoded = bazinga64.Decoder.fromBase64(encoded).asString;
+      expect(encoded).toBe(expected);
+      expect(decoded).toBe(text);
     });
 
   });
