@@ -20,37 +20,38 @@
 /// <reference path="../typings/index.d.ts" />
 import DecodedData from "./DecodedData";
 import EncodedData from "./EncodedData";
+import UnexpectedInput from "./UnexpectedInput";
 import * as base64 from "base64-js";
 
 namespace bazinga64 {
 
-  export class Converter {
+  export namespace Converter {
 
     // https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
-    public static arrayBufferViewToString(arrayBufferView: Uint16Array): string {
+    export function arrayBufferViewToString(arrayBufferView: Uint16Array): string {
       return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
     }
 
-    // https://coolaj86.com/articles/unicode-string-to-a-utf-8-typed-array-buffer-in-javascript/
-    public static arrayBufferViewToUnicodeString(arrayBufferView: Uint8Array): string {
+    // https://gist.github.com/mathiasbynens/1243213
+    export function arrayBufferViewToUnicodeString(arrayBufferView: Uint8Array): string {
       let binaryString = Array.prototype.map.call(arrayBufferView, function (index: number) {
         return String.fromCharCode(index);
       }).join("");
 
-      let escapedString = binaryString.replace(/(.)/g, function (match: string, position: string) {
-        let code = position.charCodeAt(parseInt(position, 10)).toString(16).toUpperCase();
+      let escapedString = binaryString.replace(/(.)/g, function (match: string) {
+        let code: string = match.charCodeAt(0).toString(16).toUpperCase();
 
         if (code.length < 2) {
-          code = `0${code}`;
+          return `0${code}`;
+        } else {
+          return `%${code}`;
         }
-
-        return `%${code}`;
       });
 
       return decodeURIComponent(escapedString);
     }
 
-    public static numberArrayToArrayBufferView(array: number[]): Uint8Array {
+    export function numberArrayToArrayBufferView(array: number[]): Uint8Array {
       let arrayBuffer = new ArrayBuffer(array.length);
       let arrayBufferView = new Uint8Array(arrayBuffer);
 
@@ -62,7 +63,7 @@ namespace bazinga64 {
     }
 
     // https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
-    public static stringToArrayBufferView(data: string): Uint16Array {
+    export function stringToArrayBufferView(data: string): Uint16Array {
       let arrayBuffer = new ArrayBuffer(data.length * 2);
       let arrayBufferView = new Uint16Array(arrayBuffer);
 
@@ -73,24 +74,37 @@ namespace bazinga64 {
       return arrayBufferView;
     }
 
-    public static toArrayBufferView(data: any): Uint8Array {
-      if (data.constructor.name === "String") {
-        return this.unicodeStringToArrayBufferView(data);
-      } else {
-        return data;
+    export function toArrayBufferView(data: any): Uint8Array {
+      switch (data.constructor.name) {
+        case "Array":
+          return this.numberArrayToArrayBufferView(data);
+        case "String":
+          return this.unicodeStringToArrayBufferView(data);
+        case "Uint8Array":
+          return data;
+        default:
+          throw new UnexpectedInput(UnexpectedInput.UNSUPPORTED_TYPE);
       }
     }
 
-    public static toString(data: any): string {
-      if (data.constructor.name === "String") {
-        return data;
-      } else {
-        return this.arrayBufferViewToUnicodeString(data);
+    export function toString(data: any): string {
+      switch (data.constructor.name) {
+        case "Array":
+          let arrayBufferView: Uint8Array = this.numberArrayToArrayBufferView(data);
+          return this.arrayBufferViewToUnicodeString(arrayBufferView);
+        case "Number":
+          return data.toString();
+        case "String":
+          return data;
+        case "Uint8Array":
+          return this.arrayBufferViewToUnicodeString(data);
+        default:
+          throw new UnexpectedInput(UnexpectedInput.UNSUPPORTED_TYPE);
       }
     }
 
     // https://coolaj86.com/articles/unicode-string-to-a-utf-8-typed-array-buffer-in-javascript/
-    public static unicodeStringToArrayBufferView(data: string): Uint8Array {
+    export function unicodeStringToArrayBufferView(data: string): Uint8Array {
       let escapedString = encodeURIComponent(data);
 
       let binaryString = escapedString.replace(/%([0-9A-F]{2})/g, function (match, position) {
@@ -109,9 +123,10 @@ namespace bazinga64 {
 
   }
 
-  export class Decoder {
+  export namespace Decoder {
 
-    public static fromBase64(encoded: string): DecodedData {
+    export function fromBase64(data: any): DecodedData {
+      let encoded: string = bazinga64.Converter.toString(data);
       let asBytes: Uint8Array = base64.toByteArray(encoded);
       let asString = bazinga64.Converter.arrayBufferViewToUnicodeString(asBytes);
       let decoded: DecodedData = new DecodedData(asBytes, asString);
@@ -120,9 +135,9 @@ namespace bazinga64 {
 
   }
 
-  export class Encoder {
+  export namespace Encoder {
 
-    public static toBase64(data: any): EncodedData {
+    export function toBase64(data: any): EncodedData {
       let decoded: Uint8Array = bazinga64.Converter.toArrayBufferView(data);
       let asString = base64.fromByteArray(decoded);
       let asBytes = bazinga64.Converter.unicodeStringToArrayBufferView(asString);

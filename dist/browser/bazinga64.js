@@ -7,7 +7,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 window.bazinga64 = require('./node/bazinga64');
 
-},{"./node/bazinga64":4}],2:[function(require,module,exports){
+},{"./node/bazinga64":5}],2:[function(require,module,exports){
 "use strict";
 var DecodedData = (function () {
     function DecodedData(asBytes, asString) {
@@ -33,63 +33,101 @@ exports.default = EncodedData;
 
 },{}],4:[function(require,module,exports){
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var UnexpectedInput = (function (_super) {
+    __extends(UnexpectedInput, _super);
+    function UnexpectedInput(message) {
+        _super.call(this, message);
+        this.message = message;
+    }
+    UnexpectedInput.UNSUPPORTED_TYPE = "Please provide a 'String', 'Uint8Array' or 'Array'.";
+    return UnexpectedInput;
+}(Error));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = UnexpectedInput;
+
+},{}],5:[function(require,module,exports){
+"use strict";
 var DecodedData_1 = require("./DecodedData");
 var EncodedData_1 = require("./EncodedData");
+var UnexpectedInput_1 = require("./UnexpectedInput");
 var base64 = require("base64-js");
 var bazinga64;
 (function (bazinga64) {
-    var Converter = (function () {
-        function Converter() {
-        }
-        Converter.arrayBufferViewToString = function (arrayBufferView) {
+    var Converter;
+    (function (Converter) {
+        function arrayBufferViewToString(arrayBufferView) {
             return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
-        };
-        Converter.arrayBufferViewToUnicodeString = function (arrayBufferView) {
+        }
+        Converter.arrayBufferViewToString = arrayBufferViewToString;
+        function arrayBufferViewToUnicodeString(arrayBufferView) {
             var binaryString = Array.prototype.map.call(arrayBufferView, function (index) {
                 return String.fromCharCode(index);
             }).join("");
-            var escapedString = binaryString.replace(/(.)/g, function (match, position) {
-                var code = position.charCodeAt(parseInt(position, 10)).toString(16).toUpperCase();
+            var escapedString = binaryString.replace(/(.)/g, function (match) {
+                var code = match.charCodeAt(0).toString(16).toUpperCase();
                 if (code.length < 2) {
-                    code = "0" + code;
+                    return "0" + code;
                 }
-                return "%" + code;
+                else {
+                    return "%" + code;
+                }
             });
             return decodeURIComponent(escapedString);
-        };
-        Converter.numberArrayToArrayBufferView = function (array) {
+        }
+        Converter.arrayBufferViewToUnicodeString = arrayBufferViewToUnicodeString;
+        function numberArrayToArrayBufferView(array) {
             var arrayBuffer = new ArrayBuffer(array.length);
             var arrayBufferView = new Uint8Array(arrayBuffer);
             for (var i = 0; i < arrayBufferView.length; i++) {
                 arrayBufferView[i] = array[i];
             }
             return arrayBufferView;
-        };
-        Converter.stringToArrayBufferView = function (data) {
+        }
+        Converter.numberArrayToArrayBufferView = numberArrayToArrayBufferView;
+        function stringToArrayBufferView(data) {
             var arrayBuffer = new ArrayBuffer(data.length * 2);
             var arrayBufferView = new Uint16Array(arrayBuffer);
             for (var i = 0, strLen = data.length; i < strLen; i++) {
                 arrayBufferView[i] = data.charCodeAt(i);
             }
             return arrayBufferView;
-        };
-        Converter.toArrayBufferView = function (data) {
-            if (data.constructor.name === "String") {
-                return this.unicodeStringToArrayBufferView(data);
+        }
+        Converter.stringToArrayBufferView = stringToArrayBufferView;
+        function toArrayBufferView(data) {
+            switch (data.constructor.name) {
+                case "Array":
+                    return this.numberArrayToArrayBufferView(data);
+                case "String":
+                    return this.unicodeStringToArrayBufferView(data);
+                case "Uint8Array":
+                    return data;
+                default:
+                    throw new UnexpectedInput_1.default(UnexpectedInput_1.default.UNSUPPORTED_TYPE);
             }
-            else {
-                return data;
+        }
+        Converter.toArrayBufferView = toArrayBufferView;
+        function toString(data) {
+            switch (data.constructor.name) {
+                case "Array":
+                    var arrayBufferView = this.numberArrayToArrayBufferView(data);
+                    return this.arrayBufferViewToUnicodeString(arrayBufferView);
+                case "Number":
+                    return data.toString();
+                case "String":
+                    return data;
+                case "Uint8Array":
+                    return this.arrayBufferViewToUnicodeString(data);
+                default:
+                    throw new UnexpectedInput_1.default(UnexpectedInput_1.default.UNSUPPORTED_TYPE);
             }
-        };
-        Converter.toString = function (data) {
-            if (data.constructor.name === "String") {
-                return data;
-            }
-            else {
-                return this.arrayBufferViewToUnicodeString(data);
-            }
-        };
-        Converter.unicodeStringToArrayBufferView = function (data) {
+        }
+        Converter.toString = toString;
+        function unicodeStringToArrayBufferView(data) {
             var escapedString = encodeURIComponent(data);
             var binaryString = escapedString.replace(/%([0-9A-F]{2})/g, function (match, position) {
                 var code = parseInt("0x" + position, 16);
@@ -100,39 +138,35 @@ var bazinga64;
                 arrayBufferView[index] = character.charCodeAt(0);
             });
             return arrayBufferView;
-        };
-        return Converter;
-    }());
-    bazinga64.Converter = Converter;
-    var Decoder = (function () {
-        function Decoder() {
         }
-        Decoder.fromBase64 = function (encoded) {
+        Converter.unicodeStringToArrayBufferView = unicodeStringToArrayBufferView;
+    })(Converter = bazinga64.Converter || (bazinga64.Converter = {}));
+    var Decoder;
+    (function (Decoder) {
+        function fromBase64(data) {
+            var encoded = bazinga64.Converter.toString(data);
             var asBytes = base64.toByteArray(encoded);
             var asString = bazinga64.Converter.arrayBufferViewToUnicodeString(asBytes);
             var decoded = new DecodedData_1.default(asBytes, asString);
             return decoded;
-        };
-        return Decoder;
-    }());
-    bazinga64.Decoder = Decoder;
-    var Encoder = (function () {
-        function Encoder() {
         }
-        Encoder.toBase64 = function (data) {
+        Decoder.fromBase64 = fromBase64;
+    })(Decoder = bazinga64.Decoder || (bazinga64.Decoder = {}));
+    var Encoder;
+    (function (Encoder) {
+        function toBase64(data) {
             var decoded = bazinga64.Converter.toArrayBufferView(data);
             var asString = base64.fromByteArray(decoded);
             var asBytes = bazinga64.Converter.unicodeStringToArrayBufferView(asString);
             var encoded = new EncodedData_1.default(asBytes, asString);
             return encoded;
-        };
-        return Encoder;
-    }());
-    bazinga64.Encoder = Encoder;
+        }
+        Encoder.toBase64 = toBase64;
+    })(Encoder = bazinga64.Encoder || (bazinga64.Encoder = {}));
 })(bazinga64 || (bazinga64 = {}));
 module.exports = bazinga64;
 
-},{"./DecodedData":2,"./EncodedData":3,"base64-js":5}],5:[function(require,module,exports){
+},{"./DecodedData":2,"./EncodedData":3,"./UnexpectedInput":4,"base64-js":6}],6:[function(require,module,exports){
 'use strict';
 
 exports.toByteArray = toByteArray;
