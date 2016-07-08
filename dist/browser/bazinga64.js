@@ -35,18 +35,6 @@ var bazinga64;
     var Converter = (function () {
         function Converter() {
         }
-        Converter.unicodeStringToArrayBufferView = function (data) {
-            var escapedString = encodeURIComponent(data);
-            var binaryString = escapedString.replace(/%([0-9A-F]{2})/g, function (match, position) {
-                var code = parseInt("0x" + position, 16);
-                return String.fromCharCode(code);
-            });
-            var arrayBufferView = new Uint8Array(binaryString.length);
-            Array.prototype.forEach.call(binaryString, function (character, index) {
-                arrayBufferView[index] = character.charCodeAt(0);
-            });
-            return arrayBufferView;
-        };
         Converter.arrayBufferViewToString = function (arrayBufferView) {
             return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
         };
@@ -94,6 +82,18 @@ var bazinga64;
             else {
                 return this.arrayBufferViewToUnicodeString(data);
             }
+        };
+        Converter.unicodeStringToArrayBufferView = function (data) {
+            var escapedString = encodeURIComponent(data);
+            var binaryString = escapedString.replace(/%([0-9A-F]{2})/g, function (match, position) {
+                var code = parseInt("0x" + position, 16);
+                return String.fromCharCode(code);
+            });
+            var arrayBufferView = new Uint8Array(binaryString.length);
+            Array.prototype.forEach.call(binaryString, function (character, index) {
+                arrayBufferView[index] = character.charCodeAt(0);
+            });
+            return arrayBufferView;
         };
         return Converter;
     }());

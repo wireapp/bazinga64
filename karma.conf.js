@@ -1,4 +1,4 @@
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     autoWatch: false,
     basePath: '',
@@ -6,8 +6,25 @@ module.exports = function (config) {
     colors: true,
     concurrency: Infinity,
     coverageReporter: {
-      type: 'html',
-      dir: 'coverage/'
+      reporters: [
+        {
+          dir: 'coverage',
+          type: 'html'
+        },
+        {
+          dir: 'coverage',
+          file: 'coverage-summary.txt',
+          type: 'text-summary'
+        }
+      ],
+      check: {
+        global: {
+          statements: 90,
+          branches: 50,
+          functions: 90,
+          lines: 90
+        }
+      }
     },
     customLaunchers: {
       Chrome_travis_ci: {
