@@ -12,6 +12,10 @@ For licensing information, see the attached LICENSE file and the list of third-p
 
 ## Instructions
 
+- [Run project](#run-project)
+- [Install project](#install-project)
+- [Use project](#use-project)
+
 ### Run project
 
 ```bash
@@ -44,5 +48,28 @@ var bazinga64 = require('bazinga64');
 ### Use project
 
 ```javascript
-
+var data = 'Hello';
+var encoded = bazinga64.Encoder.toBase64(data);
+var base64 = encoded.asString;
+console.log(base64); // SGVsbG8=
 ```
+
+## API
+
+### `Converter`
+
+- `arrayBufferViewToString`
+- `arrayBufferViewToUnicodeString`
+- `numberArrayToArrayBufferView`
+- `stringToArrayBufferView`
+- `toArrayBufferView`
+- `toString`
+- `unicodeStringToArrayBufferView`
+
+### `Decoder`
+
+- `fromBase64`
+
+### `Encoder`
+
+- `toBase64`
