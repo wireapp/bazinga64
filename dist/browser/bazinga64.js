@@ -121,6 +121,8 @@ var bazinga64;
                 case "Array":
                     var arrayBufferView = this.numberArrayToArrayBufferView(data);
                     return this.arrayBufferViewToUnicodeString(arrayBufferView);
+                case "EncodedData":
+                    return data.asString;
                 case "Number":
                     return data.toString();
                 case "String":

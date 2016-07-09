@@ -217,6 +217,13 @@ describe('Base64', function() {
         expect(decoded.asString).toBe('1337');
       });
 
+      it('handles encoded data', function() {
+        var encoded = bazinga64.Encoder.toBase64(helloDecodedString);
+        var decoded = bazinga64.Decoder.fromBase64(encoded);
+        expect(decoded.constructor.name).toBe('DecodedData');
+        expect(decoded.asString).toBe(helloDecodedString);
+      });
+
     });
 
   });

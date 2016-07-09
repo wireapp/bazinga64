@@ -92,6 +92,8 @@ namespace bazinga64 {
         case "Array":
           let arrayBufferView: Uint8Array = this.numberArrayToArrayBufferView(data);
           return this.arrayBufferViewToUnicodeString(arrayBufferView);
+        case "EncodedData":
+          return data.asString;
         case "Number":
           return data.toString();
         case "String":
