@@ -2,6 +2,7 @@ module.exports = function(config) {
   config.set({
     autoWatch: false,
     basePath: '',
+    browserNoActivityTimeout: 90000,
     browsers: [process.env.TRAVIS ? 'Chrome_travis_ci' : 'Chrome'],
     colors: true,
     concurrency: Infinity,
