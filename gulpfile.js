@@ -1,4 +1,5 @@
 var browserify = require('gulp-browserify');
+var browserSync = require('browser-sync').create();
 var gulp = require('gulp');
 var gulpTypings = require('gulp-typings');
 var gutil = require('gulp-util');
@@ -23,17 +24,22 @@ var tsProject = ts.createProject('tsconfig.json');
 
 
 var paths = {
+  dist_browser: 'dist/browser',
   src: 'src',
-  src_ts: 'src/*.ts'
+  src_ts: 'src/ts'
 };
 
 gulp.task('build_ts', ['lint_ts'], function() {
-  var tsResult = gulp.src(paths.src_ts)
+  var stream = gulp.src(paths.src_ts + '/**/*.ts')
     .pipe(ts(tsProject));
 
+  stream.on('end', function() {
+    browserSync.reload();
+  });
+
   return merge([
-    tsResult.dts.pipe(gulp.dest('dist/definitions')),
-    tsResult.js.pipe(gulp.dest('dist/node'))
+    stream.dts.pipe(gulp.dest('dist/definitions')),
+    stream.js.pipe(gulp.dest('dist/node'))
   ]);
 });
 
@@ -46,7 +52,7 @@ gulp.task('check', function(done) {
 });
 
 gulp.task('lint_ts', function() {
-  return gulp.src(paths.src_ts)
+  return gulp.src(paths.src_ts + '/**/*.ts')
     .pipe(tslint({
       formatter: 'verbose'
     }))
@@ -58,7 +64,14 @@ gulp.task('default', function(done) {
 });
 
 gulp.task('dev', ['test_forever'], function() {
-  gulp.watch(paths.src_ts, ['dist']);
+  gulp.watch(paths.src_ts + '/**/*.ts', ['dist']);
+  gulp.watch(paths.dist_browser + '/**/*.html').on('change', browserSync.reload);
+
+  browserSync.init({
+    port: 3636,
+    server: {baseDir: './'},
+    startPath: '/' + paths.dist_browser
+  });
 });
 
 gulp.task('dist', ['build'], function() {
