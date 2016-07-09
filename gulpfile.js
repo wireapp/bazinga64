@@ -33,10 +33,6 @@ gulp.task('build_ts', ['lint_ts'], function() {
   var stream = gulp.src(paths.src_ts + '/**/*.ts')
     .pipe(ts(tsProject));
 
-  stream.on('end', function() {
-    browserSync.reload();
-  });
-
   return merge([
     stream.dts.pipe(gulp.dest('dist/definitions')),
     stream.js.pipe(gulp.dest('dist/node'))
@@ -65,7 +61,7 @@ gulp.task('default', function(done) {
 
 gulp.task('dev', ['test_forever'], function() {
   gulp.watch(paths.src_ts + '/**/*.ts', ['dist']);
-  gulp.watch(paths.dist_browser + '/**/*.html').on('change', browserSync.reload);
+  gulp.watch(paths.dist_browser + '/**/*.*').on('change', browserSync.reload);
 
   browserSync.init({
     port: 3636,
