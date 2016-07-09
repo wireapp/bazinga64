@@ -83,7 +83,8 @@ namespace bazinga64 {
         case "Uint8Array":
           return data;
         default:
-          throw new UnexpectedInput(UnexpectedInput.UNSUPPORTED_TYPE);
+          throw new UnexpectedInput(`${data.constructor.name} is unsupported. `
+            + UnexpectedInput.UNSUPPORTED_TYPE);
       }
     }
 
@@ -92,8 +93,6 @@ namespace bazinga64 {
         case "Array":
           let arrayBufferView: Uint8Array = this.numberArrayToArrayBufferView(data);
           return this.arrayBufferViewToUnicodeString(arrayBufferView);
-        case "EncodedData":
-          return data.asString;
         case "Number":
           return data.toString();
         case "String":
@@ -101,7 +100,8 @@ namespace bazinga64 {
         case "Uint8Array":
           return this.arrayBufferViewToUnicodeString(data);
         default:
-          throw new UnexpectedInput(UnexpectedInput.UNSUPPORTED_TYPE);
+          throw new UnexpectedInput(`${data.constructor.name} is unsupported. `
+            + UnexpectedInput.UNSUPPORTED_TYPE);
       }
     }
 

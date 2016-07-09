@@ -54,7 +54,8 @@ var bazinga64;
                 case "Uint8Array":
                     return data;
                 default:
-                    throw new UnexpectedInput_1.default(UnexpectedInput_1.default.UNSUPPORTED_TYPE);
+                    throw new UnexpectedInput_1.default((data.constructor.name + " is unsupported. ")
+                        + UnexpectedInput_1.default.UNSUPPORTED_TYPE);
             }
         }
         Converter.toArrayBufferView = toArrayBufferView;
@@ -63,8 +64,6 @@ var bazinga64;
                 case "Array":
                     var arrayBufferView = this.numberArrayToArrayBufferView(data);
                     return this.arrayBufferViewToUnicodeString(arrayBufferView);
-                case "EncodedData":
-                    return data.asString;
                 case "Number":
                     return data.toString();
                 case "String":
@@ -72,7 +71,8 @@ var bazinga64;
                 case "Uint8Array":
                     return this.arrayBufferViewToUnicodeString(data);
                 default:
-                    throw new UnexpectedInput_1.default(UnexpectedInput_1.default.UNSUPPORTED_TYPE);
+                    throw new UnexpectedInput_1.default((data.constructor.name + " is unsupported. ")
+                        + UnexpectedInput_1.default.UNSUPPORTED_TYPE);
             }
         }
         Converter.toString = toString;
