@@ -9,7 +9,12 @@ var UnexpectedInput = (function (_super) {
     function UnexpectedInput(message) {
         _super.call(this, message);
         this.message = message;
+        this.name = "UnexpectedInput";
+        this.stack = (new Error()).stack;
     }
+    UnexpectedInput.prototype.toString = function () {
+        return this.name + ": " + this.message;
+    };
     UnexpectedInput.UNSUPPORTED_TYPE = "Please provide a 'String', 'Uint8Array' or 'Array'.";
     return UnexpectedInput;
 }(Error));
