@@ -17,7 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 //</editor-fold>
-/// <reference path="../typings/index.d.ts" />
+/// <reference path="../../typings/index.d.ts" />
 import DecodedData from "./DecodedData";
 import EncodedData from "./EncodedData";
 import UnexpectedInput from "./UnexpectedInput";
@@ -138,7 +138,6 @@ namespace bazinga64 {
   export namespace Encoder {
 
     export function toBase64(data: any): EncodedData {
-      alert('HI!!!');
       let decoded: Uint8Array = bazinga64.Converter.toArrayBufferView(data);
       let asString = base64.fromByteArray(decoded);
       let asBytes = bazinga64.Converter.unicodeStringToArrayBufferView(asString);
