@@ -138,6 +138,7 @@ namespace bazinga64 {
   export namespace Encoder {
 
     export function toBase64(data: any): EncodedData {
+      alert('HI!!!');
       let decoded: Uint8Array = bazinga64.Converter.toArrayBufferView(data);
       let asString = base64.fromByteArray(decoded);
       let asBytes = bazinga64.Converter.unicodeStringToArrayBufferView(asString);
