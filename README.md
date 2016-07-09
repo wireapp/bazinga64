@@ -12,6 +12,10 @@ For licensing information, see the attached LICENSE file and the list of third-p
 
 ## Instructions
 
+- [Run project](#run-project)
+- [Install project](#install-project)
+- [Use project](#use-project)
+
 ### Run project
 
 ```bash
@@ -19,25 +23,52 @@ npm install
 gulp default
 ```
 
-### Use project
+### Install project
 
 **Browser**
+
+```bash
+bower install bazinga64
+```
 
 ```html
 <script src="bazinga64.js"></script>
 ```
 
-```javascript
-var encoded = 'AQIDBAUGBwg=';
-var decoded = bazinga64.toByteArray(encoded);
-// decoded: Uint8Array {'0': 1, '1': 2, '2': 3, '3': 4, '4': 5, '5': 6, '6': 7, '7': 8}
-```
+**Node**
 
-**Node.js or CommonJS**
+```bash
+npm install bazinga64
+```
 
 ```javascript
 var bazinga64 = require('bazinga64');
-var encoded = 'AQIDBAUGBwg=';
-var decoded = bazinga64.toByteArray(encoded);
-// decoded: Uint8Array {'0': 1, '1': 2, '2': 3, '3': 4, '4': 5, '5': 6, '6': 7, '7': 8}
 ```
+
+### Use project
+
+```javascript
+var data = 'Hello';
+var encoded = bazinga64.Encoder.toBase64(data);
+var base64 = encoded.asString; // SGVsbG8=
+```
+
+## API
+
+### `Converter`
+
+- `arrayBufferViewToString`
+- `arrayBufferViewToUnicodeString`
+- `numberArrayToArrayBufferView`
+- `stringToArrayBufferView`
+- `toArrayBufferView`
+- `toString`
+- `unicodeStringToArrayBufferView`
+
+### `Decoder`
+
+- `fromBase64`
+
+### `Encoder`
+
+- `toBase64`

@@ -1,13 +1,31 @@
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     autoWatch: false,
     basePath: '',
+    browserNoActivityTimeout: 90000,
     browsers: [process.env.TRAVIS ? 'Chrome_travis_ci' : 'Chrome'],
     colors: true,
     concurrency: Infinity,
     coverageReporter: {
-      type: 'html',
-      dir: 'coverage/'
+      reporters: [
+        {
+          dir: 'coverage',
+          type: 'html'
+        },
+        {
+          dir: 'coverage',
+          file: 'coverage-summary.txt',
+          type: 'text-summary'
+        }
+      ],
+      check: {
+        global: {
+          statements: 90,
+          branches: 60,
+          functions: 100,
+          lines: 90
+        }
+      }
     },
     customLaunchers: {
       Chrome_travis_ci: {

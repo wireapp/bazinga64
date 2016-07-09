@@ -1,7 +1,9 @@
 var browserify = require('gulp-browserify');
+var browserSync = require('browser-sync').create();
 var gulp = require('gulp');
 var gulpTypings = require('gulp-typings');
 var gutil = require('gulp-util');
+var header = require('gulp-header');
 var merge = require('merge2');
 var path = require('path');
 var pkg = require('./package.json');
@@ -11,20 +13,29 @@ var Server = require('karma').Server;
 var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 
+var banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */',
+  ''].join('\n');
 var tsProject = ts.createProject('tsconfig.json');
 
+
 var paths = {
+  dist_browser: 'dist/browser',
   src: 'src',
-  src_ts: 'src/*.ts'
+  src_ts: 'src/ts'
 };
 
-gulp.task('build_ts', function() {
-  var tsResult = gulp.src(paths.src_ts)
+gulp.task('build_ts', ['lint_ts'], function() {
+  var stream = gulp.src(paths.src_ts + '/**/*.ts')
     .pipe(ts(tsProject));
 
   return merge([
-    tsResult.dts.pipe(gulp.dest('dist/definitions')),
-    tsResult.js.pipe(gulp.dest('dist/node'))
+    stream.dts.pipe(gulp.dest('dist/definitions')),
+    stream.js.pipe(gulp.dest('dist/node'))
   ]);
 });
 
@@ -37,7 +48,7 @@ gulp.task('check', function(done) {
 });
 
 gulp.task('lint_ts', function() {
-  return gulp.src(paths.src_ts)
+  return gulp.src(paths.src_ts + '/**/*.ts')
     .pipe(tslint({
       formatter: 'verbose'
     }))
@@ -49,13 +60,21 @@ gulp.task('default', function(done) {
 });
 
 gulp.task('dev', ['test_forever'], function() {
-  gulp.watch(paths.src_ts, ['dist']);
+  gulp.watch(paths.src_ts + '/**/*.ts', ['dist']);
+  gulp.watch(paths.dist_browser + '/**/*.*').on('change', browserSync.reload);
+
+  browserSync.init({
+    port: 3636,
+    server: {baseDir: './'},
+    startPath: '/' + paths.dist_browser
+  });
 });
 
 gulp.task('dist', ['build'], function() {
   return gulp.src('dist/namespace.js')
     .pipe(browserify())
     .pipe(rename(pkg.name + '.js'))
+    .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest('dist/browser'));
 });
 
@@ -66,7 +85,7 @@ gulp.task('install', function() {
 
 gulp.task('test', ['check'], function(done) {
   gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
-  
+
   new Server({
     configFile: __dirname + '/karma.conf.js'
   }, done).start();

@@ -6,8 +6,10 @@
   "description": "Base64 encoding and decoding with ASCII string representation",
   "devDependencies": {
     "base64-js": "github:bennyn/base64-js#patch-1",
+    "browser-sync": "^2.13.0",
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
+    "gulp-header": "^1.8.7",
     "gulp-rename": "^1.2.2",
     "gulp-tslint": "^5.0.0",
     "gulp-typescript": "^2.13.6",
@@ -43,5 +45,5 @@
     "type": "git",
     "url": "git+https://github.com/wireapp/bazinga64.git"
   },
-  "version": "1.0.0"
+  "version": "2.0.0"
 }
