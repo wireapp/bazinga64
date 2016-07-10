@@ -1,8 +1,8 @@
 /**
- * bazinga64 - Base64 encoding and decoding with ASCII string representation
- * @version v2.0.0
- * @link https://github.com/wireapp/bazinga64#readme
+ * bazinga64 — Base64 encoding and decoding with ASCII string representation
  * @license GPL-3.0
+ * @link https://github.com/wireapp/bazinga64#readme
+ * @version v2.0.0
  */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 window.bazinga64 = require('./node/bazinga64');

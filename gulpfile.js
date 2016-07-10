@@ -14,10 +14,10 @@ var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 
 var banner = ['/**',
-  ' * <%= pkg.name %> - <%= pkg.description %>',
-  ' * @version v<%= pkg.version %>',
-  ' * @link <%= pkg.homepage %>',
+  ' * <%= pkg.name %> — <%= pkg.description %>',
   ' * @license <%= pkg.license %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @version v<%= pkg.version %>',
   ' */',
   ''].join('\n');
 var tsProject = ts.createProject('tsconfig.json');
@@ -25,17 +25,19 @@ var tsProject = ts.createProject('tsconfig.json');
 
 var paths = {
   dist_browser: 'dist/browser',
+  dist_definitions: 'dist/definitions',
+  dist_node: 'dist/node',
   src: 'src',
   src_ts: 'src/ts'
 };
 
 gulp.task('build_ts', ['lint_ts'], function() {
-  var stream = gulp.src(paths.src_ts + '/**/*.ts')
+  var tsResult = gulp.src(paths.src_ts + '/**/*.ts')
     .pipe(ts(tsProject));
 
   return merge([
-    stream.dts.pipe(gulp.dest('dist/definitions')),
-    stream.js.pipe(gulp.dest('dist/node'))
+    tsResult.dts.pipe(gulp.dest(paths.dist_definitions)),
+    tsResult.js.pipe(gulp.dest(paths.dist_node))
   ]);
 });
 
@@ -49,9 +51,7 @@ gulp.task('check', function(done) {
 
 gulp.task('lint_ts', function() {
   return gulp.src(paths.src_ts + '/**/*.ts')
-    .pipe(tslint({
-      formatter: 'verbose'
-    }))
+    .pipe(tslint({formatter: 'verbose'}))
     .pipe(tslint.report());
 });
 
@@ -61,7 +61,8 @@ gulp.task('default', function(done) {
 
 gulp.task('dev', ['test_forever'], function() {
   gulp.watch(paths.src_ts + '/**/*.ts', ['dist']);
-  gulp.watch(paths.dist_browser + '/**/*.*').on('change', browserSync.reload);
+  gulp.watch(paths.dist_browser + '/**/*.*')
+    .on('change', browserSync.reload);
 
   browserSync.init({
     port: 3636,
@@ -75,7 +76,7 @@ gulp.task('dist', ['build'], function() {
     .pipe(browserify())
     .pipe(rename(pkg.name + '.js'))
     .pipe(header(banner, {pkg: pkg}))
-    .pipe(gulp.dest('dist/browser'));
+    .pipe(gulp.dest(paths.dist_browser));
 });
 
 gulp.task('install', function() {
@@ -86,16 +87,21 @@ gulp.task('install', function() {
 gulp.task('test', ['check'], function(done) {
   gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
 
-  new Server({
+  var server = new Server({
     configFile: __dirname + '/karma.conf.js'
-  }, done).start();
+  }, done);
+
+  server.start();
 });
 
 gulp.task('test_forever', function() {
   gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
-  new Server({
+
+  var server = new Server({
     configFile: __dirname + '/karma.conf.js',
     autoWatch: true,
     singleRun: false
-  }).start();
+  });
+
+  server.start();
 });
