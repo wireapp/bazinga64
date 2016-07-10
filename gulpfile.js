@@ -20,8 +20,6 @@ var banner = ['/**',
   ' * @version v<%= pkg.version %>',
   ' */',
   ''].join('\n');
-var tsProject = ts.createProject('tsconfig.json');
-
 
 var paths = {
   dist_browser: 'dist/browser',
@@ -30,6 +28,8 @@ var paths = {
   src: 'src',
   src_ts: 'src/ts'
 };
+
+var tsProject = ts.createProject('tsconfig.json');
 
 gulp.task('build_ts', ['lint_ts'], function() {
   var tsResult = gulp.src(paths.src_ts + '/**/*.ts')
