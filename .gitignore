@@ -1,11 +1,14 @@
 /bower_components
 /coverage/
+/debug.log
 /nbproject
 /node_modules
 /npm-debug.log
 /public/lib
+/selenium-debug.log
+/test/e2e/reports
+/test/e2e/screenshots
 /typings
-debug.log
 
 # IntelliJ
 # http://devnet.jetbrains.com/docs/DOC-1186
