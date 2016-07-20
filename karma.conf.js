@@ -36,7 +36,7 @@ module.exports = function(config) {
     exclude: [],
     files: [
       'dist/browser/**/*.js',
-      'test/**/*Spec.js'
+      'test/unit/specs/**/*Spec.js'
     ],
     frameworks: ['jasmine'],
     logLevel: config.LOG_INFO,

@@ -5,6 +5,7 @@ var gulpTypings = require('gulp-typings');
 var gutil = require('gulp-util');
 var header = require('gulp-header');
 var merge = require('merge2');
+var nightwatch = require('gulp-nightwatch');
 var path = require('path');
 var pkg = require('./package.json');
 var rename = require('gulp-rename');
@@ -92,6 +93,24 @@ gulp.task('test', ['check'], function(done) {
   }, done);
 
   server.start();
+});
+
+gulp.task('test_e2e', function() {
+  browserSync.init({
+    open: false,
+    port: 3636,
+    server: {baseDir: './'}
+  });
+
+  return gulp.src('')
+    .pipe(nightwatch({
+      configFile: 'test/e2e/nightwatch.json'
+    }))
+    .on('error', function(error) {
+      gutil.log(gutil.colors.red('Error during test:'), error.message);
+      process.exit();
+    })
+    .on('end', process.exit);
 });
 
 gulp.task('test_forever', function() {
