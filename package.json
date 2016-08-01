@@ -25,6 +25,10 @@
     "run-sequence": "^1.2.2",
     "tslint": "^3.13.0"
   },
+  "files": [
+    "dist",
+    "types/bazinga64.d.ts"
+  ],
   "homepage": "https://github.com/wireapp/bazinga64#readme",
   "keywords": [
     "array",
@@ -46,5 +50,6 @@
     "type": "git",
     "url": "git+https://github.com/wireapp/bazinga64.git"
   },
+  "typings": "types/bazinga64.d.ts",
   "version": "2.0.0"
 }
