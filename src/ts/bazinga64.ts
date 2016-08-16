@@ -27,6 +27,26 @@ namespace bazinga64 {
 
   export namespace Converter {
 
+    export function arrayBufferToArrayBufferView(arrayBuffer: ArrayBuffer): Uint8Array {
+      let view = new DataView(arrayBuffer);
+      let arrayBufferView = new Uint8Array(arrayBuffer);
+
+      for (let i = 0, len = arrayBufferView.length; i < len; i++) {
+        arrayBufferView[i] = view.getUint8(i);
+      }
+
+      return arrayBufferView;
+    }
+
+    export function arrayBufferToJSON(arrayBuffer: ArrayBuffer): JSON {
+      return JSON.parse(this.arrayBufferToJSONString(arrayBuffer));
+    }
+
+    export function arrayBufferToJSONString(arrayBuffer: ArrayBuffer): string {
+      let arrayBufferView = this.arrayBufferToArrayBufferView(arrayBuffer);
+      return JSON.stringify(arrayBufferView);
+    }
+
     // https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
     export function arrayBufferViewToString(arrayBufferView: Uint16Array): string {
       return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
@@ -49,6 +69,21 @@ namespace bazinga64 {
       });
 
       return decodeURIComponent(escapedString);
+    }
+
+    export function jsonToArrayBufferView(json: JSON): Uint8Array {
+      const length = Object.keys(json).length;
+      let arrayBufferView = new Uint8Array(length);
+
+      let objectSource: any = json;
+      for (let key in objectSource) {
+        if (objectSource.hasOwnProperty(key)) {
+          let value: number = objectSource[key];
+          arrayBufferView[parseInt(key, 10)] = value;
+        }
+      }
+
+      return arrayBufferView;
     }
 
     export function numberArrayToArrayBufferView(array: number[]): Uint8Array {
@@ -76,6 +111,8 @@ namespace bazinga64 {
 
     export function toArrayBufferView(data: any): Uint8Array {
       switch (data.constructor.name) {
+        case "ArrayBuffer":
+          return this.arrayBufferToArrayBufferView(data);
         case "Array":
           return this.numberArrayToArrayBufferView(data);
         case "String":

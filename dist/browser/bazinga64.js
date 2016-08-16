@@ -2,7 +2,7 @@
  * bazinga64 — Base64 encoding and decoding with ASCII string representation
  * @license GPL-3.0
  * @link https://github.com/wireapp/bazinga64#readme
- * @version v2.0.0
+ * @version v2.1.0
  */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 window.bazinga64 = require('./node/bazinga64');
@@ -62,6 +62,24 @@ var bazinga64;
 (function (bazinga64) {
     var Converter;
     (function (Converter) {
+        function arrayBufferToArrayBufferView(arrayBuffer) {
+            var view = new DataView(arrayBuffer);
+            var arrayBufferView = new Uint8Array(arrayBuffer);
+            for (var i = 0, len = arrayBufferView.length; i < len; i++) {
+                arrayBufferView[i] = view.getUint8(i);
+            }
+            return arrayBufferView;
+        }
+        Converter.arrayBufferToArrayBufferView = arrayBufferToArrayBufferView;
+        function arrayBufferToJSON(arrayBuffer) {
+            return JSON.parse(this.arrayBufferToJSONString(arrayBuffer));
+        }
+        Converter.arrayBufferToJSON = arrayBufferToJSON;
+        function arrayBufferToJSONString(arrayBuffer) {
+            var arrayBufferView = this.arrayBufferToArrayBufferView(arrayBuffer);
+            return JSON.stringify(arrayBufferView);
+        }
+        Converter.arrayBufferToJSONString = arrayBufferToJSONString;
         function arrayBufferViewToString(arrayBufferView) {
             return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
         }
@@ -82,6 +100,19 @@ var bazinga64;
             return decodeURIComponent(escapedString);
         }
         Converter.arrayBufferViewToUnicodeString = arrayBufferViewToUnicodeString;
+        function jsonToArrayBufferView(json) {
+            var length = Object.keys(json).length;
+            var arrayBufferView = new Uint8Array(length);
+            var objectSource = json;
+            for (var key in objectSource) {
+                if (objectSource.hasOwnProperty(key)) {
+                    var value = objectSource[key];
+                    arrayBufferView[parseInt(key, 10)] = value;
+                }
+            }
+            return arrayBufferView;
+        }
+        Converter.jsonToArrayBufferView = jsonToArrayBufferView;
         function numberArrayToArrayBufferView(array) {
             var arrayBuffer = new ArrayBuffer(array.length);
             var arrayBufferView = new Uint8Array(arrayBuffer);
@@ -102,6 +133,8 @@ var bazinga64;
         Converter.stringToArrayBufferView = stringToArrayBufferView;
         function toArrayBufferView(data) {
             switch (data.constructor.name) {
+                case "ArrayBuffer":
+                    return this.arrayBufferToArrayBufferView(data);
                 case "Array":
                     return this.numberArrayToArrayBufferView(data);
                 case "String":

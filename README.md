@@ -45,20 +45,34 @@ npm install bazinga64
 var bazinga64 = require('bazinga64');
 ```
 
+### Publish project
+
+```bash
+gulp dist
+```
+
 ### Use project
 
 ```javascript
-var data = 'Hello';
-var encoded = bazinga64.Encoder.toBase64(data);
-var base64 = encoded.asString; // SGVsbG8=
+// Encoding
+var encoded = bazinga64.Encoder.toBase64('Hello');
+var base64 = encoded.asString; // "SGVsbG8="
+
+// Decoding
+var decoded = bazinga64.Decoder.fromBase64('SGVsbG8=');
+var text = decoded.asString; // "Hello"
 ```
 
 ## API
 
 ### `Converter`
 
+- `arrayBufferToArrayBufferView`
+- `arrayBufferToJSON`
+- `arrayBufferToJSONString`
 - `arrayBufferViewToString`
 - `arrayBufferViewToUnicodeString`
+- `jsonToArrayBufferView`
 - `numberArrayToArrayBufferView`
 - `stringToArrayBufferView`
 - `toArrayBufferView`
