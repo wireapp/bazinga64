@@ -51,6 +51,21 @@ namespace bazinga64 {
       return decodeURIComponent(escapedString);
     }
 
+    export function jsonToArrayBufferView(json: JSON): Uint8Array {
+      const length = Object.keys(json).length;
+      let arrayBufferView = new Uint8Array(length);
+
+      let objectSource: any = json;
+      for (let key in objectSource) {
+        if (objectSource.hasOwnProperty(key)) {
+          let value: number = objectSource[key];
+          arrayBufferView[parseInt(key, 10)] = value;
+        }
+      }
+
+      return arrayBufferView;
+    }
+
     export function numberArrayToArrayBufferView(array: number[]): Uint8Array {
       let arrayBuffer = new ArrayBuffer(array.length);
       let arrayBufferView = new Uint8Array(arrayBuffer);

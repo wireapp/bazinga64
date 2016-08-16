@@ -45,6 +45,14 @@ npm install bazinga64
 var bazinga64 = require('bazinga64');
 ```
 
+### Publish project
+
+```bash
+gulp build
+gulp dist
+gulp test
+```
+
 ### Use project
 
 ```javascript
@@ -59,6 +67,7 @@ var base64 = encoded.asString; // SGVsbG8=
 
 - `arrayBufferViewToString`
 - `arrayBufferViewToUnicodeString`
+- `jsonToArrayBufferView`
 - `numberArrayToArrayBufferView`
 - `stringToArrayBufferView`
 - `toArrayBufferView`
