@@ -8,3 +8,5 @@ declare module bazinga64 {
   module Encoder {
   }
 }
+
+export default bazinga64;
