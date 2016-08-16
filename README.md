@@ -48,9 +48,7 @@ var bazinga64 = require('bazinga64');
 ### Publish project
 
 ```bash
-gulp build
 gulp dist
-gulp test
 ```
 
 ### Use project
@@ -65,6 +63,7 @@ var base64 = encoded.asString; // SGVsbG8=
 
 ### `Converter`
 
+- `arrayBufferToArrayBufferView`
 - `arrayBufferToJSON`
 - `arrayBufferToJSONString`
 - `arrayBufferViewToString`
