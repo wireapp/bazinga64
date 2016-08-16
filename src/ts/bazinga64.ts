@@ -27,6 +27,10 @@ namespace bazinga64 {
 
   export namespace Converter {
 
+    export function arrayBufferToJSON(arrayBuffer: ArrayBuffer): JSON {
+      return JSON.parse(arrayBufferToJSONString(arrayBuffer));
+    }
+
     export function arrayBufferToJSONString(arrayBuffer: ArrayBuffer): string {
       let view = new DataView(arrayBuffer);
       let arrayBufferView = new Uint8Array(arrayBuffer);

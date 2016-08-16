@@ -14,7 +14,22 @@ describe('Base64', function() {
 
     describe('arrayBufferToJSONString', function() {
 
-      it('returns an array buffer in JSON', function() {
+      it('converts an array buffer into a JSON object', function() {
+        var array = [1, 3, 3, 7, 9, 9, 4, 2];
+        var arrayBuffer = new ArrayBuffer(array.length);
+        var arrayBufferView = new Uint8Array(arrayBuffer);
+        for (var i = 0; i < arrayBufferView.length; i++) {
+          arrayBufferView[i] = array[i];
+        }
+        var actual = bazinga64.Converter.arrayBufferToJSON(arrayBufferView.buffer);
+        expect(actual['3']).toBe(7);
+      });
+
+    });
+
+    describe('arrayBufferToJSONString', function() {
+
+      it('converts an array buffer into a JSON string', function() {
         var array = [1, 3, 3, 7, 9, 9, 4, 2];
         var arrayBuffer = new ArrayBuffer(array.length);
         var arrayBufferView = new Uint8Array(arrayBuffer);
