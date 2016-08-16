@@ -27,6 +27,17 @@ namespace bazinga64 {
 
   export namespace Converter {
 
+    export function arrayBufferToJSONString(arrayBuffer: ArrayBuffer): string {
+      let view = new DataView(arrayBuffer);
+      let arrayBufferView = new Uint8Array(arrayBuffer);
+
+      for (let i = 0, len = arrayBufferView.length; i < len; i++) {
+        arrayBufferView[i] = view.getUint8(i);
+      }
+
+      return JSON.stringify(arrayBufferView);
+    }
+
     // https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
     export function arrayBufferViewToString(arrayBufferView: Uint16Array): string {
       return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));

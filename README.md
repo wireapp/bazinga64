@@ -65,6 +65,7 @@ var base64 = encoded.asString; // SGVsbG8=
 
 ### `Converter`
 
+- `arrayBufferToJSONString`
 - `arrayBufferViewToString`
 - `arrayBufferViewToUnicodeString`
 - `jsonToArrayBufferView`

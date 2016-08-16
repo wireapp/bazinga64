@@ -12,6 +12,34 @@ describe('Base64', function() {
 
   describe('Converter', function() {
 
+    describe('arrayBufferToJSONString', function() {
+
+      it('returns an array buffer in JSON', function() {
+        var array = [1, 3, 3, 7, 9, 9, 4, 2];
+        var arrayBuffer = new ArrayBuffer(array.length);
+        var arrayBufferView = new Uint8Array(arrayBuffer);
+        for (var i = 0; i < arrayBufferView.length; i++) {
+          arrayBufferView[i] = array[i];
+        }
+        var actual = bazinga64.Converter.arrayBufferToJSONString(arrayBufferView.buffer);
+        var json = '{"0":1,"1":3,"2":3,"3":7,"4":9,"5":9,"6":4,"7":2}';
+        expect(actual).toBe(json);
+      });
+
+    });
+
+    describe('arrayBufferViewToString', function() {
+
+      it('handles UTF-16 conversions', function() {
+        var cyrillicCapitalLetterDje = '\u0402';
+        var encoded = bazinga64.Converter.stringToArrayBufferView(cyrillicCapitalLetterDje);
+        var decoded = bazinga64.Converter.arrayBufferViewToString(encoded);
+        expect(encoded.length).toBe(1);
+        expect(decoded).toBe(cyrillicCapitalLetterDje);
+      });
+
+    });
+
     describe('arrayBufferViewToString', function() {
 
       it('handles UTF-16 conversions', function() {
