@@ -12,7 +12,26 @@ describe('Base64', function() {
 
   describe('Converter', function() {
 
-    describe('arrayBufferToJSONString', function() {
+    describe('arrayBufferToArrayBufferView', function() {
+
+      it('creates a view from an array buffer', function() {
+        var array = [8, 3, 3, 7, 9, 9, 4, 2];
+        var arrayBuffer = new ArrayBuffer(array.length);
+        var arrayBufferView = new Uint8Array(arrayBuffer);
+        expect(arrayBufferView[0]).toBe(0);
+        // Write to array buffer
+        for (var i = 0; i < arrayBufferView.length; i++) {
+          arrayBufferView[i] = array[i];
+        }
+        // Test filled array buffer
+        var arrayBuffer = arrayBufferView.buffer;
+        var arrayBufferView = bazinga64.Converter.arrayBufferToArrayBufferView(arrayBuffer);
+        expect(arrayBufferView[0]).toBe(8);
+      });
+
+    });
+
+    describe('arrayBufferToJSON', function() {
 
       it('converts an array buffer into a JSON object', function() {
         var array = [1, 3, 3, 7, 9, 9, 4, 2];
