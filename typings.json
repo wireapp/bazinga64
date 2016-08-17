@@ -1,7 +1,4 @@
 {
-  "dependencies": {
-    "base64-js": "registry:npm/base64-js#1.1.2+20160526222755"
-  },
   "globalDependencies": {
     "node": "registry:dt/node#6.0.0+20160621231320"
   }

@@ -21,7 +21,6 @@
 import DecodedData from "./DecodedData";
 import EncodedData from "./EncodedData";
 import UnexpectedInput from "./UnexpectedInput";
-import * as base64 from "base64-js";
 
 namespace bazinga64 {
 
@@ -98,6 +97,7 @@ namespace bazinga64 {
     }
 
     // https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
+    // TODO: Rename "stringToArrayBufferView" > "stringToArrayBufferViewUTF16"
     export function stringToArrayBufferView(data: string): Uint16Array {
       let arrayBuffer = new ArrayBuffer(data.length * 2);
       let arrayBufferView = new Uint16Array(arrayBuffer);
@@ -143,6 +143,7 @@ namespace bazinga64 {
     }
 
     // https://coolaj86.com/articles/unicode-string-to-a-utf-8-typed-array-buffer-in-javascript/
+    // TODO: Rename "unicodeStringToArrayBufferView" > "stringToArrayBufferViewUTF8"
     export function unicodeStringToArrayBufferView(data: string): Uint8Array {
       let escapedString = encodeURIComponent(data);
 
@@ -165,7 +166,22 @@ namespace bazinga64 {
   export namespace Decoder {
 
     function toByteArray(encoded: string): Uint8Array {
-      return base64.toByteArray(encoded);
+      let decoded: string = undefined;
+
+      if (typeof window === "object") {
+        decoded = window.atob(encoded);
+      } else {
+        decoded = new Buffer(encoded, "base64").toString();
+      }
+
+      let rawLength: number = decoded.length;
+      let arrayBufferView: Uint8Array = new Uint8Array(new ArrayBuffer(rawLength));
+
+      for (let i = 0, len = arrayBufferView.length; i < len; i++) {
+        arrayBufferView[i] = decoded.charCodeAt(i);
+      }
+
+      return arrayBufferView;
     }
 
     export function fromBase64(data: any): DecodedData {

@@ -3,9 +3,6 @@
   "bugs": {
     "url": "https://github.com/wireapp/bazinga64/issues"
   },
-  "dependencies": {
-    "base64-js": "github:bennyn/base64-js#patch-1"
-  },
   "description": "Base64 encoding and decoding with ASCII string representation",
   "devDependencies": {
     "browser-sync": "^2.13.0",
@@ -18,6 +15,7 @@
     "gulp-typescript": "^2.13.6",
     "gulp-typings": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "jasmine-core": "^2.4.1",
     "karma": "^1.1.0",
     "karma-chrome-launcher": "^1.0.1",
     "karma-coverage": "^1.0.0",

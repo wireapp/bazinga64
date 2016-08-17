@@ -2,7 +2,6 @@
 var DecodedData_1 = require("./DecodedData");
 var EncodedData_1 = require("./EncodedData");
 var UnexpectedInput_1 = require("./UnexpectedInput");
-var base64 = require("base64-js");
 var bazinga64;
 (function (bazinga64) {
     var Converter;
@@ -126,7 +125,19 @@ var bazinga64;
     var Decoder;
     (function (Decoder) {
         function toByteArray(encoded) {
-            return base64.toByteArray(encoded);
+            var decoded = undefined;
+            if (typeof window === "object") {
+                decoded = window.atob(encoded);
+            }
+            else {
+                decoded = new Buffer(encoded, "base64").toString();
+            }
+            var rawLength = decoded.length;
+            var arrayBufferView = new Uint8Array(new ArrayBuffer(rawLength));
+            for (var i = 0, len = arrayBufferView.length; i < len; i++) {
+                arrayBufferView[i] = decoded.charCodeAt(i);
+            }
+            return arrayBufferView;
         }
         function fromBase64(data) {
             var encoded = bazinga64.Converter.toString(data);
