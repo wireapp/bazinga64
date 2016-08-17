@@ -10,12 +10,6 @@ For licensing information, see the attached LICENSE file and the list of third-p
 
 [![Build Status](https://travis-ci.org/wireapp/bazinga64.svg?branch=master)](https://travis-ci.org/wireapp/bazinga64)
 
-## Instructions
-
-- [Run project](#run-project)
-- [Install project](#install-project)
-- [Use project](#use-project)
-
 ### Run project
 
 ```bash
@@ -23,9 +17,15 @@ npm install
 gulp default
 ```
 
-### Install project
+### Publish project
 
-**Browser**
+```bash
+gulp dist
+```
+
+## Use project
+
+### In Browser
 
 ```bash
 bower install bazinga64
@@ -35,7 +35,7 @@ bower install bazinga64
 <script src="bazinga64.js"></script>
 ```
 
-**Node**
+### In Node.js
 
 ```bash
 npm install bazinga64
@@ -45,22 +45,18 @@ npm install bazinga64
 var bazinga64 = require('bazinga64');
 ```
 
-### Publish project
-
-```bash
-gulp dist
-```
-
-### Use project
+### Usage
 
 ```javascript
 // Encoding
 var encoded = bazinga64.Encoder.toBase64('Hello');
-var base64 = encoded.asString; // "SGVsbG8="
+var base64 = encoded.asString;
+console.log(base64); // "SGVsbG8="
 
 // Decoding
 var decoded = bazinga64.Decoder.fromBase64('SGVsbG8=');
-var text = decoded.asString; // "Hello"
+var text = decoded.asString;
+console.log(text); // "Hello"
 ```
 
 ## API
