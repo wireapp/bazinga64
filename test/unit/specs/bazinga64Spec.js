@@ -1,4 +1,6 @@
-describe('Base64', function() {
+describe('bazinga64', function() {
+
+  var bazinga64 = undefined;
 
   var helloDecodedArray = [72, 101, 108, 108, 111];
   var helloDecodedString = 'Hello';
@@ -9,6 +11,14 @@ describe('Base64', function() {
   var numberDecoded = 1337;
   var numberEncoded = 'MTMzNw==';
   var numberString = '1337';
+
+  beforeAll(function() {
+    if (typeof window === 'object') {
+      bazinga64 = window.bazinga64;
+    } else {
+      bazinga64 = require('bazinga64');
+    }
+  });
 
   describe('Converter', function() {
 

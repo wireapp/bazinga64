@@ -19,9 +19,9 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 
-script:
-  - gulp dist
-  - gulp test
+before_script:
+  - "npm install -g jasmine"
+  - "gulp dist"
 
 # http://docs.travis-ci.com/user/notifications/
 notifications:
