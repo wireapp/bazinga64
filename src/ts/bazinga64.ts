@@ -181,11 +181,15 @@ namespace bazinga64 {
   export namespace Encoder {
 
     function fromByteArray(decoded: Uint8Array): string {
+      let base64EncodedString: string = undefined;
+
       if (typeof window === "object") {
-        return base64.fromByteArray(decoded);
+        base64EncodedString = window.btoa(String.fromCharCode.apply(null, decoded));
       } else {
-        return new Buffer(decoded).toString("base64");
+        base64EncodedString = new Buffer(decoded).toString("base64");
       }
+
+      return base64EncodedString;
     }
 
     export function toBase64(data: any): EncodedData {

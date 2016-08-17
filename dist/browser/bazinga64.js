@@ -196,12 +196,14 @@ var bazinga64;
     var Encoder;
     (function (Encoder) {
         function fromByteArray(decoded) {
+            var base64EncodedString = undefined;
             if (typeof window === "object") {
-                return base64.fromByteArray(decoded);
+                base64EncodedString = window.btoa(String.fromCharCode.apply(null, decoded));
             }
             else {
-                return new Buffer(decoded).toString("base64");
+                base64EncodedString = new Buffer(decoded).toString("base64");
             }
+            return base64EncodedString;
         }
         function toBase64(data) {
             var decoded = bazinga64.Converter.toArrayBufferView(data);
