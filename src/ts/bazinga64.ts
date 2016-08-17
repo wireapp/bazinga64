@@ -166,6 +166,11 @@ namespace bazinga64 {
   export namespace Decoder {
 
     function toByteArray(encoded: string): Uint8Array {
+      // TODO: Create own error type
+      if (encoded.length % 4 !== 0) {
+        throw new Error("Invalid string. Length must be a multiple of 4.");
+      }
+
       let decoded: string = undefined;
 
       if (typeof window === "object") {

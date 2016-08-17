@@ -125,6 +125,9 @@ var bazinga64;
     var Decoder;
     (function (Decoder) {
         function toByteArray(encoded) {
+            if (encoded.length % 4 !== 0) {
+                throw new Error("Invalid string. Length must be a multiple of 4.");
+            }
             var decoded = undefined;
             if (typeof window === "object") {
                 decoded = window.atob(encoded);

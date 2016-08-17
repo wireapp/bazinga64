@@ -280,7 +280,7 @@ describe('bazinga64', function() {
       it('does not decode from an array with an invalid length', function() {
         expect(function() {
           bazinga64.Decoder.fromBase64(helloDecodedArray);
-        }).toThrowError("Invalid string. Length must be a multiple of 4");
+        }).toThrowError("Invalid string. Length must be a multiple of 4.");
       });
 
       it('decodes into a byte array', function() {
