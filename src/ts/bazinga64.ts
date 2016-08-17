@@ -164,9 +164,13 @@ namespace bazinga64 {
 
   export namespace Decoder {
 
+    function toByteArray(encoded: string): Uint8Array {
+      return base64.toByteArray(encoded);
+    }
+
     export function fromBase64(data: any): DecodedData {
       let encoded: string = bazinga64.Converter.toString(data);
-      let asBytes: Uint8Array = base64.toByteArray(encoded);
+      let asBytes: Uint8Array = toByteArray(encoded);
       let asString = bazinga64.Converter.arrayBufferViewToUnicodeString(asBytes);
       let decoded: DecodedData = new DecodedData(asBytes, asString);
       return decoded;
@@ -176,9 +180,13 @@ namespace bazinga64 {
 
   export namespace Encoder {
 
+    function fromByteArray(decoded: Uint8Array): String {
+      return base64.fromByteArray(decoded);
+    }
+
     export function toBase64(data: any): EncodedData {
       let decoded: Uint8Array = bazinga64.Converter.toArrayBufferView(data);
-      let asString = base64.fromByteArray(decoded);
+      let asString = fromByteArray(decoded);
       let asBytes = bazinga64.Converter.unicodeStringToArrayBufferView(asString);
       let encoded: EncodedData = new EncodedData(asBytes, asString);
       return encoded;

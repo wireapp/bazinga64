@@ -52,7 +52,7 @@
     "url": "git+https://github.com/wireapp/bazinga64.git"
   },
   "scripts": {
-    "test": "jasmine && gulp test"
+    "test": "gulp test && jasmine"
   },
   "typings": "dist/bazinga64.d.ts",
   "version": "2.1.1"

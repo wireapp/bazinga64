@@ -377,6 +377,20 @@ describe('bazinga64', function() {
         expect(actual).toBe(expected);
       });
 
+      it('is consistent in it\'s encodings', function() {
+        var array = [8, 3, 3, 7, 9, 9, 4, 2];
+        var arrayBufferView = new Uint8Array(array);
+        var arrayBuffer = arrayBufferView.buffer;
+
+        var encodedArray = bazinga64.Encoder.toBase64(array).asString;
+        var encodedArrayBuffer = bazinga64.Encoder.toBase64(arrayBuffer).asString;
+        var encodedArrayBufferView = bazinga64.Encoder.toBase64(arrayBufferView).asString;
+
+        expect(encodedArray).toBe('CAMDBwkJBAI=');
+        expect(encodedArrayBuffer).toBe('CAMDBwkJBAI=');
+        expect(encodedArrayBufferView).toBe('CAMDBwkJBAI=');
+      });
+
     });
 
   });
