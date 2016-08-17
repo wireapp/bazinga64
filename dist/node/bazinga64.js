@@ -125,9 +125,12 @@ var bazinga64;
     })(Converter = bazinga64.Converter || (bazinga64.Converter = {}));
     var Decoder;
     (function (Decoder) {
+        function toByteArray(encoded) {
+            return base64.toByteArray(encoded);
+        }
         function fromBase64(data) {
             var encoded = bazinga64.Converter.toString(data);
-            var asBytes = base64.toByteArray(encoded);
+            var asBytes = toByteArray(encoded);
             var asString = bazinga64.Converter.arrayBufferViewToUnicodeString(asBytes);
             var decoded = new DecodedData_1.default(asBytes, asString);
             return decoded;
@@ -136,9 +139,17 @@ var bazinga64;
     })(Decoder = bazinga64.Decoder || (bazinga64.Decoder = {}));
     var Encoder;
     (function (Encoder) {
+        function fromByteArray(decoded) {
+            if (typeof window === "object") {
+                return base64.fromByteArray(decoded);
+            }
+            else {
+                return new Buffer(decoded).toString("base64");
+            }
+        }
         function toBase64(data) {
             var decoded = bazinga64.Converter.toArrayBufferView(data);
-            var asString = base64.fromByteArray(decoded);
+            var asString = fromByteArray(decoded);
             var asBytes = bazinga64.Converter.unicodeStringToArrayBufferView(asString);
             var encoded = new EncodedData_1.default(asBytes, asString);
             return encoded;

@@ -180,13 +180,17 @@ namespace bazinga64 {
 
   export namespace Encoder {
 
-    function fromByteArray(decoded: Uint8Array): String {
-      return base64.fromByteArray(decoded);
+    function fromByteArray(decoded: Uint8Array): string {
+      if (typeof window === "object") {
+        return base64.fromByteArray(decoded);
+      } else {
+        return new Buffer(decoded).toString("base64");
+      }
     }
 
     export function toBase64(data: any): EncodedData {
       let decoded: Uint8Array = bazinga64.Converter.toArrayBufferView(data);
-      let asString = fromByteArray(decoded);
+      let asString: string = fromByteArray(decoded);
       let asBytes = bazinga64.Converter.unicodeStringToArrayBufferView(asString);
       let encoded: EncodedData = new EncodedData(asBytes, asString);
       return encoded;
