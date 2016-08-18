@@ -52,6 +52,6 @@
   "scripts": {
     "test": "gulp test"
   },
-  "typings": "dist/bazinga64.d.ts",
+  "typings": "dist/typings/bazinga64.d.ts",
   "version": "2.1.1"
 }
