@@ -194,10 +194,10 @@ describe('bazinga64', function() {
         expect(view.constructor.name).toBe('Uint8Array');
       });
 
-      it('does not handle numbers', function() {
-        expect(function() {
-          bazinga64.Converter.toArrayBufferView(numberDecoded);
-        }).toThrowError("Number is unsupported. Please provide a 'String', 'Uint8Array' or 'Array'.");
+      it('handles numbers', function() {
+        var data = numberDecoded;
+        var view = bazinga64.Converter.toArrayBufferView(data);
+        expect(view.constructor.name).toBe('Uint8Array');
       });
 
       it('throws an error on unexpected inputs', function() {
@@ -269,7 +269,7 @@ describe('bazinga64', function() {
 
     describe('fromBase64', function() {
 
-      it('decodes from an array', function() {
+      it('decodes arrays', function() {
         var decoded = bazinga64.Decoder.fromBase64(helloEncodedArray);
         var arrayBufferView = new Uint8Array(helloDecodedArray);
         expect(decoded.constructor.name).toBe('DecodedData');
@@ -298,7 +298,7 @@ describe('bazinga64', function() {
         expect(decoded.asString).toBe('Hello, world');
       });
 
-      it('decodes encoded numbers', function() {
+      it('decodes numbers', function() {
         var decoded = bazinga64.Decoder.fromBase64(numberEncoded);
         expect(decoded.constructor.name).toBe('DecodedData');
         expect(decoded.asString).toBe('1337');
@@ -311,19 +311,6 @@ describe('bazinga64', function() {
   describe('Encoder', function() {
 
     describe('toBase64', function() {
-
-      // TODO: Implement this functionality
-      xit('encodes numbers', function() {
-        var encoded = bazinga64.Encoder.toBase64(numberDecoded);
-        expect(encoded.constructor.name).toBe('EncodedData');
-        expect(encoded.asString).toBe(numberEncoded);
-      });
-
-      it('does not encode numbers', function() {
-        expect(function() {
-          bazinga64.Encoder.toBase64(numberDecoded);
-        }).toThrowError("Number is unsupported. Please provide a 'String', 'Uint8Array' or 'Array'.");
-      });
 
       it('encodes arrays', function() {
         var encoded = bazinga64.Encoder.toBase64(helloDecodedArray);
@@ -348,6 +335,10 @@ describe('bazinga64', function() {
         var encoded = bazinga64.Encoder.toBase64(data);
         expect(encoded.constructor.name).toBe('EncodedData');
         expect(encoded.asString).toBe(helloEncodedString);
+      });
+
+      it('encodes numbers', function() {
+        expect(bazinga64.Encoder.toBase64(numberDecoded).asString).toBe(numberEncoded);
       });
 
       it('encodes strings', function() {
@@ -382,13 +373,17 @@ describe('bazinga64', function() {
         var arrayBufferView = new Uint8Array(array);
         var arrayBuffer = arrayBufferView.buffer;
 
+        var encodedString = 'CAMDBwkJBAI=';
         var encodedArray = bazinga64.Encoder.toBase64(array).asString;
         var encodedArrayBuffer = bazinga64.Encoder.toBase64(arrayBuffer).asString;
         var encodedArrayBufferView = bazinga64.Encoder.toBase64(arrayBufferView).asString;
 
-        expect(encodedArray).toBe('CAMDBwkJBAI=');
-        expect(encodedArrayBuffer).toBe('CAMDBwkJBAI=');
-        expect(encodedArrayBufferView).toBe('CAMDBwkJBAI=');
+        expect(encodedArray).toBe(encodedString);
+        expect(encodedArrayBuffer).toBe(encodedString);
+        expect(encodedArrayBufferView).toBe(encodedString);
+
+        var decoded = bazinga64.Decoder.fromBase64(encodedString);
+        expect(decoded.asBytes).toEqual(arrayBufferView);
       });
 
     });

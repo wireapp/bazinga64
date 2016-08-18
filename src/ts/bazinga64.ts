@@ -115,6 +115,8 @@ namespace bazinga64 {
           return this.arrayBufferToArrayBufferView(data);
         case "Array":
           return this.numberArrayToArrayBufferView(data);
+        case "Number":
+          return this.unicodeStringToArrayBufferView(data.toString());
         case "String":
           return this.unicodeStringToArrayBufferView(data);
         case "Uint8Array":
