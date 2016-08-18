@@ -16,7 +16,7 @@ describe('bazinga64', function() {
     if (typeof window === 'object') {
       bazinga64 = window.bazinga64;
     } else {
-      bazinga64 = require('bazinga64');
+      bazinga64 = require('../../../dist/node/bazinga64');
     }
   });
 
