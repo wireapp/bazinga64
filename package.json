@@ -15,7 +15,7 @@
     "gulp-typescript": "^2.13.6",
     "gulp-typings": "^2.0.0",
     "gulp-util": "^3.0.7",
-    "jasmine-core": "^2.4.1",
+    "jasmine": "^2.4.1",
     "karma": "^1.1.0",
     "karma-chrome-launcher": "^1.0.1",
     "karma-coverage": "^1.0.0",
@@ -50,7 +50,7 @@
     "url": "git+https://github.com/wireapp/bazinga64.git"
   },
   "scripts": {
-    "test": "gulp test && jasmine"
+    "test": "gulp test"
   },
   "typings": "dist/bazinga64.d.ts",
   "version": "2.1.1"

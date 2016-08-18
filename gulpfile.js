@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var gulpTypings = require('gulp-typings');
 var gutil = require('gulp-util');
 var header = require('gulp-header');
+var Jasmine = require('jasmine');
 var merge = require('merge2');
 var nightwatch = require('gulp-nightwatch');
 var path = require('path');
@@ -72,7 +73,10 @@ gulp.task('dev', ['test_forever'], function() {
   });
 });
 
-gulp.task('dist', ['build'], function() {
+gulp.task('dist', ['build', 'dist_browser'], function() {
+});
+
+gulp.task('dist_browser', function() {
   return gulp.src('dist/namespace.js')
     .pipe(browserify())
     .pipe(rename(pkg.name + '.js'))
@@ -93,6 +97,29 @@ gulp.task('test', ['check'], function(done) {
   }, done);
 
   server.start();
+});
+
+gulp.task('test_node', function() {
+  var jasmine = new Jasmine();
+
+  jasmine.loadConfig({
+      "helpers": [
+        "helpers/**/*.js"
+      ],
+      "random": true,
+      "spec_dir": "test/unit",
+      "spec_files": [
+        "specs/**/*[sS]pec.js"
+      ],
+      "stopSpecOnExpectationFailure": true
+    }
+  );
+
+  jasmine.configureDefaultReporter({
+    showColors: true
+  });
+
+  jasmine.execute();
 });
 
 gulp.task('test_e2e', function() {
