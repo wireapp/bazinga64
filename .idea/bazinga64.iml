@@ -6,6 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/dist/browser" />
       <excludeFolder url="file://$MODULE_DIR$/dist/node" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/typings" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
