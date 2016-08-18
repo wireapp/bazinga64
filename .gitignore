@@ -1,6 +1,7 @@
 /bower_components
 /coverage/
 /debug.log
+/dist/browser/dependencies
 /nbproject
 /node_modules
 /npm-debug.log
