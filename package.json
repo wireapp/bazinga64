@@ -3,27 +3,25 @@
   "bugs": {
     "url": "https://github.com/wireapp/bazinga64/issues"
   },
-  "dependencies": {
-    "base64-js": "github:bennyn/base64-js#patch-1"
-  },
   "description": "Base64 encoding and decoding with ASCII string representation",
   "devDependencies": {
     "browser-sync": "^2.13.0",
     "gulp": "^3.9.1",
+    "gulp-bower": "0.0.13",
+    "gulp-bower-assets": "0.0.3",
     "gulp-browserify": "^0.5.1",
     "gulp-header": "^1.8.7",
-    "gulp-nightwatch": "^0.2.9",
+    "gulp-jasmine": "^2.4.0",
+    "gulp-nightwatch": "^0.3.0",
     "gulp-rename": "^1.2.2",
-    "gulp-tslint": "^5.0.0",
+    "gulp-tslint": "^6.0.0",
     "gulp-typescript": "^2.13.6",
     "gulp-typings": "^2.0.0",
     "gulp-util": "^3.0.7",
-    "jasmine-core": "^2.4.1",
     "karma": "^1.1.0",
     "karma-chrome-launcher": "^1.0.1",
     "karma-coverage": "^1.0.0",
     "karma-jasmine": "^1.0.2",
-    "merge2": "^1.0.2",
     "run-sequence": "^1.2.2",
     "tslint": "^3.13.0"
   },
@@ -52,6 +50,6 @@
     "type": "git",
     "url": "git+https://github.com/wireapp/bazinga64.git"
   },
-  "typings": "dist/bazinga64.d.ts",
-  "version": "2.1.1"
+  "typings": "dist/typings/bazinga64.d.ts",
+  "version": "3.0.0"
 }

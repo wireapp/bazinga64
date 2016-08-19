@@ -19,9 +19,11 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 
+before_script:
+  - "gulp build"
+
 script:
-  - gulp dist
-  - gulp test
+  - "gulp test"
 
 # http://docs.travis-ci.com/user/notifications/
 notifications:

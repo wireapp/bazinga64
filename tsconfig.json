@@ -6,7 +6,8 @@
     "noImplicitAny": true,
     "outDir": "dist/node",
     "removeComments": true,
-    "sourceMap": true,
+    "rootDir": "src/ts",
+    "sourceMap": false,
     "target": "es5"
   },
   "exclude": [

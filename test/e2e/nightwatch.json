@@ -25,7 +25,7 @@
         "javascriptEnabled": true,
         "acceptSslCerts": true
       },
-      "launch_url": "http://localhost:3636/dist/browser/",
+      "launch_url": "http://localhost:3636/dist/",
       "screenshots": {
         "enabled": true,
         "on_failure": true,

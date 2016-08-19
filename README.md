@@ -17,12 +17,6 @@ npm install
 gulp default
 ```
 
-### Publish project
-
-```bash
-gulp dist
-```
-
 ## Use project
 
 ### In Browser
@@ -32,7 +26,14 @@ bower install bazinga64
 ```
 
 ```html
-<script src="bazinga64.js"></script>
+<script src="bower_components/system.js/dist/system.js" />
+```
+
+```javascript
+SystemJS.import('bower_components/bazinga64/dist/browser/bazinga64.js')
+.then(function(module) {
+  var bazinga64 = module;
+});
 ```
 
 ### In Node.js
@@ -66,14 +67,14 @@ console.log(text); // "Hello"
 - `arrayBufferToArrayBufferView`
 - `arrayBufferToJSON`
 - `arrayBufferToJSONString`
-- `arrayBufferViewToString`
-- `arrayBufferViewToUnicodeString`
+- `arrayBufferViewToStringUTF16`
+- `arrayBufferViewToStringUTF8`
 - `jsonToArrayBufferView`
 - `numberArrayToArrayBufferView`
-- `stringToArrayBufferView`
+- `stringToArrayBufferViewUTF16`
+- `stringToArrayBufferViewUTF8`
 - `toArrayBufferView`
 - `toString`
-- `unicodeStringToArrayBufferView`
 
 ### `Decoder`
 

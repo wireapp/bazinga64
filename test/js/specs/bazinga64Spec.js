@@ -1,4 +1,6 @@
-describe('Base64', function() {
+describe('bazinga64', function() {
+
+  var bazinga64 = undefined;
 
   var helloDecodedArray = [72, 101, 108, 108, 111];
   var helloDecodedString = 'Hello';
@@ -9,6 +11,24 @@ describe('Base64', function() {
   var numberDecoded = 1337;
   var numberEncoded = 'MTMzNw==';
   var numberString = '1337';
+
+  beforeAll(function(done) {
+    if (typeof window === 'object') {
+      SystemJS.config({
+        baseURL: '/base/dist'
+      });
+
+      SystemJS.import('browser/bazinga64.js').then(function(bazinga64) {
+        window.bazinga64 = bazinga64;
+        done();
+      });
+
+      bazinga64 = window.bazinga64;
+    } else {
+      bazinga64 = require('../../../dist/node/bazinga64');
+      done();
+    }
+  });
 
   describe('Converter', function() {
 
@@ -62,36 +82,36 @@ describe('Base64', function() {
 
     });
 
-    describe('arrayBufferViewToString', function() {
+    describe('arrayBufferViewToStringUTF16', function() {
 
       it('handles UTF-16 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
-        var encoded = bazinga64.Converter.stringToArrayBufferView(cyrillicCapitalLetterDje);
-        var decoded = bazinga64.Converter.arrayBufferViewToString(encoded);
+        var encoded = bazinga64.Converter.stringToArrayBufferViewUTF16(cyrillicCapitalLetterDje);
+        var decoded = bazinga64.Converter.arrayBufferViewToStringUTF16(encoded);
         expect(encoded.length).toBe(1);
         expect(decoded).toBe(cyrillicCapitalLetterDje);
       });
 
     });
 
-    describe('arrayBufferViewToString', function() {
+    describe('arrayBufferViewToStringUTF16', function() {
 
       it('handles UTF-16 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
-        var encoded = bazinga64.Converter.stringToArrayBufferView(cyrillicCapitalLetterDje);
-        var decoded = bazinga64.Converter.arrayBufferViewToString(encoded);
+        var encoded = bazinga64.Converter.stringToArrayBufferViewUTF16(cyrillicCapitalLetterDje);
+        var decoded = bazinga64.Converter.arrayBufferViewToStringUTF16(encoded);
         expect(encoded.length).toBe(1);
         expect(decoded).toBe(cyrillicCapitalLetterDje);
       });
 
     });
 
-    describe('arrayBufferViewToUnicodeString', function() {
+    describe('arrayBufferViewToStringUTF8', function() {
 
       it('handles UTF-8 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
-        var encoded = bazinga64.Converter.unicodeStringToArrayBufferView(cyrillicCapitalLetterDje);
-        var decoded = bazinga64.Converter.arrayBufferViewToUnicodeString(encoded);
+        var encoded = bazinga64.Converter.stringToArrayBufferViewUTF8(cyrillicCapitalLetterDje);
+        var decoded = bazinga64.Converter.arrayBufferViewToStringUTF8(encoded);
 
         expect(encoded.constructor.name).toBe('Uint8Array');
         expect(encoded.length).toBe(2);
@@ -102,7 +122,7 @@ describe('Base64', function() {
 
       it('converts an array buffer view into an unicode string', function() {
         var view = new Uint8Array(helloDecodedArray);
-        var utf8 = bazinga64.Converter.arrayBufferViewToUnicodeString(view);
+        var utf8 = bazinga64.Converter.arrayBufferViewToStringUTF8(view);
         expect(utf8.constructor.name).toBe('String');
         expect(utf8).toBe('Hello');
       });
@@ -133,18 +153,18 @@ describe('Base64', function() {
 
     });
 
-    describe('stringToArrayBufferView', function() {
+    describe('stringToArrayBufferViewUTF16', function() {
 
       it('handles UTF-16 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
-        var encoded = bazinga64.Converter.stringToArrayBufferView(cyrillicCapitalLetterDje);
+        var encoded = bazinga64.Converter.stringToArrayBufferViewUTF16(cyrillicCapitalLetterDje);
         expect(encoded.constructor.name).toBe('Uint16Array');
         expect(encoded.length).toBe(1);
       });
 
       it('converts a string into an array buffer view', function() {
         var data = helloEncodedString;
-        var view = bazinga64.Converter.stringToArrayBufferView(data);
+        var view = bazinga64.Converter.stringToArrayBufferViewUTF16(data);
         var expectedView = new Uint16Array(helloEncodedArray);
         expect(view.constructor.name).toBe('Uint16Array');
         expect(view).toEqual(expectedView);
@@ -152,11 +172,11 @@ describe('Base64', function() {
 
     });
 
-    describe('stringToArrayBufferView', function() {
+    describe('stringToArrayBufferViewUTF16', function() {
 
       it('handles UTF-16 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
-        var encoded = bazinga64.Converter.stringToArrayBufferView(cyrillicCapitalLetterDje);
+        var encoded = bazinga64.Converter.stringToArrayBufferViewUTF16(cyrillicCapitalLetterDje);
         expect(encoded.length).toBe(1);
       });
 
@@ -184,10 +204,10 @@ describe('Base64', function() {
         expect(view.constructor.name).toBe('Uint8Array');
       });
 
-      it('does not handle numbers', function() {
-        expect(function() {
-          bazinga64.Converter.toArrayBufferView(numberDecoded);
-        }).toThrowError("Number is unsupported. Please provide a 'String', 'Uint8Array' or 'Array'.");
+      it('handles numbers', function() {
+        var data = numberDecoded;
+        var view = bazinga64.Converter.toArrayBufferView(data);
+        expect(view.constructor.name).toBe('Uint8Array');
       });
 
       it('throws an error on unexpected inputs', function() {
@@ -234,17 +254,17 @@ describe('Base64', function() {
 
     });
 
-    describe('unicodeStringToArrayBufferView', function() {
+    describe('stringToArrayBufferViewUTF8', function() {
 
       it('handles UTF-8 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
-        var encoded = bazinga64.Converter.unicodeStringToArrayBufferView(cyrillicCapitalLetterDje);
+        var encoded = bazinga64.Converter.stringToArrayBufferViewUTF8(cyrillicCapitalLetterDje);
         expect(encoded.length).toBe(2);
       });
 
       it('converts between a string and an array buffer view', function() {
-        var encoded = bazinga64.Converter.unicodeStringToArrayBufferView(helloDecodedString);
-        var decoded = bazinga64.Converter.arrayBufferViewToUnicodeString(encoded);
+        var encoded = bazinga64.Converter.stringToArrayBufferViewUTF8(helloDecodedString);
+        var decoded = bazinga64.Converter.arrayBufferViewToStringUTF8(encoded);
 
         expect(encoded.constructor.name).toBe('Uint8Array');
         expect(encoded).toEqual(new Uint8Array(helloDecodedArray));
@@ -259,7 +279,7 @@ describe('Base64', function() {
 
     describe('fromBase64', function() {
 
-      it('decodes from an array', function() {
+      it('decodes arrays', function() {
         var decoded = bazinga64.Decoder.fromBase64(helloEncodedArray);
         var arrayBufferView = new Uint8Array(helloDecodedArray);
         expect(decoded.constructor.name).toBe('DecodedData');
@@ -270,7 +290,7 @@ describe('Base64', function() {
       it('does not decode from an array with an invalid length', function() {
         expect(function() {
           bazinga64.Decoder.fromBase64(helloDecodedArray);
-        }).toThrowError("Invalid string. Length must be a multiple of 4");
+        }).toThrowError("Invalid string. Length must be a multiple of 4.");
       });
 
       it('decodes into a byte array', function() {
@@ -288,7 +308,7 @@ describe('Base64', function() {
         expect(decoded.asString).toBe('Hello, world');
       });
 
-      it('decodes encoded numbers', function() {
+      it('decodes numbers', function() {
         var decoded = bazinga64.Decoder.fromBase64(numberEncoded);
         expect(decoded.constructor.name).toBe('DecodedData');
         expect(decoded.asString).toBe('1337');
@@ -301,19 +321,6 @@ describe('Base64', function() {
   describe('Encoder', function() {
 
     describe('toBase64', function() {
-
-      // TODO: Implement this functionality
-      xit('encodes numbers', function() {
-        var encoded = bazinga64.Encoder.toBase64(numberDecoded);
-        expect(encoded.constructor.name).toBe('EncodedData');
-        expect(encoded.asString).toBe(numberEncoded);
-      });
-
-      it('does not encode numbers', function() {
-        expect(function() {
-          bazinga64.Encoder.toBase64(numberDecoded);
-        }).toThrowError("Number is unsupported. Please provide a 'String', 'Uint8Array' or 'Array'.");
-      });
 
       it('encodes arrays', function() {
         var encoded = bazinga64.Encoder.toBase64(helloDecodedArray);
@@ -338,6 +345,10 @@ describe('Base64', function() {
         var encoded = bazinga64.Encoder.toBase64(data);
         expect(encoded.constructor.name).toBe('EncodedData');
         expect(encoded.asString).toBe(helloEncodedString);
+      });
+
+      it('encodes numbers', function() {
+        expect(bazinga64.Encoder.toBase64(numberDecoded).asString).toBe(numberEncoded);
       });
 
       it('encodes strings', function() {
@@ -365,6 +376,24 @@ describe('Base64', function() {
         var expected = 'Zm9vIOKZpSBiYXI=';
         var actual = bazinga64.Encoder.toBase64(text).asString;
         expect(actual).toBe(expected);
+      });
+
+      it('is consistent in it\'s encodings', function() {
+        var array = [8, 3, 3, 7, 9, 9, 4, 2];
+        var arrayBufferView = new Uint8Array(array);
+        var arrayBuffer = arrayBufferView.buffer;
+
+        var encodedString = 'CAMDBwkJBAI=';
+        var encodedArray = bazinga64.Encoder.toBase64(array).asString;
+        var encodedArrayBuffer = bazinga64.Encoder.toBase64(arrayBuffer).asString;
+        var encodedArrayBufferView = bazinga64.Encoder.toBase64(arrayBufferView).asString;
+
+        expect(encodedArray).toBe(encodedString);
+        expect(encodedArrayBuffer).toBe(encodedString);
+        expect(encodedArrayBufferView).toBe(encodedString);
+
+        var decoded = bazinga64.Decoder.fromBase64(encodedString);
+        expect(decoded.asBytes).toEqual(arrayBufferView);
       });
 
     });
