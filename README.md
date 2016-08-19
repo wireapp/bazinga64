@@ -26,7 +26,7 @@ bower install bazinga64
 ```
 
 ```html
-<script src="bower_components/system.js/dist/system.js" />
+<script src="bower_components/system.js/dist/system.js"></script>
 ```
 
 ```javascript
