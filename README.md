@@ -26,7 +26,14 @@ bower install bazinga64
 ```
 
 ```html
-<script src="bazinga64.js"></script>
+<script src="bower_components/system.js/dist/system.js" />
+```
+
+```javascript
+SystemJS.import('bower_components/bazinga64/dist/browser/bazinga64.js')
+.then(function(module) {
+  var bazinga64 = module;
+});
 ```
 
 ### In Node.js
