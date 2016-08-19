@@ -60,14 +60,14 @@ console.log(text); // "Hello"
 - `arrayBufferToArrayBufferView`
 - `arrayBufferToJSON`
 - `arrayBufferToJSONString`
-- `arrayBufferViewToString`
-- `arrayBufferViewToUnicodeString`
+- `arrayBufferViewToStringUTF16`
+- `arrayBufferViewToStringUTF8`
 - `jsonToArrayBufferView`
 - `numberArrayToArrayBufferView`
-- `stringToArrayBufferView`
+- `stringToArrayBufferViewUTF16`
+- `stringToArrayBufferViewUTF8`
 - `toArrayBufferView`
 - `toString`
-- `unicodeStringToArrayBufferView`
 
 ### `Decoder`
 

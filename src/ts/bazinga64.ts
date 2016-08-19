@@ -54,12 +54,12 @@ namespace bazinga64 {
     }
 
     // https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
-    public static arrayBufferViewToString(arrayBufferView: Uint16Array): string {
+    public static arrayBufferViewToStringUTF16(arrayBufferView: Uint16Array): string {
       return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
     }
 
     // https://gist.github.com/mathiasbynens/1243213
-    public static arrayBufferViewToUnicodeString(arrayBufferView: Uint8Array): string {
+    public static arrayBufferViewToStringUTF8(arrayBufferView: Uint8Array): string {
       let binaryString = Array.prototype.map.call(arrayBufferView, function (index: number) {
         return String.fromCharCode(index);
       }).join("");
@@ -137,13 +137,13 @@ namespace bazinga64 {
       switch (data.constructor.name) {
         case "Array":
           let arrayBufferView: Uint8Array = this.numberArrayToArrayBufferView(data);
-          return this.arrayBufferViewToUnicodeString(arrayBufferView);
+          return this.arrayBufferViewToStringUTF8(arrayBufferView);
         case "Number":
           return data.toString();
         case "String":
           return data;
         case "Uint8Array":
-          return this.arrayBufferViewToUnicodeString(data);
+          return this.arrayBufferViewToStringUTF8(data);
         default:
           throw new UnexpectedInput(`${data.constructor.name} is unsupported. `
             + UnexpectedInput.UNSUPPORTED_TYPE);

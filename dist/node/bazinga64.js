@@ -34,10 +34,10 @@ var bazinga64;
             var arrayBufferView = this.arrayBufferToArrayBufferView(arrayBuffer);
             return JSON.stringify(arrayBufferView);
         };
-        Converter.arrayBufferViewToString = function (arrayBufferView) {
+        Converter.arrayBufferViewToStringUTF16 = function (arrayBufferView) {
             return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
         };
-        Converter.arrayBufferViewToUnicodeString = function (arrayBufferView) {
+        Converter.arrayBufferViewToStringUTF8 = function (arrayBufferView) {
             var binaryString = Array.prototype.map.call(arrayBufferView, function (index) {
                 return String.fromCharCode(index);
             }).join("");
@@ -101,13 +101,13 @@ var bazinga64;
             switch (data.constructor.name) {
                 case "Array":
                     var arrayBufferView = this.numberArrayToArrayBufferView(data);
-                    return this.arrayBufferViewToUnicodeString(arrayBufferView);
+                    return this.arrayBufferViewToStringUTF8(arrayBufferView);
                 case "Number":
                     return data.toString();
                 case "String":
                     return data;
                 case "Uint8Array":
-                    return this.arrayBufferViewToUnicodeString(data);
+                    return this.arrayBufferViewToStringUTF8(data);
                 default:
                     throw new UnexpectedInput((data.constructor.name + " is unsupported. ")
                         + UnexpectedInput.UNSUPPORTED_TYPE);
