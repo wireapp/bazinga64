@@ -25,6 +25,14 @@ var paths = {
   src_ts: 'src/ts'
 };
 
+gulp.task('build', function(done) {
+  runSequence('install', 'dist', done);
+});
+
+gulp.task('dist', function(done) {
+  runSequence('lint_ts', 'dist_node', 'dist_browser', done);
+});
+
 gulp.task('dist_browser', function() {
   var tsProject = ts.createProject('tsconfig.json', {
     module: 'system',
@@ -61,10 +69,6 @@ gulp.task('dev', function() {
     server: {baseDir: './'},
     startPath: '/' + paths.dist
   });
-});
-
-gulp.task('dist', function(done) {
-  runSequence('lint_ts', 'dist_node', 'dist_browser', done);
 });
 
 gulp.task('install', ['install_bower_assets', 'install_typings'], function() {

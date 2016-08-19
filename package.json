@@ -50,9 +50,6 @@
     "type": "git",
     "url": "git+https://github.com/wireapp/bazinga64.git"
   },
-  "scripts": {
-    "test": "gulp test"
-  },
   "typings": "dist/typings/bazinga64.d.ts",
   "version": "3.0.0"
 }

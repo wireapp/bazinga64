@@ -20,8 +20,10 @@ before_install:
   - "sh -e /etc/init.d/xvfb start"
 
 before_script:
-  - "npm install -g jasmine"
-  - "gulp dist"
+  - "gulp build"
+
+script:
+  - "gulp test"
 
 # http://docs.travis-ci.com/user/notifications/
 notifications:

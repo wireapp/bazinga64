@@ -17,12 +17,6 @@ npm install
 gulp default
 ```
 
-### Publish project
-
-```bash
-gulp dist
-```
-
 ## Use project
 
 ### In Browser
