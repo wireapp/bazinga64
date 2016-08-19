@@ -22,7 +22,6 @@
     "karma-chrome-launcher": "^1.0.1",
     "karma-coverage": "^1.0.0",
     "karma-jasmine": "^1.0.2",
-    "merge2": "^1.0.2",
     "run-sequence": "^1.2.2",
     "tslint": "^3.13.0"
   },
