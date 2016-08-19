@@ -20,7 +20,6 @@ describe('bazinga64', function() {
 
       SystemJS.import('browser/bazinga64.js').then(function(bazinga64) {
         window.bazinga64 = bazinga64;
-        console.log('BENNY', bazinga64);
         done();
       });
 
