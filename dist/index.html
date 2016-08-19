@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Base64</title>
-    <script src="browser/dependencies/system.js/system.js" />
-    <script src="browser/bazinga64.js"></script>
+    <script src="dependencies/system.js/system.js" />
   </head>
   <body>
     <h1>bazinga64</h1>
@@ -15,27 +14,20 @@
       <input data-test-name="button-encode" id="submit" type="submit" name="submit" value="Encode" title="Encode" />
     </form>
     <script>
-      SystemJS.config({
-        bundles: {
-          bazinga64: ['dependencyA', 'dependencyB']
-        }
-      });
+      SystemJS.import('browser/bazinga64.js').then(function(bazinga64) {
+        var submit = document.getElementById('submit');
+        submit.addEventListener('click', function(event) {
+          event.preventDefault();
 
-      (function() {
-        var onSubmit = function(event) {
           var input = document.getElementById('input');
           var output = document.getElementById('output');
 
           var encoded = bazinga64.Encoder.toBase64(input.value);
           output.value = encoded.asString;
 
-          event.preventDefault();
           return false;
-        };
-
-        var submit = document.getElementById('submit');
-        submit.addEventListener('click', onSubmit);
-      })();
+        });
+      });
     </script>
   </body>
 </html>

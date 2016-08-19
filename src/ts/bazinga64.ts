@@ -18,15 +18,10 @@
  */
 //</editor-fold>
 /// <reference path="../../typings/index.d.ts" />
-import DecodedData from "./DecodedData";
-import EncodedData from "./EncodedData";
-import UnexpectedInput from "./UnexpectedInput";
 
 namespace bazinga64 {
-
-  export namespace Converter {
-
-    export function arrayBufferToArrayBufferView(arrayBuffer: ArrayBuffer): Uint8Array {
+  export class Converter {
+    public static arrayBufferToArrayBufferView(arrayBuffer: ArrayBuffer): Uint8Array {
       let view = new DataView(arrayBuffer);
       let arrayBufferView = new Uint8Array(arrayBuffer);
 
@@ -37,194 +32,17 @@ namespace bazinga64 {
       return arrayBufferView;
     }
 
-    export function arrayBufferToJSON(arrayBuffer: ArrayBuffer): JSON {
+    public static arrayBufferToJSON(arrayBuffer: ArrayBuffer): JSON {
       return JSON.parse(this.arrayBufferToJSONString(arrayBuffer));
     }
 
-    export function arrayBufferToJSONString(arrayBuffer: ArrayBuffer): string {
+    public static arrayBufferToJSONString(arrayBuffer: ArrayBuffer): string {
       let arrayBufferView = this.arrayBufferToArrayBufferView(arrayBuffer);
       return JSON.stringify(arrayBufferView);
     }
-
-    // https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
-    export function arrayBufferViewToString(arrayBufferView: Uint16Array): string {
-      return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
-    }
-
-    // https://gist.github.com/mathiasbynens/1243213
-    export function arrayBufferViewToUnicodeString(arrayBufferView: Uint8Array): string {
-      let binaryString = Array.prototype.map.call(arrayBufferView, function (index: number) {
-        return String.fromCharCode(index);
-      }).join("");
-
-      let escapedString = binaryString.replace(/(.)/g, function (match: string) {
-        let code: string = match.charCodeAt(0).toString(16).toUpperCase();
-
-        if (code.length < 2) {
-          return `0${code}`;
-        } else {
-          return `%${code}`;
-        }
-      });
-
-      return decodeURIComponent(escapedString);
-    }
-
-    export function jsonToArrayBufferView(json: JSON): Uint8Array {
-      const length = Object.keys(json).length;
-      let arrayBufferView = new Uint8Array(length);
-
-      let objectSource: any = json;
-      for (let key in objectSource) {
-        if (objectSource.hasOwnProperty(key)) {
-          let value: number = objectSource[key];
-          arrayBufferView[parseInt(key, 10)] = value;
-        }
-      }
-
-      return arrayBufferView;
-    }
-
-    export function numberArrayToArrayBufferView(array: number[]): Uint8Array {
-      let arrayBuffer = new ArrayBuffer(array.length);
-      let arrayBufferView = new Uint8Array(arrayBuffer);
-
-      for (let i = 0; i < arrayBufferView.length; i++) {
-        arrayBufferView[i] = array[i];
-      }
-
-      return arrayBufferView;
-    }
-
-    // https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
-    // TODO: Rename "stringToArrayBufferView" > "stringToArrayBufferViewUTF16"
-    export function stringToArrayBufferView(data: string): Uint16Array {
-      let arrayBuffer = new ArrayBuffer(data.length * 2);
-      let arrayBufferView = new Uint16Array(arrayBuffer);
-
-      for (let i = 0, strLen = data.length; i < strLen; i++) {
-        arrayBufferView[i] = data.charCodeAt(i);
-      }
-
-      return arrayBufferView;
-    }
-
-    export function toArrayBufferView(data: any): Uint8Array {
-      switch (data.constructor.name) {
-        case "ArrayBuffer":
-          return this.arrayBufferToArrayBufferView(data);
-        case "Array":
-          return this.numberArrayToArrayBufferView(data);
-        case "Number":
-          return this.unicodeStringToArrayBufferView(data.toString());
-        case "String":
-          return this.unicodeStringToArrayBufferView(data);
-        case "Uint8Array":
-          return data;
-        default:
-          throw new UnexpectedInput(`${data.constructor.name} is unsupported. `
-            + UnexpectedInput.UNSUPPORTED_TYPE);
-      }
-    }
-
-    export function toString(data: any): string {
-      switch (data.constructor.name) {
-        case "Array":
-          let arrayBufferView: Uint8Array = this.numberArrayToArrayBufferView(data);
-          return this.arrayBufferViewToUnicodeString(arrayBufferView);
-        case "Number":
-          return data.toString();
-        case "String":
-          return data;
-        case "Uint8Array":
-          return this.arrayBufferViewToUnicodeString(data);
-        default:
-          throw new UnexpectedInput(`${data.constructor.name} is unsupported. `
-            + UnexpectedInput.UNSUPPORTED_TYPE);
-      }
-    }
-
-    // https://coolaj86.com/articles/unicode-string-to-a-utf-8-typed-array-buffer-in-javascript/
-    // TODO: Rename "unicodeStringToArrayBufferView" > "stringToArrayBufferViewUTF8"
-    export function unicodeStringToArrayBufferView(data: string): Uint8Array {
-      let escapedString = encodeURIComponent(data);
-
-      let binaryString = escapedString.replace(/%([0-9A-F]{2})/g, function (match, position) {
-        let code: number = parseInt(`0x${position}`, 16);
-        return String.fromCharCode(code);
-      });
-
-      let arrayBufferView = new Uint8Array(binaryString.length);
-
-      Array.prototype.forEach.call(binaryString, function (character: string, index: number) {
-        arrayBufferView[index] = character.charCodeAt(0);
-      });
-
-      return arrayBufferView;
-    }
-
   }
-
-  export namespace Decoder {
-
-    function toByteArray(encoded: string): Uint8Array {
-      // TODO: Create own error type
-      if (encoded.length % 4 !== 0) {
-        throw new Error("Invalid string. Length must be a multiple of 4.");
-      }
-
-      let decoded: string = undefined;
-
-      if (typeof window === "object") {
-        decoded = window.atob(encoded);
-      } else {
-        decoded = new Buffer(encoded, "base64").toString();
-      }
-
-      let rawLength: number = decoded.length;
-      let arrayBufferView: Uint8Array = new Uint8Array(new ArrayBuffer(rawLength));
-
-      for (let i = 0, len = arrayBufferView.length; i < len; i++) {
-        arrayBufferView[i] = decoded.charCodeAt(i);
-      }
-
-      return arrayBufferView;
-    }
-
-    export function fromBase64(data: any): DecodedData {
-      let encoded: string = bazinga64.Converter.toString(data);
-      let asBytes: Uint8Array = toByteArray(encoded);
-      let asString = bazinga64.Converter.arrayBufferViewToUnicodeString(asBytes);
-      let decoded: DecodedData = new DecodedData(asBytes, asString);
-      return decoded;
-    }
-
-  }
-
-  export namespace Encoder {
-
-    function fromByteArray(decoded: Uint8Array): string {
-      let base64EncodedString: string = undefined;
-
-      if (typeof window === "object") {
-        base64EncodedString = window.btoa(String.fromCharCode.apply(null, decoded));
-      } else {
-        base64EncodedString = new Buffer(decoded).toString("base64");
-      }
-
-      return base64EncodedString;
-    }
-
-    export function toBase64(data: any): EncodedData {
-      let decoded: Uint8Array = bazinga64.Converter.toArrayBufferView(data);
-      let asString: string = fromByteArray(decoded);
-      let asBytes = bazinga64.Converter.unicodeStringToArrayBufferView(asString);
-      let encoded: EncodedData = new EncodedData(asBytes, asString);
-      return encoded;
-    }
-
-  }
-
 }
 
-module.exports = bazinga64;
+if (typeof window !== "object") {
+  module.exports = bazinga64;
+}

@@ -6,7 +6,7 @@ var gulp = require('gulp');
 var gulpTypings = require('gulp-typings');
 var gutil = require('gulp-util');
 var header = require('gulp-header');
-var Jasmine = require('jasmine');
+var jasmine = require('gulp-jasmine');
 var nightwatch = require('gulp-nightwatch');
 var path = require('path');
 var pkg = require('./package.json');
@@ -25,7 +25,7 @@ var paths = {
   src_ts: 'src/ts'
 };
 
-gulp.task('dist_browser', ['lint_ts'], function() {
+gulp.task('dist_browser', function() {
   var tsProject = ts.createProject('tsconfig.json', {
     module: 'system',
     outFile: paths.dist_browser + '/' + pkg.name + '.js'
@@ -35,7 +35,7 @@ gulp.task('dist_browser', ['lint_ts'], function() {
   return tsResult.js.pipe(gulp.dest(paths.dist_browser));
 });
 
-gulp.task('dist_node', ['lint_ts'], function() {
+gulp.task('dist_node', function() {
   var tsProject = ts.createProject('tsconfig.json');
 
   var tsResult = tsProject.src().pipe(ts(tsProject));
@@ -64,7 +64,7 @@ gulp.task('dev', function() {
 });
 
 gulp.task('dist', function(done) {
-  runSequence('dist_node', 'dist_browser', done);
+  runSequence('lint_ts', 'dist_node', 'dist_browser', done);
 });
 
 gulp.task('install', ['install_bower_assets', 'install_typings'], function() {
@@ -77,7 +77,7 @@ gulp.task('install_bower', function() {
 gulp.task('install_bower_assets', ['install_bower'], function() {
   return gulp.src('bower_assets.json')
     .pipe(assets({prefix: false}))
-    .pipe(gulp.dest('dist/browser/dependencies'));
+    .pipe(gulp.dest('dist/dependencies'));
 });
 
 gulp.task('install_typings', function() {
@@ -85,7 +85,7 @@ gulp.task('install_typings', function() {
     .pipe(gulpTypings());
 });
 
-gulp.task('test', ['test_browser'], function() {
+gulp.task('test', ['test_node', 'test_browser'], function() {
 });
 
 gulp.task('test_browser', function(done) {
@@ -99,26 +99,11 @@ gulp.task('test_browser', function(done) {
 });
 
 gulp.task('test_node', function() {
-  var jasmine = new Jasmine();
-
-  jasmine.loadConfig({
-      "helpers": [
-        "helpers/**/*.js"
-      ],
-      "random": true,
-      "spec_dir": "test/unit",
-      "spec_files": [
-        "specs/**/*[sS]pec.js"
-      ],
-      "stopSpecOnExpectationFailure": true
-    }
-  );
-
-  jasmine.configureDefaultReporter({
-    showColors: true
-  });
-
-  jasmine.execute();
+  return gulp.src('test/js/specs/**/*Spec.js')
+    .pipe(jasmine({
+      random: true,
+      stopSpecOnExpectationFailure: true
+    }));
 });
 
 gulp.task('test_e2e', function() {
