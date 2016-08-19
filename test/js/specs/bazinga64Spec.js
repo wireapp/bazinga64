@@ -275,7 +275,7 @@ describe('bazinga64', function() {
 
   });
 
-  xdescribe('Decoder', function() {
+  describe('Decoder', function() {
 
     describe('fromBase64', function() {
 
@@ -318,7 +318,7 @@ describe('bazinga64', function() {
 
   });
 
-  xdescribe('Encoder', function() {
+  describe('Encoder', function() {
 
     describe('toBase64', function() {
 
@@ -400,7 +400,7 @@ describe('bazinga64', function() {
 
   });
 
-  xdescribe('Test Vectors from RFC 4648', function() {
+  describe('Test Vectors from RFC 4648', function() {
 
     it('empty string', function() {
       var text = '';

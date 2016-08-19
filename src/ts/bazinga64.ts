@@ -20,8 +20,32 @@
 /// <reference path="../../typings/index.d.ts" />
 
 namespace bazinga64 {
-  class UnexpectedInput extends Error {
+  interface IData {
+    asBytes: Uint8Array;
+    asString: string;
+  }
 
+  class EncodedData implements IData {
+    public asBytes: Uint8Array;
+    public asString: string;
+
+    constructor(asBytes: Uint8Array, asString: string) {
+      this.asBytes = asBytes;
+      this.asString = asString;
+    }
+  }
+
+  class DecodedData implements IData {
+    public asBytes: Uint8Array;
+    public asString: string;
+
+    constructor(asBytes: Uint8Array, asString: string) {
+      this.asBytes = asBytes;
+      this.asString = asString;
+    }
+  }
+
+  class UnexpectedInput extends Error {
     public static UNSUPPORTED_TYPE: string = "Please provide a 'String', 'Uint8Array' or 'Array'.";
 
     constructor(public message?: string) {
@@ -29,7 +53,6 @@ namespace bazinga64 {
       this.name = "UnexpectedInput";
       this.stack = (<any> new Error()).stack;
     }
-
   }
 
   export class Converter {
@@ -166,6 +189,61 @@ namespace bazinga64 {
       });
 
       return arrayBufferView;
+    }
+  }
+
+  export class Decoder {
+    public static fromBase64(data: any): DecodedData {
+      let encoded: string = bazinga64.Converter.toString(data);
+      let asBytes: Uint8Array = bazinga64.Decoder.toByteArray(encoded);
+      let asString = bazinga64.Converter.arrayBufferViewToStringUTF8(asBytes);
+      let decoded: DecodedData = new DecodedData(asBytes, asString);
+      return decoded;
+    }
+
+    private static toByteArray(encoded: string): Uint8Array {
+      if (encoded.length % 4 !== 0) {
+        throw new UnexpectedInput("Invalid string. Length must be a multiple of 4.");
+      }
+
+      let decoded: string = undefined;
+
+      if (typeof window === "object") {
+        decoded = window.atob(encoded);
+      } else {
+        decoded = new Buffer(encoded, "base64").toString();
+      }
+
+      let rawLength: number = decoded.length;
+      let arrayBufferView: Uint8Array = new Uint8Array(new ArrayBuffer(rawLength));
+
+      for (let i = 0, len = arrayBufferView.length; i < len; i++) {
+        arrayBufferView[i] = decoded.charCodeAt(i);
+      }
+
+      return arrayBufferView;
+    }
+  }
+
+  export class Encoder {
+    public static toBase64(data: any): EncodedData {
+      let decoded: Uint8Array = bazinga64.Converter.toArrayBufferView(data);
+      let asString: string = bazinga64.Encoder.fromByteArray(decoded);
+      let asBytes = bazinga64.Converter.stringToArrayBufferViewUTF8(asString);
+      let encoded: EncodedData = new EncodedData(asBytes, asString);
+      return encoded;
+    }
+
+    private static fromByteArray(decoded: Uint8Array): string {
+      let base64EncodedString: string = undefined;
+
+      if (typeof window === "object") {
+        base64EncodedString = window.btoa(String.fromCharCode.apply(null, decoded));
+      } else {
+        base64EncodedString = new Buffer(decoded).toString("base64");
+      }
+
+      return base64EncodedString;
     }
   }
 }
