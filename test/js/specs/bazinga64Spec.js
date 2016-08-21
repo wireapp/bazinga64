@@ -23,7 +23,6 @@ describe('bazinga64', function() {
         done();
       });
 
-      bazinga64 = window.bazinga64;
     } else {
       bazinga64 = require('../../../dist/node/bazinga64');
       done();
