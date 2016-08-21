@@ -10,7 +10,7 @@ namespace bazinga64 {
 
     private static toByteArray(encoded: string): Uint8Array {
       if (encoded.length % 4 !== 0) {
-        throw new UnexpectedInput("Invalid string. Length must be a multiple of 4.");
+        throw new Error("Invalid string. Length must be a multiple of 4.");
       }
 
       let decoded: string = undefined;

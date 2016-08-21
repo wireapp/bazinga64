@@ -95,8 +95,8 @@ namespace bazinga64 {
         case "Uint8Array":
           return data;
         default:
-          throw new UnexpectedInput(`${data.constructor.name} is unsupported. `
-            + UnexpectedInput.UNSUPPORTED_TYPE);
+          throw new Error(`${data.constructor.name} is unsupported. \
+          Please provide a 'String', 'Uint8Array' or 'Array'.`);
       }
     }
 
@@ -112,8 +112,8 @@ namespace bazinga64 {
         case "Uint8Array":
           return this.arrayBufferViewToStringUTF8(data);
         default:
-          throw new UnexpectedInput(`${data.constructor.name} is unsupported. `
-            + UnexpectedInput.UNSUPPORTED_TYPE);
+          throw new Error(`${data.constructor.name} is unsupported. \
+          Please provide a 'String', 'Uint8Array' or 'Array'.`);
       }
     }
 
