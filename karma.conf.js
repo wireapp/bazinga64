@@ -36,7 +36,7 @@ module.exports = function(config) {
     exclude: [],
     files: [
       'dist/dependencies/**/*.js',
-      {pattern: 'dist/browser/**/*.js', included: false, watched: false},
+      {pattern: 'dist/browser/**/*.js', included: false},
       'test/js/specs/**/*Spec.js'
     ],
     frameworks: ['jasmine'],
@@ -45,7 +45,7 @@ module.exports = function(config) {
     preprocessors: {
       'dist/browser/**/*.js': ['coverage']
     },
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress'],
     singleRun: true
   });
 
