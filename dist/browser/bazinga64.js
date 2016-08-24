@@ -77,7 +77,8 @@ var bazinga64;
                 case "Uint8Array":
                     return data;
                 default:
-                    throw new Error(data.constructor.name + " is unsupported.           Please provide a 'String', 'Uint8Array' or 'Array'.");
+                    throw new Error((data.constructor.name + " is unsupported.")
+                        + " Please provide a 'String', 'Uint8Array' or 'Array'.");
             }
         };
         Converter.toString = function (data) {
@@ -92,7 +93,8 @@ var bazinga64;
                 case "Uint8Array":
                     return this.arrayBufferViewToStringUTF8(data);
                 default:
-                    throw new Error(data.constructor.name + " is unsupported.           Please provide a 'String', 'Uint8Array' or 'Array'.");
+                    throw new Error((data.constructor.name + " is unsupported.")
+                        + " Please provide a 'String', 'Uint8Array' or 'Array'.");
             }
         };
         Converter.stringToArrayBufferViewUTF8 = function (data) {

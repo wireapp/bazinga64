@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <title>Base64</title>
-    <script src="dependencies/system.js/system.js" />
+    <script src="dependencies/system.js/system.js"></script>
+    <script src="util/System.yuml.js"></script>
   </head>
   <body>
     <h1>bazinga64</h1>
@@ -11,12 +12,11 @@
     <form name="convert" method="post" action="/">
       <textarea data-test-name="input-decoded" id="input" name="input"></textarea><br />
       <textarea data-test-name="input-encoded" disabled="disabled" id="output" name="output"></textarea><br />
-      <input data-test-name="button-encode" id="submit" type="submit" name="submit" value="Encode" title="Encode" />
     </form>
     <script>
       SystemJS.import('browser/bazinga64.js').then(function(bazinga64) {
-        var submit = document.getElementById('submit');
-        submit.addEventListener('click', function(event) {
+        var input = document.getElementById('input');
+        input.addEventListener('input', function(event) {
           event.preventDefault();
 
           var input = document.getElementById('input');
