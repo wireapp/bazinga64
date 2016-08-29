@@ -36,7 +36,7 @@ gulp.task('dist', function(done) {
 gulp.task('dist_browser', function() {
   var tsProject = ts.createProject('tsconfig.json', {
     module: 'system',
-    outFile: paths.dist_browser + '/' + pkg.name + '.js'
+    outFile: `${paths.dist_browser}/${pkg.name}.js`
   });
 
   var tsResult = tsProject.src().pipe(ts(tsProject));
@@ -96,7 +96,12 @@ gulp.task('test_browser', function(done) {
   gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
 
   var server = new Server({
-    configFile: __dirname + '/karma.conf.js'
+    configFile: __dirname + '/karma.conf.js',
+    files: [
+      'dist/dependencies/**/*.js',
+      paths.dist_browser + '/**/*.js',
+      'test/js/specs/**/*Spec.js'
+    ]
   }, done);
 
   server.start();

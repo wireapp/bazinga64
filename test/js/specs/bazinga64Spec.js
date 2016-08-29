@@ -14,16 +14,11 @@ describe('bazinga64', function() {
 
   beforeAll(function(done) {
     if (typeof window === 'object') {
-      SystemJS.config({
-        baseURL: '/base/dist'
-      });
-
-      SystemJS.import('browser/bazinga64.js').then(function(bazinga64) {
-        window.bazinga64 = bazinga64;
+      SystemJS.import('bazinga64').then(function(module) {
+        bazinga64 = module;
         done();
       });
 
-      bazinga64 = window.bazinga64;
     } else {
       bazinga64 = require('../../../dist/node/bazinga64');
       done();

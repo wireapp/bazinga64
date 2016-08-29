@@ -34,18 +34,13 @@ module.exports = function(config) {
       }
     },
     exclude: [],
-    files: [
-      'dist/dependencies/**/*.js',
-      'dist/browser/**/*.js',
-      'test/js/specs/**/*Spec.js'
-    ],
     frameworks: ['jasmine'],
     logLevel: config.LOG_INFO,
     port: 9876,
     preprocessors: {
       'dist/browser/**/*.js': ['coverage']
     },
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress'],
     singleRun: true
   });
 
