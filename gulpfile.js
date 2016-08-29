@@ -36,7 +36,7 @@ gulp.task('dist', function(done) {
 gulp.task('dist_browser', function() {
   var tsProject = ts.createProject('tsconfig.json', {
     module: 'system',
-    outFile: paths.dist_browser + '/' + pkg.name + '.js'
+    outFile: `${paths.dist_browser}/${pkg.name}.js`
   });
 
   var tsResult = tsProject.src().pipe(ts(tsProject));
