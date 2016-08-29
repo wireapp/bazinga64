@@ -14,13 +14,8 @@ describe('bazinga64', function() {
 
   beforeAll(function(done) {
     if (typeof window === 'object') {
-      SystemJS.config({
-        baseURL: '/base/dist'
-      });
-
-      SystemJS.import('browser/bazinga64.js').then(function(bazinga64) {
-        console.log('A', bazinga64);
-        window.bazinga64 = bazinga64;
+      SystemJS.import('bazinga64').then(function(module) {
+        bazinga64 = module;
         done();
       });
 
@@ -51,7 +46,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('arrayBufferToJSON', function() {
+    describe('arrayBufferToJSON', function() {
 
       it('converts an array buffer into a JSON object', function() {
         var array = [1, 3, 3, 7, 9, 9, 4, 2];
@@ -66,7 +61,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('arrayBufferToJSONString', function() {
+    describe('arrayBufferToJSONString', function() {
 
       it('converts an array buffer into a JSON string', function() {
         var array = [1, 3, 3, 7, 9, 9, 4, 2];
@@ -82,7 +77,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('arrayBufferViewToStringUTF16', function() {
+    describe('arrayBufferViewToStringUTF16', function() {
 
       it('handles UTF-16 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
@@ -94,7 +89,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('arrayBufferViewToStringUTF16', function() {
+    describe('arrayBufferViewToStringUTF16', function() {
 
       it('handles UTF-16 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
@@ -106,7 +101,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('arrayBufferViewToStringUTF8', function() {
+    describe('arrayBufferViewToStringUTF8', function() {
 
       it('handles UTF-8 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
@@ -129,7 +124,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('jsonToArrayBufferView', function() {
+    describe('jsonToArrayBufferView', function() {
 
       it('maps a JSON object to an array buffer', function() {
         // @formatter:off
@@ -144,7 +139,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('numberArrayToArrayBufferView', function() {
+    describe('numberArrayToArrayBufferView', function() {
 
       it('converts an array of numbers into an array buffer view', function() {
         var arrayBufferView = bazinga64.Converter.numberArrayToArrayBufferView(helloDecodedArray);
@@ -153,7 +148,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('stringToArrayBufferViewUTF16', function() {
+    describe('stringToArrayBufferViewUTF16', function() {
 
       it('handles UTF-16 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
@@ -172,7 +167,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('stringToArrayBufferViewUTF16', function() {
+    describe('stringToArrayBufferViewUTF16', function() {
 
       it('handles UTF-16 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
@@ -182,7 +177,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('toArrayBufferView', function() {
+    describe('toArrayBufferView', function() {
 
       it('handles arrays', function() {
         var data = new Uint8Array(helloDecodedArray);
@@ -218,7 +213,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('toString', function() {
+    describe('toString', function() {
 
       it('handles arrays', function() {
         var data = helloDecodedArray;
@@ -254,7 +249,7 @@ describe('bazinga64', function() {
 
     });
 
-    xdescribe('stringToArrayBufferViewUTF8', function() {
+    describe('stringToArrayBufferViewUTF8', function() {
 
       it('handles UTF-8 conversions', function() {
         var cyrillicCapitalLetterDje = '\u0402';
@@ -275,7 +270,7 @@ describe('bazinga64', function() {
 
   });
 
-  xdescribe('Decoder', function() {
+  describe('Decoder', function() {
 
     describe('fromBase64', function() {
 
@@ -318,7 +313,7 @@ describe('bazinga64', function() {
 
   });
 
-  xdescribe('Encoder', function() {
+  describe('Encoder', function() {
 
     describe('toBase64', function() {
 
@@ -400,7 +395,7 @@ describe('bazinga64', function() {
 
   });
 
-  xdescribe('Test Vectors from RFC 4648', function() {
+  describe('Test Vectors from RFC 4648', function() {
 
     it('empty string', function() {
       var text = '';

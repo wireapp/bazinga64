@@ -36,7 +36,7 @@ module.exports = function(config) {
     exclude: [],
     files: [
       'dist/dependencies/**/*.js',
-      {pattern: 'dist/browser/**/*.js', included: false},
+      'dist/browser/**/*.js',
       'test/js/specs/**/*Spec.js'
     ],
     frameworks: ['jasmine'],
