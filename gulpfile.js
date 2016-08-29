@@ -96,7 +96,12 @@ gulp.task('test_browser', function(done) {
   gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
 
   var server = new Server({
-    configFile: __dirname + '/karma.conf.js'
+    configFile: __dirname + '/karma.conf.js',
+    files: [
+      'dist/dependencies/**/*.js',
+      paths.dist_browser + '/**/*.js',
+      'test/js/specs/**/*Spec.js'
+    ]
   }, done);
 
   server.start();
