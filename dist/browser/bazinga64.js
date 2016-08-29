@@ -1,7 +1,7 @@
-System.register("Converter", [], function(exports_1, context_1) {
+System.register("bazinga64", [], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var Converter;
+    var Converter, DecodedData, Decoder, EncodedData, Encoder;
     return {
         setters:[],
         execute: function() {
@@ -117,16 +117,6 @@ System.register("Converter", [], function(exports_1, context_1) {
                 return Converter;
             }());
             exports_1("Converter", Converter);
-        }
-    }
-});
-System.register("DecodedData", [], function(exports_2, context_2) {
-    "use strict";
-    var __moduleName = context_2 && context_2.id;
-    var DecodedData;
-    return {
-        setters:[],
-        execute: function() {
             DecodedData = (function () {
                 function DecodedData(asBytes, asString) {
                     this.asBytes = asBytes;
@@ -134,32 +124,15 @@ System.register("DecodedData", [], function(exports_2, context_2) {
                 }
                 return DecodedData;
             }());
-            exports_2("DecodedData", DecodedData);
-        }
-    }
-});
-System.register("Decoder", ["Converter", "DecodedData"], function(exports_3, context_3) {
-    "use strict";
-    var __moduleName = context_3 && context_3.id;
-    var Converter_1, DecodedData_1;
-    var Decoder;
-    return {
-        setters:[
-            function (Converter_1_1) {
-                Converter_1 = Converter_1_1;
-            },
-            function (DecodedData_1_1) {
-                DecodedData_1 = DecodedData_1_1;
-            }],
-        execute: function() {
+            exports_1("DecodedData", DecodedData);
             Decoder = (function () {
                 function Decoder() {
                 }
                 Decoder.fromBase64 = function (data) {
-                    var encoded = Converter_1.Converter.toString(data);
+                    var encoded = Converter.toString(data);
                     var asBytes = Decoder.toByteArray(encoded);
-                    var asString = Converter_1.Converter.arrayBufferViewToStringUTF8(asBytes);
-                    var decoded = new DecodedData_1.DecodedData(asBytes, asString);
+                    var asString = Converter.arrayBufferViewToStringUTF8(asBytes);
+                    var decoded = new DecodedData(asBytes, asString);
                     return decoded;
                 };
                 Decoder.toByteArray = function (encoded) {
@@ -182,17 +155,7 @@ System.register("Decoder", ["Converter", "DecodedData"], function(exports_3, con
                 };
                 return Decoder;
             }());
-            exports_3("Decoder", Decoder);
-        }
-    }
-});
-System.register("EncodedData", [], function(exports_4, context_4) {
-    "use strict";
-    var __moduleName = context_4 && context_4.id;
-    var EncodedData;
-    return {
-        setters:[],
-        execute: function() {
+            exports_1("Decoder", Decoder);
             EncodedData = (function () {
                 function EncodedData(asBytes, asString) {
                     this.asBytes = asBytes;
@@ -200,32 +163,15 @@ System.register("EncodedData", [], function(exports_4, context_4) {
                 }
                 return EncodedData;
             }());
-            exports_4("EncodedData", EncodedData);
-        }
-    }
-});
-System.register("Encoder", ["Converter", "EncodedData"], function(exports_5, context_5) {
-    "use strict";
-    var __moduleName = context_5 && context_5.id;
-    var Converter_2, EncodedData_1;
-    var Encoder;
-    return {
-        setters:[
-            function (Converter_2_1) {
-                Converter_2 = Converter_2_1;
-            },
-            function (EncodedData_1_1) {
-                EncodedData_1 = EncodedData_1_1;
-            }],
-        execute: function() {
+            exports_1("EncodedData", EncodedData);
             Encoder = (function () {
                 function Encoder() {
                 }
                 Encoder.toBase64 = function (data) {
-                    var decoded = Converter_2.Converter.toArrayBufferView(data);
+                    var decoded = Converter.toArrayBufferView(data);
                     var asString = Encoder.fromByteArray(decoded);
-                    var asBytes = Converter_2.Converter.stringToArrayBufferViewUTF8(asString);
-                    var encoded = new EncodedData_1.EncodedData(asBytes, asString);
+                    var asBytes = Converter.stringToArrayBufferViewUTF8(asString);
+                    var encoded = new EncodedData(asBytes, asString);
                     return encoded;
                 };
                 Encoder.fromByteArray = function (decoded) {
@@ -240,7 +186,7 @@ System.register("Encoder", ["Converter", "EncodedData"], function(exports_5, con
                 };
                 return Encoder;
             }());
-            exports_5("Encoder", Encoder);
+            exports_1("Encoder", Encoder);
         }
     }
 });

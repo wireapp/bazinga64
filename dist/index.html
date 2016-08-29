@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <title>Base64</title>
+    <link rel="shortcut icon" href="data:image/x-icon;" type="image/x-icon" />
     <script src="dependencies/system.js/system.js"></script>
+    <script src="browser/bazinga64.js"></script>
     <script src="util/System.yuml.js"></script>
   </head>
   <body>
@@ -14,7 +16,7 @@
       <textarea data-test-name="input-encoded" disabled="disabled" id="output" name="output"></textarea><br />
     </form>
     <script>
-      SystemJS.import('browser/bazinga64.js').then(function(bazinga64) {
+      SystemJS.import('bazinga64').then(function(bazinga64) {
         var input = document.getElementById('input');
         input.addEventListener('input', function(event) {
           event.preventDefault();
