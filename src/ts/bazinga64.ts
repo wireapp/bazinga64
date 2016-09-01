@@ -1,3 +1,5 @@
+/// <reference path="../../typings/index.d.ts" />
+
 export class Converter {
   public static arrayBufferToArrayBufferView(arrayBuffer: ArrayBuffer): Uint8Array {
     let view = new DataView(arrayBuffer);
@@ -210,7 +212,7 @@ export class Encoder {
   }
 }
 
-interface IData {
+export interface IData {
   asBytes: Uint8Array;
   asString: string;
 }
