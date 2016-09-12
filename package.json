@@ -51,5 +51,5 @@
     "url": "git+https://github.com/wireapp/bazinga64.git"
   },
   "typings": "dist/typings/bazinga64.d.ts",
-  "version": "3.0.0"
+  "version": "3.0.1"
 }

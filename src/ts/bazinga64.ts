@@ -26,34 +26,17 @@ export class Converter {
     return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
   }
 
-  private static arrayBufferViewToString(arrayBufferView: Uint8Array) {
-    let binaryString = Array.prototype.map.call(arrayBufferView, function (index: number) {
-      return String.fromCharCode(index);
-    }).join('');
-
-    let escapedString = binaryString.replace(/(.)/g, function (match: string) {
-      let code: string = match.charCodeAt(0).toString(16).toUpperCase();
-
-      if (code.length < 2) {
-        return `0${code}`;
-      } else {
-        return `%${code}`;
-      }
-    });
-
-    return decodeURIComponent(escapedString);
-  }
-
   // https://gist.github.com/mathiasbynens/1243213
   public static arrayBufferViewToStringUTF8(arrayBufferView: Uint8Array): string {
-    let string: string;
+    let unicodeString: string;
 
     try {
-      string = this.arrayBufferViewToString(arrayBufferView);
+      unicodeString = this.arrayBufferViewToString(arrayBufferView);
     } catch (error) {
+      console.warn(`Unable to stringify (UTF) '${arrayBufferView.constructor.name}': ${error.message}`, arrayBufferView);
     }
 
-    return string;
+    return unicodeString;
   }
 
   public static jsonToArrayBufferView(json: JSON): Uint8Array {
@@ -145,6 +128,24 @@ export class Converter {
     });
 
     return arrayBufferView;
+  }
+
+  private static arrayBufferViewToString(arrayBufferView: Uint8Array) {
+    let binaryString = Array.prototype.map.call(arrayBufferView, function (index: number) {
+      return String.fromCharCode(index);
+    }).join("");
+
+    let escapedString = binaryString.replace(/(.)/g, function (match: string) {
+      let code: string = match.charCodeAt(0).toString(16).toUpperCase();
+
+      if (code.length < 2) {
+        return `0${code}`;
+      } else {
+        return `%${code}`;
+      }
+    });
+
+    return decodeURIComponent(escapedString);
   }
 }
 
