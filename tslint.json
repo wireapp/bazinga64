@@ -2,6 +2,7 @@
   "extends": "tslint:latest",
   "rules": {
     "comment-format": false,
+    "max-line-length": false,
     "no-namespace": false,
     "no-reference": false
   }
