@@ -20,10 +20,10 @@ var Converter = (function () {
     Converter.arrayBufferViewToStringUTF16 = function (arrayBufferView) {
         return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
     };
-    Converter.arrayBufferViewToStringUTF8 = function (arrayBufferView) {
+    Converter.arrayBufferViewToString = function (arrayBufferView) {
         var binaryString = Array.prototype.map.call(arrayBufferView, function (index) {
             return String.fromCharCode(index);
-        }).join("");
+        }).join('');
         var escapedString = binaryString.replace(/(.)/g, function (match) {
             var code = match.charCodeAt(0).toString(16).toUpperCase();
             if (code.length < 2) {
@@ -34,6 +34,15 @@ var Converter = (function () {
             }
         });
         return decodeURIComponent(escapedString);
+    };
+    Converter.arrayBufferViewToStringUTF8 = function (arrayBufferView) {
+        var string;
+        try {
+            string = this.arrayBufferViewToString(arrayBufferView);
+        }
+        catch (error) {
+        }
+        return string;
     };
     Converter.jsonToArrayBufferView = function (json) {
         var length = Object.keys(json).length;
@@ -123,10 +132,15 @@ var Decoder = (function () {
     function Decoder() {
     }
     Decoder.fromBase64 = function (data) {
+        console.log('A');
         var encoded = Converter.toString(data);
+        console.log('B');
         var asBytes = Decoder.toByteArray(encoded);
+        console.log('C', asBytes);
         var asString = Converter.arrayBufferViewToStringUTF8(asBytes);
+        console.log('D');
         var decoded = new DecodedData(asBytes, asString);
+        console.log('E', decoded.asBytes);
         return decoded;
     };
     Decoder.toByteArray = function (encoded) {

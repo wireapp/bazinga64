@@ -26,11 +26,10 @@ export class Converter {
     return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
   }
 
-  // https://gist.github.com/mathiasbynens/1243213
-  public static arrayBufferViewToStringUTF8(arrayBufferView: Uint8Array): string {
+  private static arrayBufferViewToString(arrayBufferView: Uint8Array) {
     let binaryString = Array.prototype.map.call(arrayBufferView, function (index: number) {
       return String.fromCharCode(index);
-    }).join("");
+    }).join('');
 
     let escapedString = binaryString.replace(/(.)/g, function (match: string) {
       let code: string = match.charCodeAt(0).toString(16).toUpperCase();
@@ -43,6 +42,18 @@ export class Converter {
     });
 
     return decodeURIComponent(escapedString);
+  }
+
+  // https://gist.github.com/mathiasbynens/1243213
+  public static arrayBufferViewToStringUTF8(arrayBufferView: Uint8Array): string {
+    let string: string;
+
+    try {
+      string = this.arrayBufferViewToString(arrayBufferView);
+    } catch (error) {
+    }
+
+    return string;
   }
 
   public static jsonToArrayBufferView(json: JSON): Uint8Array {

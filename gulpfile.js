@@ -30,7 +30,7 @@ gulp.task('build', function(done) {
 });
 
 gulp.task('dist', function(done) {
-  runSequence('lint_ts', 'dist_node', 'dist_browser', done);
+  runSequence('dist_node', 'dist_browser', done);
 });
 
 gulp.task('dist_browser', function() {
