@@ -33,7 +33,14 @@ export class Converter {
     try {
       unicodeString = this.arrayBufferViewToString(arrayBufferView);
     } catch (error) {
-      console.warn(`Unable to stringify (UTF) '${arrayBufferView.constructor.name}': ${error.message}`, arrayBufferView);
+      if (typeof window === "object") {
+        unicodeString = new TextDecoder("utf-8").decode(arrayBufferView);
+      } else {
+        const StringDecoder: any = require('string_decoder').StringDecoder;
+        const decoder: any = new StringDecoder('utf8');
+        const buffer: Buffer = Buffer.from(arrayBufferView);
+        unicodeString = decoder.write(buffer);
+      }
     }
 
     return unicodeString;
