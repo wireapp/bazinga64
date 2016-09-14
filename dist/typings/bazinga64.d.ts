@@ -1,4 +1,3 @@
-/// <reference path="../../typings/index.d.ts" />
 export declare class Converter {
   static arrayBufferToArrayBufferView(arrayBuffer: ArrayBuffer): Uint8Array;
   static arrayBufferToJSON(arrayBuffer: ArrayBuffer): JSON;
