@@ -33,13 +33,10 @@ export class Converter {
     try {
       unicodeString = this.arrayBufferViewToString(arrayBufferView);
     } catch (error) {
-      if (typeof window === "object") {
+      if (typeof window === "object" && "TextDecoder" in window) {
         unicodeString = new TextDecoder("utf-8").decode(arrayBufferView);
       } else {
-        const StringDecoder: any = require('string_decoder').StringDecoder;
-        const decoder: any = new StringDecoder('utf8');
-        const buffer: Buffer = Buffer.from(arrayBufferView);
-        unicodeString = decoder.write(buffer);
+        unicodeString = String.fromCharCode.apply(null, arrayBufferView);
       }
     }
 
