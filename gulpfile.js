@@ -89,11 +89,12 @@ gulp.task('install_typings', function() {
     .pipe(gulpTypings());
 });
 
-gulp.task('test', ['test_node', 'test_browser'], function() {
+gulp.task('test', function(done) {
+  runSequence('test_node', 'test_browser', done);
 });
 
 gulp.task('test_browser', function(done) {
-  gutil.log('Starting', gutil.colors.yellow('test'), 'server ...');
+  gutil.log(gutil.colors.yellow('Running tests in Google Chrome:'));
 
   var server = new Server({
     configFile: __dirname + '/karma.conf.js',
@@ -108,6 +109,8 @@ gulp.task('test_browser', function(done) {
 });
 
 gulp.task('test_node', function() {
+  gutil.log(gutil.colors.yellow('Running tests on Node.js:'));
+
   return gulp.src('test/js/specs/**/*Spec.js')
     .pipe(jasmine({
       random: true,

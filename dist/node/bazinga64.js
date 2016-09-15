@@ -26,7 +26,12 @@ var Converter = (function () {
             unicodeString = this.arrayBufferViewToString(arrayBufferView);
         }
         catch (error) {
-            console.warn("Unable to stringify (UTF) '" + arrayBufferView.constructor.name + "': " + error.message, arrayBufferView);
+            if (typeof window === "object" && "TextDecoder" in window) {
+                unicodeString = new TextDecoder("utf-8").decode(arrayBufferView);
+            }
+            else {
+                unicodeString = String.fromCharCode.apply(null, arrayBufferView);
+            }
         }
         return unicodeString;
     };
