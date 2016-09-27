@@ -26,8 +26,7 @@
     "tslint": "^3.13.0"
   },
   "files": [
-    "dist",
-    "types/bazinga64.d.ts"
+    "dist"
   ],
   "homepage": "https://github.com/wireapp/bazinga64#readme",
   "keywords": [
