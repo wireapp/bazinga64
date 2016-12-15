@@ -52,8 +52,8 @@
     "url": "git+https://github.com/wireapp/bazinga64.git"
   },
   "scripts": {
-    "test": "gulp test",
     "prepublish": "gulp dist && npm run webpack",
+    "test": "gulp test",
     "webpack": "webpack --progress"
   },
   "typings": "dist/typings/bazinga64.d.ts",

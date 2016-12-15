@@ -14,6 +14,7 @@ module.exports = {
     library: pkg.name,
     path: './dist/browser'
   },
+  target: 'node',
   plugins: [
     new webpack.BannerPlugin(`${pkg.name} v${pkg.version}`)
   ]

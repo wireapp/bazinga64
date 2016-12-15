@@ -23,10 +23,6 @@ var paths = {
   src_ts: 'src/ts'
 };
 
-gulp.task('build', function(done) {
-  runSequence('install', 'dist', done);
-});
-
 gulp.task('dist', function(done) {
   runSequence('lint_ts', 'dist_node', 'dist_browser', done);
 });
