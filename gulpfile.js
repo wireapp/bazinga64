@@ -13,6 +13,7 @@ var runSequence = require('run-sequence');
 var Server = require('karma').Server;
 var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
+var webpack = require('webpack');
 
 var paths = {
   dist: 'dist',
@@ -25,6 +26,15 @@ var paths = {
 
 gulp.task('dist', function(done) {
   runSequence('lint_ts', 'dist_node', 'dist_browser', done);
+});
+
+gulp.task('dist_browser', function(callback) {
+  webpack(require('./webpack.config.js'), function(error) {
+    if (error) {
+      throw new gutil.PluginError('webpack', error);
+    }
+    callback();
+  });
 });
 
 gulp.task('dist_node', function() {
