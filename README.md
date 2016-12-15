@@ -19,24 +19,21 @@ gulp default
 
 ## Use project
 
-### In Browser
+### Browser
 
 ```bash
 bower install bazinga64
 ```
 
 ```html
-<script src="bower_components/system.js/dist/system.js" />
 <script src="bower_components/bazinga64/dist/browser/bazinga64.js" />
 ```
 
 ```javascript
-SystemJS.import('bazinga64').then(function(module) {
-  var bazinga64 = module;
-});
+var bazinga64 = window.bazinga64;
 ```
 
-### In Node.js
+### Node.js
 
 ```bash
 npm install bazinga64
