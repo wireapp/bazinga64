@@ -4,6 +4,9 @@
     "url": "https://github.com/wireapp/bazinga64/issues"
   },
   "description": "Base64 encoding and decoding with ASCII string representation",
+  "dependencies": {
+    "webpack": "^2.2.0-rc.0"
+  },
   "devDependencies": {
     "browser-sync": "^2.13.0",
     "gulp": "^3.9.1",
