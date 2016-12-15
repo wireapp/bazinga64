@@ -4,9 +4,7 @@
     <meta charset="UTF-8" />
     <title>Base64</title>
     <link rel="shortcut icon" href="data:image/x-icon;" type="image/x-icon" />
-    <script src="dependencies/system.js/system.js"></script>
     <script src="browser/bazinga64.js"></script>
-    <script src="util/System.yuml.js"></script>
   </head>
   <body>
     <h1>bazinga64</h1>
@@ -16,19 +14,17 @@
       <textarea data-test-name="input-encoded" disabled="disabled" id="output" name="output"></textarea><br />
     </form>
     <script>
-      SystemJS.import('bazinga64').then(function(bazinga64) {
+      var input = document.getElementById('input');
+      input.addEventListener('input', function(event) {
+        event.preventDefault();
+
         var input = document.getElementById('input');
-        input.addEventListener('input', function(event) {
-          event.preventDefault();
+        var output = document.getElementById('output');
 
-          var input = document.getElementById('input');
-          var output = document.getElementById('output');
+        var encoded = bazinga64.Encoder.toBase64(input.value);
+        output.value = encoded.asString;
 
-          var encoded = bazinga64.Encoder.toBase64(input.value);
-          output.value = encoded.asString;
-
-          return false;
-        });
+        return false;
       });
     </script>
   </body>

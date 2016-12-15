@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "system.js@copy": [
-      "system.js/dist/system.js"
-    ]
-  }
-}

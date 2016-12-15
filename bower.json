@@ -2,9 +2,6 @@
   "authors": [
     "Wire"
   ],
-  "dependencies": {
-    "system.js": "^0.19.36"
-  },
   "description": "Base64 encoding and decoding with ASCII string representation",
   "homepage": "https://github.com/wireapp/bazinga64",
   "ignore": [
