@@ -6,9 +6,6 @@ module.exports = {
   entry: {
     filename: `./dist/node/${pkg.name}.js`
   },
-  node: {
-    buffer: 'empty'
-  },
   output: {
     filename: `${pkg.name}.js`,
     library: pkg.name,
