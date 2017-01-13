@@ -5,7 +5,7 @@ var gulp = require('gulp');
 var gulpTypings = require('gulp-typings');
 var gutil = require('gulp-util');
 var header = require('gulp-header');
-var jasmine = require('gulp-jasmine');
+var Jasmine = require('jasmine');
 var nightwatch = require('gulp-nightwatch');
 var path = require('path');
 var rename = require('gulp-rename');
@@ -87,6 +87,7 @@ gulp.task('test_browser', function(done) {
   var server = new Server({
     configFile: __dirname + '/karma.conf.js',
     files: [
+      'test/js/helpers/**/*.js',
       paths.dist_browser + '/**/*.js',
       'test/js/specs/**/*Spec.js'
     ]
@@ -95,14 +96,33 @@ gulp.task('test_browser', function(done) {
   server.start();
 });
 
-gulp.task('test_node', function() {
+gulp.task('test_node', function(done) {
   gutil.log(gutil.colors.yellow('Running tests on Node.js:'));
 
-  return gulp.src('test/js/specs/**/*Spec.js')
-    .pipe(jasmine({
-      random: true,
-      stopSpecOnExpectationFailure: true
-    }));
+  var jasmine = new Jasmine();
+
+  jasmine.loadConfig({
+    spec_files: [
+      'test/js/specs/**/*Spec.js'
+    ],
+    helpers: [
+      'test/js/helpers/**/*.js'
+    ]
+  });
+
+  jasmine.configureDefaultReporter({
+    showColors: true
+  });
+
+  jasmine.onComplete(function(passed) {
+    if (passed) {
+      done();
+    } else {
+      done(new Error('Node.js tests failed.'));
+    }
+  });
+
+  return jasmine.execute();
 });
 
 gulp.task('test_e2e', function() {
