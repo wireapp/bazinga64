@@ -1,4 +1,4 @@
-/*! bazinga64 v4.0.0 */
+/*! bazinga64 v4.0.1 */
 var bazinga64 =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -70,7 +70,7 @@ var bazinga64 =
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -151,7 +151,7 @@ var Converter = (function () {
             case "Uint8Array":
                 return data;
             default:
-                throw new Error((data.constructor.name + " is unsupported.")
+                throw new Error(data.constructor.name + " is unsupported."
                     + " Please provide a 'String', 'Uint8Array' or 'Array'.");
         }
     };
@@ -167,7 +167,7 @@ var Converter = (function () {
             case "Uint8Array":
                 return this.arrayBufferViewToStringUTF8(data);
             default:
-                throw new Error((data.constructor.name + " is unsupported.")
+                throw new Error(data.constructor.name + " is unsupported."
                     + " Please provide a 'String', 'Uint8Array' or 'Array'.");
         }
     };
@@ -213,7 +213,8 @@ var Decoder = (function () {
     function Decoder() {
     }
     Decoder.fromBase64 = function (data) {
-        var encoded = Converter.toString(data);
+        var nonBase64Alphabet = new RegExp("[^-A-Za-z0-9+/=]|=[^=]|={3,}$", "igm");
+        var encoded = Converter.toString(data).replace(nonBase64Alphabet, "");
         var asBytes = Decoder.toByteArray(encoded);
         var asString = Converter.arrayBufferViewToStringUTF8(asBytes);
         var decoded = new DecodedData(asBytes, asString);
@@ -273,6 +274,6 @@ var Encoder = (function () {
 exports.Encoder = Encoder;
 
 
-/***/ }
+/***/ })
 /******/ ]);
 //# sourceMappingURL=bazinga64.js.map
