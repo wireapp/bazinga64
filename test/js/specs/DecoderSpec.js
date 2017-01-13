@@ -37,8 +37,29 @@ describe('Decoder', function() {
       expect(decoded.asString).toBe('1337');
     });
 
-    xit('handles inputs with non-printable characters', function() {
+    it('sanitizes characters not found in the Base64 alphabet (according to RFC 2045).', function() {
+      var firstLine = 'owABAaEAWEASf22tK9iQp8my5sgvtK8qiURy+5aCBglRKYLuwTlDYVBeAyydEVNDHd+pPoqvt1Es';
+      var secondLine = '4zfU8cH1ccO02+4kfgoaAqEAoQBYIFBeAyydEVNDHd+pPoqvt1Es4zfU8cH1ccO02+4kfgoa';
 
+      var encoded = firstLine + '\r\n' + secondLine;
+      var bytes = bazinga64.Decoder.fromBase64(encoded).asBytes;
+      expect(bytes.byteLength).toBeDefined();
+
+      var encoded = firstLine + ':' + secondLine;
+      bytes = bazinga64.Decoder.fromBase64(encoded).asBytes;
+      expect(bytes.byteLength).toBeDefined();
+
+      var encoded = firstLine + '.' + secondLine;
+      bytes = bazinga64.Decoder.fromBase64(encoded).asBytes;
+      expect(bytes.byteLength).toBeDefined();
+
+      var encoded = firstLine + '!' + secondLine;
+      bytes = bazinga64.Decoder.fromBase64(encoded).asBytes;
+      expect(bytes.byteLength).toBeDefined();
+
+      var encoded = firstLine + '\\' + secondLine;
+      bytes = bazinga64.Decoder.fromBase64(encoded).asBytes;
+      expect(bytes.byteLength).toBeDefined();
     });
 
   });

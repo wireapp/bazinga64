@@ -165,8 +165,13 @@ export class DecodedData implements IData {
 
 export class Decoder {
   public static fromBase64(data: any): DecodedData {
-    let nonPrintableCharacters: RegExp = new RegExp("[^\x20-\x7E]", "igm");
-    let encoded: string = Converter.toString(data).replace(nonPrintableCharacters, "");
+    /**
+     * RFC 2045: The encoded output stream must be represented in lines of no more than 76 characters each.
+     * All line breaks or other characters not found in the Base64 alphabet must be ignored by decoding software.
+     * @see https://www.ietf.org/rfc/rfc2045.txt
+     */
+    let nonBase64Alphabet: RegExp = new RegExp("[^-A-Za-z0-9+/=]|=[^=]|={3,}$", "igm");
+    let encoded: string = Converter.toString(data).replace(nonBase64Alphabet, "");
     let asBytes: Uint8Array = Decoder.toByteArray(encoded);
     let asString = Converter.arrayBufferViewToStringUTF8(asBytes);
     let decoded: DecodedData = new DecodedData(asBytes, asString);
