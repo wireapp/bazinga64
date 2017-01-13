@@ -57,5 +57,5 @@
     "test": "gulp test"
   },
   "typings": "dist/typings/bazinga64.d.ts",
-  "version": "4.0.0"
+  "version": "4.0.1"
 }
