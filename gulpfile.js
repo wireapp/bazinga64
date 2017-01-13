@@ -39,8 +39,7 @@ gulp.task('dist_browser', function(callback) {
 
 gulp.task('dist_node', function() {
   var tsProject = ts.createProject('tsconfig.json');
-
-  var tsResult = tsProject.src().pipe(ts(tsProject));
+  var tsResult = tsProject.src().pipe(tsProject());
   return tsResult.js.pipe(gulp.dest(paths.dist_node));
 });
 
