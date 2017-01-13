@@ -165,7 +165,8 @@ export class DecodedData implements IData {
 
 export class Decoder {
   public static fromBase64(data: any): DecodedData {
-    let encoded: string = Converter.toString(data);
+    let nonPrintableCharacters: RegExp = new RegExp("[^\x20-\x7E]", "igm");
+    let encoded: string = Converter.toString(data).replace(nonPrintableCharacters, "");
     let asBytes: Uint8Array = Decoder.toByteArray(encoded);
     let asString = Converter.arrayBufferViewToStringUTF8(asBytes);
     let decoded: DecodedData = new DecodedData(asBytes, asString);
