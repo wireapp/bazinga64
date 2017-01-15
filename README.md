@@ -10,14 +10,7 @@ For licensing information, see the attached LICENSE file and the list of third-p
 
 [![Build Status](https://travis-ci.org/wireapp/bazinga64.svg?branch=master)](https://travis-ci.org/wireapp/bazinga64)
 
-### Run project
-
-```bash
-npm install
-gulp default
-```
-
-## Use project
+## Installation
 
 ### Browser
 
@@ -41,6 +34,13 @@ npm install bazinga64
 
 ```javascript
 var bazinga64 = require('bazinga64');
+```
+
+### Development
+
+```bash
+npm install
+gulp default
 ```
 
 ### Usage
