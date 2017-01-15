@@ -9,8 +9,8 @@
     "**/*.*",
     "bower_components",
     "dist",
-    "!dist/browser/**/*.*",
-    "dist/node",
+    "!dist/window/**/*.*",
+    "dist/commonjs",
     "node_modules",
     "src",
     "test"
@@ -29,6 +29,6 @@
     "string"
   ],
   "license": "GPL-3.0",
-  "main": "dist/browser/bazinga64.js",
+  "main": "dist/window/bazinga64.js",
   "name": "bazinga64"
 }

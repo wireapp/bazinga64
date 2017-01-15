@@ -8,18 +8,20 @@ var header = require('gulp-header');
 var Jasmine = require('jasmine');
 var nightwatch = require('gulp-nightwatch');
 var path = require('path');
+var pkg = require('./package.json');
 var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var Server = require('karma').Server;
 var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 var webpack = require('webpack');
+var ProgressPlugin = require('webpack/lib/ProgressPlugin');
 
 var paths = {
   dist: 'dist',
-  dist_browser: 'dist/browser',
+  dist_commonjs: 'dist/commonjs',
   dist_definitions: 'dist/definitions',
-  dist_node: 'dist/node',
+  dist_window: 'dist/window',
   src: 'src',
   src_ts: 'src/ts'
 };
@@ -29,10 +31,19 @@ gulp.task('dist', function(done) {
 });
 
 gulp.task('dist_browser', function(callback) {
-  webpack(require('./webpack.config.js'), function(error) {
+  var config = require('./webpack.config.js');
+
+  var compiler = webpack(config);
+
+  compiler.apply(new ProgressPlugin(function(percentage, message) {
+    console.log(~~(percentage * 100) + '%', message);
+  }));
+
+  compiler.run(function(error) {
     if (error) {
       throw new gutil.PluginError('webpack', error);
     }
+
     callback();
   });
 });
@@ -40,7 +51,7 @@ gulp.task('dist_browser', function(callback) {
 gulp.task('dist_node', function() {
   var tsProject = ts.createProject('tsconfig.json');
   var tsResult = tsProject.src().pipe(tsProject());
-  return tsResult.js.pipe(gulp.dest(paths.dist_node));
+  return tsResult.js.pipe(gulp.dest(paths.dist_commonjs));
 });
 
 gulp.task('lint_ts', function() {
@@ -87,7 +98,7 @@ gulp.task('test_browser', function(done) {
     configFile: __dirname + '/karma.conf.js',
     files: [
       'test/js/helpers/**/*.js',
-      paths.dist_browser + '/**/*.js',
+      paths.dist_window + '/**/*.js',
       'test/js/specs/**/*Spec.js'
     ]
   }, done);
