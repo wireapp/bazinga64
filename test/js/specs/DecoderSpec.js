@@ -41,23 +41,24 @@ describe('Decoder', function() {
       var firstLine = 'owABAaEAWEASf22tK9iQp8my5sgvtK8qiURy+5aCBglRKYLuwTlDYVBeAyydEVNDHd+pPoqvt1Es';
       var secondLine = '4zfU8cH1ccO02+4kfgoaAqEAoQBYIFBeAyydEVNDHd+pPoqvt1Es4zfU8cH1ccO02+4kfgoa';
 
+      // RFC 2045: The encoded output stream must be represented in lines of no more than 76 characters each.
       var encoded = firstLine + '\r\n' + secondLine;
       var bytes = bazinga64.Decoder.fromBase64(encoded).asBytes;
       expect(bytes.byteLength).toBeDefined();
 
-      var encoded = firstLine + ':' + secondLine;
+      var encoded = firstLine + secondLine + ':';
       bytes = bazinga64.Decoder.fromBase64(encoded).asBytes;
       expect(bytes.byteLength).toBeDefined();
 
-      var encoded = firstLine + '.' + secondLine;
+      var encoded = firstLine + secondLine + ('.');
       bytes = bazinga64.Decoder.fromBase64(encoded).asBytes;
       expect(bytes.byteLength).toBeDefined();
 
-      var encoded = firstLine + '!' + secondLine;
+      var encoded = firstLine + secondLine + '!';
       bytes = bazinga64.Decoder.fromBase64(encoded).asBytes;
       expect(bytes.byteLength).toBeDefined();
 
-      var encoded = firstLine + '\\' + secondLine;
+      var encoded = firstLine + '\\' + secondLine + '!';
       bytes = bazinga64.Decoder.fromBase64(encoded).asBytes;
       expect(bytes.byteLength).toBeDefined();
     });
