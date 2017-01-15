@@ -53,7 +53,7 @@
     "url": "git+https://github.com/wireapp/bazinga64.git"
   },
   "scripts": {
-    "prepublish": "gulp dist",
+    "prepublish": "gulp dist && gulp test",
     "test": "gulp test"
   },
   "typings": "dist/typings/bazinga64.d.ts",

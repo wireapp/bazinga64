@@ -14,7 +14,7 @@ if (typeof window === 'object') {
   window.bazinga64 = window.bazinga64;
   instance = window;
 } else {
-  global.bazinga64 = require('../../../dist/node/bazinga64');
+  global.bazinga64 = require('../../../dist/commonjs/bazinga64');
   instance = global;
 }
 
