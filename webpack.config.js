@@ -4,12 +4,12 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'source-map',
   entry: {
-    filename: `./dist/node/${pkg.name}.js`
+    filename: `./dist/commonjs/${pkg.name}.js`
   },
   output: {
     filename: `${pkg.name}.js`,
     library: pkg.name,
-    path: './dist/browser'
+    path: './dist/window'
   },
   target: 'node',
   plugins: [

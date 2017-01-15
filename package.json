@@ -46,7 +46,7 @@
     "string"
   ],
   "license": "GPL-3.0",
-  "main": "dist/node/bazinga64.js",
+  "main": "dist/commonjs/bazinga64.js",
   "name": "bazinga64",
   "repository": {
     "type": "git",
