@@ -4,9 +4,8 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/bower_components" />
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
-      <excludeFolder url="file://$MODULE_DIR$/dist/browser" />
-      <excludeFolder url="file://$MODULE_DIR$/dist/dependencies" />
-      <excludeFolder url="file://$MODULE_DIR$/dist/node" />
+	  <excludeFolder url="file://$MODULE_DIR$/dist/commonjs" />
+      <excludeFolder url="file://$MODULE_DIR$/dist/window" />
       <excludeFolder url="file://$MODULE_DIR$/dist/typings" />
     </content>
     <orderEntry type="inheritedJdk" />
