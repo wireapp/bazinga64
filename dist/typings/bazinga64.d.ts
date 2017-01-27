@@ -1,8 +1,4 @@
 export declare class Converter {
-  static arrayBufferToArrayBufferView(arrayBuffer: ArrayBuffer): Uint8Array;
-  static arrayBufferToJSON(arrayBuffer: ArrayBuffer): JSON;
-  static arrayBufferToJSONString(arrayBuffer: ArrayBuffer): string;
-  static arrayBufferViewToStringUTF16(arrayBufferView: Uint16Array): string;
   static arrayBufferViewToStringUTF8(arrayBufferView: Uint8Array): string;
   static jsonToArrayBufferView(json: JSON): Uint8Array;
   static numberArrayToArrayBufferView(array: number[]): Uint8Array;
