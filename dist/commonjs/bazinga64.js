@@ -2,24 +2,6 @@
 var Converter = (function () {
     function Converter() {
     }
-    Converter.arrayBufferToArrayBufferView = function (arrayBuffer) {
-        var view = new DataView(arrayBuffer);
-        var arrayBufferView = new Uint8Array(arrayBuffer);
-        for (var i = 0, len = arrayBufferView.length; i < len; i++) {
-            arrayBufferView[i] = view.getUint8(i);
-        }
-        return arrayBufferView;
-    };
-    Converter.arrayBufferToJSON = function (arrayBuffer) {
-        return JSON.parse(this.arrayBufferToJSONString(arrayBuffer));
-    };
-    Converter.arrayBufferToJSONString = function (arrayBuffer) {
-        var arrayBufferView = this.arrayBufferToArrayBufferView(arrayBuffer);
-        return JSON.stringify(arrayBufferView);
-    };
-    Converter.arrayBufferViewToStringUTF16 = function (arrayBufferView) {
-        return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
-    };
     Converter.arrayBufferViewToStringUTF8 = function (arrayBufferView) {
         var unicodeString;
         try {
@@ -66,7 +48,7 @@ var Converter = (function () {
     Converter.toArrayBufferView = function (data) {
         switch (data.constructor.name) {
             case "ArrayBuffer":
-                return this.arrayBufferToArrayBufferView(data);
+                return new Uint8Array(data);
             case "Array":
                 return this.numberArrayToArrayBufferView(data);
             case "Number":

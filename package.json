@@ -6,7 +6,7 @@
   "description": "Base64 encoding and decoding with ASCII string representation",
   "dependencies": {
     "jasmine": "^2.5.3",
-    "webpack": "^2.2.0-rc.0"
+    "webpack": "^2.2.0"
   },
   "devDependencies": {
     "browser-sync": "^2.13.0",
@@ -20,10 +20,10 @@
     "gulp-typescript": "^3.1.4",
     "gulp-typings": "^2.0.0",
     "gulp-util": "^3.0.7",
-    "karma": "^1.3.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-coverage": "^1.0.0",
-    "karma-jasmine": "^1.0.2",
+    "karma": "~1.3.0",
+    "karma-chrome-launcher": "~2.0.0",
+    "karma-coverage": "~1.0.0",
+    "karma-jasmine": "~1.0.2",
     "run-sequence": "^1.2.2",
     "tslint": "^3.13.0",
     "typescript": "^2.1.5"
@@ -57,5 +57,5 @@
     "test": "gulp test"
   },
   "typings": "dist/typings/bazinga64.d.ts",
-  "version": "5.0.0"
+  "version": "5.0.1"
 }
