@@ -1,31 +1,6 @@
 /// <reference path="../../typings/index.d.ts" />
 
 export class Converter {
-  public static arrayBufferToArrayBufferView(arrayBuffer: ArrayBuffer): Uint8Array {
-    let view = new DataView(arrayBuffer);
-    let arrayBufferView = new Uint8Array(arrayBuffer);
-
-    for (let i = 0, len = arrayBufferView.length; i < len; i++) {
-      arrayBufferView[i] = view.getUint8(i);
-    }
-
-    return arrayBufferView;
-  }
-
-  public static arrayBufferToJSON(arrayBuffer: ArrayBuffer): JSON {
-    return JSON.parse(this.arrayBufferToJSONString(arrayBuffer));
-  }
-
-  public static arrayBufferToJSONString(arrayBuffer: ArrayBuffer): string {
-    let arrayBufferView = this.arrayBufferToArrayBufferView(arrayBuffer);
-    return JSON.stringify(arrayBufferView);
-  }
-
-  // https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
-  public static arrayBufferViewToStringUTF16(arrayBufferView: Uint16Array): string {
-    return String.fromCharCode.apply(null, new Uint16Array(arrayBufferView));
-  }
-
   // https://gist.github.com/mathiasbynens/1243213
   public static arrayBufferViewToStringUTF8(arrayBufferView: Uint8Array): string {
     let unicodeString: string;
@@ -84,7 +59,7 @@ export class Converter {
   public static toArrayBufferView(data: any): Uint8Array {
     switch (data.constructor.name) {
       case "ArrayBuffer":
-        return this.arrayBufferToArrayBufferView(data);
+        return new Uint8Array(data);
       case "Array":
         return this.numberArrayToArrayBufferView(data);
       case "Number":

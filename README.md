@@ -59,20 +59,6 @@ console.log(text); // "Hello"
 
 ## API
 
-### `Converter`
-
-- `arrayBufferToArrayBufferView`
-- `arrayBufferToJSON`
-- `arrayBufferToJSONString`
-- `arrayBufferViewToStringUTF16`
-- `arrayBufferViewToStringUTF8`
-- `jsonToArrayBufferView`
-- `numberArrayToArrayBufferView`
-- `stringToArrayBufferViewUTF16`
-- `stringToArrayBufferViewUTF8`
-- `toArrayBufferView`
-- `toString`
-
 ### `Decoder`
 
 - `fromBase64`
