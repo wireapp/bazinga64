@@ -1,19 +1,15 @@
 {
-  "authors": [
-    "Wire"
-  ],
-  "description": "Base64 encoding and decoding with ASCII string representation",
-  "homepage": "https://github.com/wireapp/bazinga64",
+  "description": "Base64 encoding and decoding with ASCII string representation.",
   "ignore": [
     "**/.*",
     "**/*.*",
     "bower_components",
     "dist",
     "!dist/window/**/*.*",
-    "dist/commonjs",
     "node_modules",
     "src",
-    "test"
+    "test",
+    "typings"
   ],
   "keywords": [
     "array",
