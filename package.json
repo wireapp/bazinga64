@@ -22,7 +22,6 @@
     "typescript": "^2.1.5",
     "webpack": "^2.2.0"
   },
-  "homepage": "https://github.com/wireapp/bazinga64#readme",
   "keywords": [
     "array",
     "ascii",
@@ -48,5 +47,5 @@
     "test": "gulp test"
   },
   "typings": "dist/typings/bazinga64.d.ts",
-  "version": "5.0.1"
+  "version": "5.0.2"
 }
