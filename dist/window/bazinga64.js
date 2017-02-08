@@ -1,4 +1,4 @@
-/*! bazinga64 v5.0.1 */
+/*! bazinga64 v5.0.2 */
 var bazinga64 =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
