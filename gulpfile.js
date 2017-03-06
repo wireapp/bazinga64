@@ -1,3 +1,4 @@
+var assets = require('gulp-bower-assets');
 var bower = require('gulp-bower');
 var browserify = require('gulp-browserify');
 var browserSync = require('browser-sync').create();
@@ -8,7 +9,6 @@ var header = require('gulp-header');
 var Jasmine = require('jasmine');
 var nightwatch = require('gulp-nightwatch');
 var path = require('path');
-var pkg = require('./package.json');
 var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var Server = require('karma').Server;
@@ -21,10 +21,16 @@ var paths = {
   dist: 'dist',
   dist_commonjs: 'dist/commonjs',
   dist_definitions: 'dist/definitions',
+  dist_lib: 'dist/lib',
   dist_window: 'dist/window',
   src: 'src',
   src_ts: 'src/ts'
 };
+
+// Aliases
+gulp.task('d', ['dist']);
+gulp.task('i', ['install']);
+gulp.task('t', ['test']);
 
 gulp.task('dist', function(done) {
   runSequence('lint_ts', 'dist_node', 'dist_browser', done);
@@ -75,11 +81,21 @@ gulp.task('dev', function() {
   });
 });
 
-gulp.task('install', ['install_typings'], function() {
+gulp.task('install', ['install_bower_assets', 'install_typings'], function() {
 });
 
 gulp.task('install_bower', function() {
   return bower({cmd: 'install'});
+});
+
+gulp.task('install_bower_assets', ['install_bower'], function() {
+  return gulp.src('bower_assets.json')
+    .pipe(assets({
+      prefix: function(name, prefix) {
+        return prefix + '/' + name;
+      }
+    }))
+    .pipe(gulp.dest('dist/lib'));
 });
 
 gulp.task('install_typings', function() {
@@ -98,6 +114,7 @@ gulp.task('test_browser', function(done) {
     configFile: __dirname + '/karma.conf.js',
     files: [
       'test/js/helpers/**/*.js',
+      paths.dist_lib + '/**/*.js',
       paths.dist_window + '/**/*.js',
       'test/js/specs/**/*Spec.js'
     ]

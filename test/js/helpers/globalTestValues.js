@@ -12,9 +12,11 @@ var instance = undefined;
 
 if (typeof window === 'object') {
   window.bazinga64 = window.bazinga64;
+  window.sodium = window.sodium;
   instance = window;
 } else {
   global.bazinga64 = require('../../../dist/commonjs/bazinga64');
+  global.sodium = require('libsodium-wrappers-sumo');
   instance = global;
 }
 

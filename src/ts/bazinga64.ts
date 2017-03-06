@@ -33,7 +33,7 @@ export class Converter {
     return arrayBufferView;
   }
 
-  public static numberArrayToArrayBufferView(array: number[]): Uint8Array {
+  public static numberArrayToArrayBufferView(array: number[]|Buffer): Uint8Array {
     let arrayBuffer = new ArrayBuffer(array.length);
     let arrayBufferView = new Uint8Array(arrayBuffer);
 
@@ -62,6 +62,8 @@ export class Converter {
         return new Uint8Array(data);
       case "Array":
         return this.numberArrayToArrayBufferView(data);
+      case "Buffer":
+        return this.numberArrayToArrayBufferView(data);
       case "Number":
         return this.stringToArrayBufferViewUTF8(data.toString());
       case "String":
@@ -69,8 +71,8 @@ export class Converter {
       case "Uint8Array":
         return data;
       default:
-        throw new Error(`${data.constructor.name} is unsupported.`
-          + ` Please provide a 'String', 'Uint8Array' or 'Array'.`);
+        throw new UnsupportedInputError(`${data.constructor.name} is unsupported.`
+          + ` Please provide a type of 'ArrayBuffer', 'Array', 'Buffer', 'Number', 'String' or 'Uint8Array'.`);
     }
   }
 
@@ -86,7 +88,7 @@ export class Converter {
       case "Uint8Array":
         return this.arrayBufferViewToStringUTF8(data);
       default:
-        throw new Error(`${data.constructor.name} is unsupported.`
+        throw new UnsupportedInputError(`${data.constructor.name} is unsupported.`
           + ` Please provide a 'String', 'Uint8Array' or 'Array'.`);
     }
   }
@@ -162,18 +164,19 @@ export class Decoder {
 
     if (typeof window === "object") {
       decoded = window.atob(encoded);
+
+      let rawLength: number = decoded.length;
+      let arrayBufferView: Uint8Array = new Uint8Array(new ArrayBuffer(rawLength));
+
+      for (let i = 0, len = arrayBufferView.length; i < len; i++) {
+        arrayBufferView[i] = decoded.charCodeAt(i);
+      }
+
+      return arrayBufferView;
     } else {
-      decoded = new Buffer(encoded, "base64").toString();
+      let buffer: Buffer = Buffer.from(encoded, "base64");
+      return Converter.numberArrayToArrayBufferView(buffer);
     }
-
-    let rawLength: number = decoded.length;
-    let arrayBufferView: Uint8Array = new Uint8Array(new ArrayBuffer(rawLength));
-
-    for (let i = 0, len = arrayBufferView.length; i < len; i++) {
-      arrayBufferView[i] = decoded.charCodeAt(i);
-    }
-
-    return arrayBufferView;
   }
 }
 
@@ -206,6 +209,16 @@ export class Encoder {
     }
 
     return base64EncodedString;
+  }
+}
+
+export class UnsupportedInputError extends Error {
+  constructor(public message: string) {
+    super(message);
+    Object.setPrototypeOf(this, UnsupportedInputError.prototype);
+    this.name = (<any> this).constructor.name;
+    this.message = message;
+    this.stack = new Error().stack;
   }
 }
 
