@@ -2,6 +2,7 @@
 /coverage/
 /debug.log
 /dist/dependencies
+/dist/lib
 /nbproject
 /node_modules
 /npm-debug.log

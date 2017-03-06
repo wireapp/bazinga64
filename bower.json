@@ -1,5 +1,8 @@
 {
   "description": "Base64 encoding and decoding with ASCII string representation.",
+  "devDependencies": {
+    "libsodium.js": "0.4.9"
+  },
   "ignore": [
     "**/.*",
     "**/*.*",
@@ -26,5 +29,8 @@
   ],
   "license": "GPL-3.0",
   "main": "dist/window/bazinga64.js",
-  "name": "bazinga64"
+  "name": "bazinga64",
+  "devDependencies": {
+    "libsodium.js": "^0.4.9"
+  }
 }

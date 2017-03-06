@@ -1,0 +1,7 @@
+{
+  "dynamic": {
+    "libsodium.js@copy": [
+      "libsodium.js/dist/browsers-sumo/combined/sodium.min.js"
+    ]
+  }
+}
