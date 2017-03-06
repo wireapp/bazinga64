@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Converter = (function () {
     function Converter() {
     }
@@ -51,6 +56,8 @@ var Converter = (function () {
                 return new Uint8Array(data);
             case "Array":
                 return this.numberArrayToArrayBufferView(data);
+            case "Buffer":
+                return this.numberArrayToArrayBufferView(data);
             case "Number":
                 return this.stringToArrayBufferViewUTF8(data.toString());
             case "String":
@@ -58,8 +65,8 @@ var Converter = (function () {
             case "Uint8Array":
                 return data;
             default:
-                throw new Error(data.constructor.name + " is unsupported."
-                    + " Please provide a 'String', 'Uint8Array' or 'Array'.");
+                throw new UnsupportedInputError(data.constructor.name + " is unsupported."
+                    + " Please provide a type of 'ArrayBuffer', 'Array', 'Buffer', 'Number', 'String' or 'Uint8Array'.");
         }
     };
     Converter.toString = function (data) {
@@ -74,7 +81,7 @@ var Converter = (function () {
             case "Uint8Array":
                 return this.arrayBufferViewToStringUTF8(data);
             default:
-                throw new Error(data.constructor.name + " is unsupported."
+                throw new UnsupportedInputError(data.constructor.name + " is unsupported."
                     + " Please provide a 'String', 'Uint8Array' or 'Array'.");
         }
     };
@@ -134,16 +141,17 @@ var Decoder = (function () {
         var decoded = undefined;
         if (typeof window === "object") {
             decoded = window.atob(encoded);
+            var rawLength = decoded.length;
+            var arrayBufferView = new Uint8Array(new ArrayBuffer(rawLength));
+            for (var i = 0, len = arrayBufferView.length; i < len; i++) {
+                arrayBufferView[i] = decoded.charCodeAt(i);
+            }
+            return arrayBufferView;
         }
         else {
-            decoded = new Buffer(encoded, "base64").toString();
+            var buffer = Buffer.from(encoded, "base64");
+            return Converter.numberArrayToArrayBufferView(buffer);
         }
-        var rawLength = decoded.length;
-        var arrayBufferView = new Uint8Array(new ArrayBuffer(rawLength));
-        for (var i = 0, len = arrayBufferView.length; i < len; i++) {
-            arrayBufferView[i] = decoded.charCodeAt(i);
-        }
-        return arrayBufferView;
     };
     return Decoder;
 }());
@@ -179,3 +187,17 @@ var Encoder = (function () {
     return Encoder;
 }());
 exports.Encoder = Encoder;
+var UnsupportedInputError = (function (_super) {
+    __extends(UnsupportedInputError, _super);
+    function UnsupportedInputError(message) {
+        var _this = _super.call(this, message) || this;
+        _this.message = message;
+        Object.setPrototypeOf(_this, UnsupportedInputError.prototype);
+        _this.name = _this.constructor.name;
+        _this.message = message;
+        _this.stack = new Error().stack;
+        return _this;
+    }
+    return UnsupportedInputError;
+}(Error));
+exports.UnsupportedInputError = UnsupportedInputError;
