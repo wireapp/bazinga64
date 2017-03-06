@@ -33,7 +33,7 @@ export class Converter {
     return arrayBufferView;
   }
 
-  public static numberArrayToArrayBufferView(array: number[]): Uint8Array {
+  public static numberArrayToArrayBufferView(array: number[]|Buffer): Uint8Array {
     let arrayBuffer = new ArrayBuffer(array.length);
     let arrayBufferView = new Uint8Array(arrayBuffer);
 
@@ -61,6 +61,8 @@ export class Converter {
       case "ArrayBuffer":
         return new Uint8Array(data);
       case "Array":
+        return this.numberArrayToArrayBufferView(data);
+      case "Buffer":
         return this.numberArrayToArrayBufferView(data);
       case "Number":
         return this.stringToArrayBufferViewUTF8(data.toString());
