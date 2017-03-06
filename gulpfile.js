@@ -9,7 +9,6 @@ var header = require('gulp-header');
 var Jasmine = require('jasmine');
 var nightwatch = require('gulp-nightwatch');
 var path = require('path');
-var pkg = require('./package.json');
 var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var Server = require('karma').Server;

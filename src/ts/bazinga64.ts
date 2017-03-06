@@ -164,18 +164,19 @@ export class Decoder {
 
     if (typeof window === "object") {
       decoded = window.atob(encoded);
+
+      let rawLength: number = decoded.length;
+      let arrayBufferView: Uint8Array = new Uint8Array(new ArrayBuffer(rawLength));
+
+      for (let i = 0, len = arrayBufferView.length; i < len; i++) {
+        arrayBufferView[i] = decoded.charCodeAt(i);
+      }
+
+      return arrayBufferView;
     } else {
-      decoded = new Buffer(encoded, "base64").toString();
+      let buffer: Buffer = Buffer.from(encoded, "base64");
+      return Converter.numberArrayToArrayBufferView(buffer);
     }
-
-    let rawLength: number = decoded.length;
-    let arrayBufferView: Uint8Array = new Uint8Array(new ArrayBuffer(rawLength));
-
-    for (let i = 0, len = arrayBufferView.length; i < len; i++) {
-      arrayBufferView[i] = decoded.charCodeAt(i);
-    }
-
-    return arrayBufferView;
   }
 }
 
