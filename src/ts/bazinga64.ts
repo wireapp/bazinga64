@@ -88,7 +88,7 @@ export class Converter {
       case "Uint8Array":
         return this.arrayBufferViewToStringUTF8(data);
       default:
-        throw new Error(`${data.constructor.name} is unsupported.`
+        throw new UnsupportedInputError(`${data.constructor.name} is unsupported.`
           + ` Please provide a 'String', 'Uint8Array' or 'Array'.`);
     }
   }
@@ -215,7 +215,7 @@ export class UnsupportedInputError extends Error {
   constructor(public message: string) {
     super(message);
     Object.setPrototypeOf(this, UnsupportedInputError.prototype);
-    this.name = (<any>this).constructor.name;
+    this.name = (<any> this).constructor.name;
     this.message = message;
     this.stack = new Error().stack;
   }
