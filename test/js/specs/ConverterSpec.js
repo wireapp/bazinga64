@@ -113,9 +113,11 @@ describe('Converter', function() {
     });
 
     it('throws an error on unexpected inputs', function() {
-      expect(function() {
+      var test = function() {
         bazinga64.Converter.toArrayBufferView(new Error());
-      }).toThrowError("Error is unsupported. Please provide a 'String', 'Uint8Array' or 'Array'.");
+      };
+
+      expect(test).toThrowError(Error);
     });
 
   });

@@ -71,8 +71,8 @@ export class Converter {
       case "Uint8Array":
         return data;
       default:
-        throw new Error(`${data.constructor.name} is unsupported.`
-          + ` Please provide a 'String', 'Uint8Array' or 'Array'.`);
+        throw new UnsupportedInputError(`${data.constructor.name} is unsupported.`
+          + ` Please provide a type of 'ArrayBuffer', 'Array', 'Buffer', 'Number', 'String' or 'Uint8Array'.`);
     }
   }
 
@@ -208,6 +208,16 @@ export class Encoder {
     }
 
     return base64EncodedString;
+  }
+}
+
+export class UnsupportedInputError extends Error {
+  constructor(public message: string) {
+    super(message);
+    Object.setPrototypeOf(this, UnsupportedInputError.prototype);
+    this.name = (<any>this).constructor.name;
+    this.message = message;
+    this.stack = new Error().stack;
   }
 }
 
