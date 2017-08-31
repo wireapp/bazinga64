@@ -57,6 +57,13 @@ var text = decoded.asString;
 console.log(text); // "Hello"
 ```
 
+### TypeScript Usage
+
+```typescript
+import {Decoder} from "bazinga64";
+const typedArray: Uint8Array = Decoder.fromBase64("SGVsbG8=").asBytes;
+```
+
 ## API
 
 ### `Decoder`
